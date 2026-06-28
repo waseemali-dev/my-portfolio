@@ -1406,9 +1406,9 @@ export default function App() {
 
                 <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-start gap-3">
                   {[
-                    { label: "LinkedIn", href: "https://www.linkedin.com/in/waseem-ali-33512999/", icon: <Linkedin className="w-5 h-5" /> },
-                    { label: "Upwork", href: "https://www.upwork.com/freelancers/~01777b73df0fb37302", icon: <UpworkLogo className="w-5 h-5" /> },
-                    { label: "Fiverr", href: "https://www.fiverr.com/waseem_ali", icon: <FiverrLogo className="w-5 h-5" /> }
+                    { label: "LinkedIn", href: "https://linkedin.com/in/waseemali2", icon: <Linkedin className="w-5 h-5" /> },
+                    { label: "Upwork", href: "https://www.upwork.com/freelancers/~01c370cb3bec57b1a6", icon: <UpworkLogo className="w-5 h-5" /> },
+                    { label: "Fiverr", href: "https://www.fiverr.com/waseemali722", icon: <FiverrLogo className="w-5 h-5" /> }
                   ].map((soc) => (
                     <a
                       key={soc.label}
@@ -1649,9 +1649,9 @@ export default function App() {
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 {[
-                  { label: "LinkedIn", href: "https://www.linkedin.com/in/waseem-ali-33512999/", icon: Linkedin },
-                  { label: "Upwork", href: "https://www.upwork.com/freelancers/~01777b73df0fb37302", icon: UpworkLogo },
-                  { label: "Fiverr", href: "https://www.fiverr.com/waseem_ali", icon: FiverrLogo }
+                  { label: "LinkedIn", href: "https://linkedin.com/in/waseemali2", icon: Linkedin },
+                  { label: "Upwork", href: "https://www.upwork.com/freelancers/~01c370cb3bec57b1a6", icon: UpworkLogo },
+                  { label: "Fiverr", href: "https://www.fiverr.com/waseemali722", icon: FiverrLogo }
                 ].map((s) => (
                   <a
                     key={s.label}
