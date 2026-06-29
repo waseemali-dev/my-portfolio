@@ -1,0 +1,553 @@
+import React, { useState } from "react";
+import { Layers, Trash2, Edit, Plus, Save, X, RefreshCw, ArrowUp, ArrowDown, Star, CheckCircle } from "lucide-react";
+import { savePortfolioContent } from "../../utils/contentStorage";
+
+interface ProjectsEditorProps {
+  content: any;
+  onUpdate: (updatedContent: any) => void;
+}
+
+interface ProjectItem {
+  id: string;
+  title: string;
+  client: string;
+  description: string;
+  metaDescription: string;
+  longDescription: string;
+  technologies: string[];
+  results: string[];
+  category: "HubSpot CMS" | "Front-End" | "WordPress";
+  challenge: string;
+  solution: string;
+  liveUrl?: string;
+  imageUrl?: string;
+  featured?: boolean;
+}
+
+export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProps) {
+  const [projects, setProjects] = useState<ProjectItem[]>(content.projects || []);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
+  const [isAdding, setIsAdding] = useState(false);
+
+  // Form states
+  const [title, setTitle] = useState("");
+  const [client, setClient] = useState("");
+  const [category, setCategory] = useState<"HubSpot CMS" | "Front-End" | "WordPress">("HubSpot CMS");
+  const [description, setDescription] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [longDescription, setLongDescription] = useState("");
+  const [challenge, setChallenge] = useState("");
+  const [solution, setSolution] = useState("");
+  const [liveUrl, setLiveUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [featured, setFeatured] = useState(false);
+  
+  const [techRaw, setTechRaw] = useState("");
+  const [resultsRaw, setResultsRaw] = useState("");
+
+  const [message, setMessage] = useState({ type: "", text: "" });
+  const [loading, setLoading] = useState(false);
+
+  const resetForm = () => {
+    setTitle("");
+    setClient("");
+    setCategory("HubSpot CMS");
+    setDescription("");
+    setMetaDescription("");
+    setLongDescription("");
+    setChallenge("");
+    setSolution("");
+    setLiveUrl("");
+    setImageUrl("");
+    setFeatured(false);
+    setTechRaw("");
+    setResultsRaw("");
+    setEditingIndex(null);
+    setIsAdding(false);
+  };
+
+  const handleEdit = (index: number) => {
+    const p = projects[index];
+    setTitle(p.title);
+    setClient(p.client || "");
+    setCategory(p.category || "HubSpot CMS");
+    setDescription(p.description || "");
+    setMetaDescription(p.metaDescription || "");
+    setLongDescription(p.longDescription || "");
+    setChallenge(p.challenge || "");
+    setSolution(p.solution || "");
+    setLiveUrl(p.liveUrl || "");
+    setImageUrl(p.imageUrl || "");
+    setFeatured(!!p.featured);
+    setTechRaw((p.technologies || []).join(", "));
+    setResultsRaw((p.results || []).join("\n"));
+    setEditingIndex(index);
+    setIsAdding(true);
+  };
+
+  const handleDeleteClick = (index: number) => {
+    setDeleteIndex(index);
+  };
+
+  const confirmDelete = () => {
+    if (deleteIndex === null) return;
+    const updated = projects.filter((_, i) => i !== deleteIndex);
+    saveProjectsList(updated, "Project deleted successfully!");
+    setDeleteIndex(null);
+  };
+
+  // Reordering functions
+  const moveUp = (index: number) => {
+    if (index === 0) return;
+    const updated = [...projects];
+    const temp = updated[index];
+    updated[index] = updated[index - 1];
+    updated[index - 1] = temp;
+    saveProjectsList(updated, "Project order updated!");
+  };
+
+  const moveDown = (index: number) => {
+    if (index === projects.length - 1) return;
+    const updated = [...projects];
+    const temp = updated[index];
+    updated[index] = updated[index + 1];
+    updated[index + 1] = temp;
+    saveProjectsList(updated, "Project order updated!");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim() || !description.trim()) {
+      setMessage({ type: "error", text: "Project Title and Short Description are required." });
+      return;
+    }
+
+    const targetId = editingIndex !== null
+      ? projects[editingIndex].id
+      : title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+    const parsedTechs = techRaw
+      .split(",")
+      .map((t) => t.trim())
+      .filter((t) => t !== "");
+
+    const parsedResults = resultsRaw
+      .split("\n")
+      .map((r) => r.trim())
+      .filter((r) => r !== "");
+
+    const updatedProject: ProjectItem = {
+      id: targetId,
+      title: title.trim(),
+      client: client.trim(),
+      category,
+      description: description.trim(),
+      metaDescription: metaDescription.trim() || description.trim(),
+      longDescription: longDescription.trim(),
+      challenge: challenge.trim(),
+      solution: solution.trim(),
+      liveUrl: liveUrl.trim(),
+      imageUrl: imageUrl.trim(),
+      featured,
+      technologies: parsedTechs,
+      results: parsedResults
+    };
+
+    let updatedList = [...projects];
+    if (editingIndex !== null) {
+      updatedList[editingIndex] = updatedProject;
+    } else {
+      updatedList.push(updatedProject);
+    }
+
+    saveProjectsList(updatedList, editingIndex !== null ? "Project updated successfully!" : "Project added successfully!");
+    resetForm();
+  };
+
+  const saveProjectsList = (updatedList: ProjectItem[], successMsg: string) => {
+    setLoading(true);
+    setMessage({ type: "", text: "" });
+
+    const updatedContent = {
+      ...content,
+      projects: updatedList
+    };
+
+    setTimeout(() => {
+      const success = savePortfolioContent(updatedContent);
+      if (success) {
+        setProjects(updatedList);
+        onUpdate(updatedContent);
+        setMessage({ type: "success", text: successMsg });
+      } else {
+        setMessage({ type: "error", text: "Failed to save portfolio changes. Please try again." });
+      }
+      setLoading(false);
+    }, 400);
+  };
+
+  return (
+    <div className="bg-slate-950 border border-slate-800/80 rounded-2xl p-6 sm:p-8 text-left space-y-6">
+      
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-5">
+        <div className="space-y-1">
+          <h3 className="text-xl font-bold text-white flex items-center gap-2">
+            <Layers className="w-5 h-5 text-cyan-400" />
+            <span>Manage Projects Portfolio ({projects.length})</span>
+          </h3>
+          <p className="text-xs text-slate-400">
+            Publish client case studies, configure details, and establish sorting order.
+          </p>
+        </div>
+        {!isAdding && (
+          <button
+            onClick={() => setIsAdding(true)}
+            className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add New Case Study</span>
+          </button>
+        )}
+      </div>
+
+      {message.text && (
+        <div
+          className={`p-4 rounded-xl text-sm font-medium ${
+            message.type === "success"
+              ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+              : "bg-red-500/10 border border-red-500/20 text-red-400"
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
+
+      {/* Editor Form Modal/Pane */}
+      {isAdding && (
+        <form onSubmit={handleSubmit} className="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-6">
+          <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+            <h4 className="font-bold text-white flex items-center gap-2">
+              {editingIndex !== null ? (
+                <>
+                  <Edit className="w-4 h-4 text-cyan-400" />
+                  <span>Edit Project: {projects[editingIndex]?.title}</span>
+                </>
+              ) : (
+                <>
+                  <Plus className="w-4 h-4 text-cyan-400" />
+                  <span>Create New Project Entry</span>
+                </>
+              )}
+            </h4>
+            <button
+              type="button"
+              onClick={resetForm}
+              className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Title */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Project Title *</label>
+              <input
+                type="text"
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="Boston Institute Of Finance"
+              />
+            </div>
+
+            {/* Client */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Client Entity</label>
+              <input
+                type="text"
+                value={client}
+                onChange={(e) => setClient(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="BIF Education Group"
+              />
+            </div>
+
+            {/* Category Select */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Platform Category</label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value as any)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500 cursor-pointer"
+              >
+                <option value="HubSpot CMS">HubSpot CMS</option>
+                <option value="Front-End">Front-End</option>
+                <option value="WordPress">WordPress</option>
+              </select>
+            </div>
+
+            {/* Live URL */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Live Preview URL</label>
+              <input
+                type="text"
+                value={liveUrl}
+                onChange={(e) => setLiveUrl(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="https://www.bostonifi.com"
+              />
+            </div>
+
+            {/* Image URL */}
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">
+                Project Image URL / Local Asset Reference
+              </label>
+              <input
+                type="text"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="Paste public image link (or local asset import variable like bostonBifImage)"
+              />
+            </div>
+
+            {/* Short Description */}
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Short Description *</label>
+              <input
+                type="text"
+                required
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="Brief summary card pitch..."
+              />
+            </div>
+
+            {/* Meta Description */}
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Meta SEO description</label>
+              <input
+                type="text"
+                value={metaDescription}
+                onChange={(e) => setMetaDescription(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="SEO grid metadata copy..."
+              />
+            </div>
+
+            {/* Full / Long Description */}
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Long Case Study Narrative</label>
+              <textarea
+                rows={4}
+                value={longDescription}
+                onChange={(e) => setLongDescription(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="Elaborate details on project milestones, scope, execution..."
+              />
+            </div>
+
+            {/* Challenge */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">The Challenge</label>
+              <textarea
+                rows={3}
+                value={challenge}
+                onChange={(e) => setChallenge(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="Describe hurdles faced by client..."
+              />
+            </div>
+
+            {/* Solution */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">The Solution</label>
+              <textarea
+                rows={3}
+                value={solution}
+                onChange={(e) => setSolution(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="Describe how you solved it..."
+              />
+            </div>
+
+            {/* Tech Tags */}
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">
+                Technologies Used (Comma separated)
+              </label>
+              <input
+                type="text"
+                value={techRaw}
+                onChange={(e) => setTechRaw(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+                placeholder="HubSpot CMS, HubDB, HubL, JavaScript, SCSS"
+              />
+            </div>
+
+            {/* Results */}
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">
+                Measurable Results / Bullet Points (One per line)
+              </label>
+              <textarea
+                rows={3}
+                value={resultsRaw}
+                onChange={(e) => setResultsRaw(e.target.value)}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500 font-mono text-xs"
+                placeholder="Achieved 95+ PageSpeed scores&#10;Integrated searchable HubDB directory"
+              />
+            </div>
+
+            {/* Featured Checkbox */}
+            <div className="flex items-center gap-2 md:col-span-2 py-2">
+              <input
+                type="checkbox"
+                id="featured"
+                checked={featured}
+                onChange={(e) => setFeatured(e.target.checked)}
+                className="w-4 h-4 bg-slate-950 accent-cyan-400 rounded cursor-pointer"
+              />
+              <label htmlFor="featured" className="text-xs font-bold uppercase tracking-wider text-slate-300 cursor-pointer flex items-center gap-1.5 select-none">
+                <Star className={`w-3.5 h-3.5 ${featured ? "fill-amber-400 text-amber-400" : "text-slate-500"}`} />
+                <span>Feature this project in Home sliders / Top selections</span>
+              </label>
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+            <button
+              type="button"
+              onClick={resetForm}
+              className="px-5 py-2.5 border border-slate-800 text-slate-300 hover:bg-slate-800 rounded-xl text-sm cursor-pointer"
+            >
+              Discard
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 disabled:bg-slate-800 text-slate-950 font-bold rounded-xl text-sm flex items-center gap-1.5 cursor-pointer"
+            >
+              {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+              <span>{editingIndex !== null ? "Apply Changes" : "Publish Project"}</span>
+            </button>
+          </div>
+        </form>
+      )}
+
+      {/* Projects List with Sorting Order */}
+      <div className="space-y-4">
+        {projects.length === 0 ? (
+          <div className="p-8 text-center text-slate-500 bg-slate-950/40 border border-slate-800 rounded-2xl">
+            No projects added yet. Click on "Add New Case Study" to construct your catalog.
+          </div>
+        ) : (
+          projects.map((proj, index) => (
+            <div
+              key={index}
+              className="p-5 bg-slate-950 border border-slate-850 hover:border-slate-800 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-all"
+            >
+              <div className="flex items-center gap-4">
+                {/* Image thumb preview */}
+                <div className="w-16 h-16 rounded-xl bg-slate-900 border border-slate-800 overflow-hidden shrink-0 flex items-center justify-center">
+                  {proj.imageUrl ? (
+                    <img src={proj.imageUrl} alt={proj.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  ) : (
+                    <Layers className="w-6 h-6 text-slate-700" />
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h4 className="font-bold text-white text-base leading-none">{proj.title}</h4>
+                    {proj.featured && (
+                      <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-amber-400/10 text-amber-400 text-[9px] font-bold uppercase tracking-wider border border-amber-400/20">
+                        <Star className="w-2.5 h-2.5 fill-amber-400" />
+                        <span>Featured</span>
+                      </span>
+                    )}
+                    <span className="px-2 py-0.5 rounded-full bg-slate-900 text-slate-400 text-[10px] font-semibold border border-slate-800/80">
+                      {proj.category}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 max-w-lg truncate">{proj.description}</p>
+                  <p className="text-[10px] text-slate-500">Client: {proj.client || "Self-Initiated"}</p>
+                </div>
+              </div>
+
+              {/* Action columns: Reorder & modify */}
+              <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-slate-850 pt-3 md:pt-0 shrink-0">
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => moveUp(index)}
+                    disabled={index === 0}
+                    className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 cursor-pointer"
+                    title="Move project up"
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => moveDown(index)}
+                    disabled={index === projects.length - 1}
+                    className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 cursor-pointer"
+                    title="Move project down"
+                  >
+                    <ArrowDown className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(index)}
+                    className="px-3 py-1.5 hover:bg-slate-800 rounded-xl text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer border border-slate-850"
+                  >
+                    Modify
+                  </button>
+                  <button
+                    onClick={() => handleDeleteClick(index)}
+                    className="p-2 hover:bg-red-500/15 rounded-xl text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteIndex !== null && (
+        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full space-y-4">
+            <h4 className="font-bold text-lg text-white">Delete Project</h4>
+            <p className="text-sm text-slate-400">
+              Are you sure you want to delete <strong>{projects[deleteIndex]?.title}</strong>? All case study data and results will be removed.
+            </p>
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                onClick={() => setDeleteIndex(null)}
+                className="px-4 py-2 border border-slate-800 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-xl text-sm font-bold text-white cursor-pointer"
+              >
+                Delete Project
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}

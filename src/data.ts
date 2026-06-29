@@ -341,14 +341,6 @@ export const FAQS: FAQ[] = [
     answer: "Yes, I am a certified HubSpot CMS Expert. I build custom themes, flexible drag-and-drop templates, custom HubL modules, searchable HubDB databases, personalized dynamic content blocks, and fully custom HubSpot landing pages and email templates."
   },
   {
-    question: "Can you convert Figma designs into responsive HTML?",
-    answer: "Absolutely. I take pride in pixel-perfect conversions. I analyze Figma or Adobe XD designs and convert them into fully functional, responsive, semantic code using Tailwind CSS, Bootstrap, or plain HTML5/CSS3/JS, ensuring consistent behavior across all modern browsers."
-  },
-  {
-    question: "Do you build landing pages?",
-    answer: "Yes. I construct highly optimized, fast-loading, conversion-focused landing pages. I make sure pages are structured with strong CTAs, clear layout flows, accessible forms, and fast asset loading to maximize paid and organic campaign performance."
-  },
-  {
     question: "Can you improve website speed?",
     answer: "Yes. I offer deep performance optimization services. I audit websites using tools like Google PageSpeed Insights, Lighthouse, and GTmetrix, then fix issues by minifying assets, lazy-loading media, removing redundant scripts, implementing caching, and structuring layouts to eliminate Cumulative Layout Shift (CLS)."
   },

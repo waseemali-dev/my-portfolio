@@ -48,6 +48,13 @@ import {
 
 import { FiverrLogo } from "./components/FiverrLogo";
 import { UpworkLogo } from "./components/UpworkLogo";
+
+// Admin workspace components
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import { getPortfolioContent } from "./utils/contentStorage";
+import { isAdminLoggedIn } from "./utils/authStorage";
+
 // @ts-ignore
 import waseemAvatar from "./assets/images/waseem_profile_new_1782634792957.jpg";
 import fiverrIcon from "./assets/images/fiverr-icon.png";
@@ -116,6 +123,45 @@ export default function App() {
     return saved ? saved === "dark" : true; // Default to dark mode for modern SaaS vibe
   });
 
+  // Client Routing state (state-based paths to support static hosting seamlessly)
+  const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname);
+  const [isAdminAuth, setIsAdminAuth] = useState<boolean>(() => isAdminLoggedIn());
+
+  // Dynamic Portfolio Content State
+  const [portfolio, setPortfolio] = useState(() => getPortfolioContent());
+
+  // Watch for location path modifications (history pop/push states)
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+      setIsAdminAuth(isAdminLoggedIn());
+    };
+    window.addEventListener("popstate", handleLocationChange);
+    // Custom navigation check
+    window.addEventListener("pushstate_nav", handleLocationChange);
+    return () => {
+      window.removeEventListener("popstate", handleLocationChange);
+      window.removeEventListener("pushstate_nav", handleLocationChange);
+    };
+  }, []);
+
+  // Listen for admin content changes to trigger immediate re-renders in the public view
+  useEffect(() => {
+    const handlePortfolioUpdated = () => {
+      setPortfolio(getPortfolioContent());
+    };
+    window.addEventListener("portfolio_content_updated", handlePortfolioUpdated);
+    return () => window.removeEventListener("portfolio_content_updated", handlePortfolioUpdated);
+  }, []);
+
+  // Custom router helper
+  const navigateTo = (path: string) => {
+    window.history.pushState({}, "", path);
+    setCurrentPath(path);
+    window.dispatchEvent(new Event("pushstate_nav"));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   // Mobile menu state
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
@@ -181,6 +227,10 @@ export default function App() {
       if (hasAnimated) return;
       setHasAnimated(true);
 
+      const maxYears = portfolio.about?.yearsOfExperience ?? 8;
+      const maxProjects = portfolio.about?.projectsCompleted ?? 175;
+      const maxClients = portfolio.about?.happyClients ?? 150;
+
       const duration = 1800; // ms
       const steps = 60;
       const stepTime = duration / steps;
@@ -190,9 +240,9 @@ export default function App() {
         stepCount++;
         
         setCountStats({
-          years: Math.min(Math.round((8 / steps) * stepCount), 8),
-          projects: Math.min(Math.round((175 / steps) * stepCount), 175),
-          clients: Math.min(Math.round((150 / steps) * stepCount), 150),
+          years: Math.min(Math.round((maxYears / steps) * stepCount), maxYears),
+          projects: Math.min(Math.round((maxProjects / steps) * stepCount), maxProjects),
+          clients: Math.min(Math.round((maxClients / steps) * stepCount), maxClients),
           lighthouse: Math.min(Math.round((99 / steps) * stepCount), 99)
         });
 
@@ -208,7 +258,7 @@ export default function App() {
     }, 400);
 
     return () => clearTimeout(timerDelay);
-  }, [hasAnimated]);
+  }, [hasAnimated, portfolio.about]);
 
   const handleContactSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -259,8 +309,17 @@ export default function App() {
 
   // Filtered projects
   const filteredProjects = activeFilter === "All" 
-    ? PROJECTS 
-    : PROJECTS.filter(p => p.category === activeFilter);
+    ? (portfolio.projects || []) 
+    : (portfolio.projects || []).filter((p: any) => p.category === activeFilter);
+
+  // Helper to load project image URLs dynamically
+  const getProjectImage = (imgUrlOrKey: string) => {
+    if (!imgUrlOrKey) return "";
+    if (imgUrlOrKey.startsWith("http") || imgUrlOrKey.startsWith("/") || imgUrlOrKey.startsWith("data:")) {
+      return imgUrlOrKey;
+    }
+    return projectImages[imgUrlOrKey] || imgUrlOrKey;
+  };
 
   // Helper to render dynamic service icons safely
   const renderServiceIcon = (iconName: string) => {
@@ -286,6 +345,20 @@ export default function App() {
         return <Code className={cls} />;
     }
   };
+
+  if (currentPath === "/admin-dev") {
+    return !isAdminAuth ? (
+      <AdminLogin
+        onLoginSuccess={() => setIsAdminAuth(true)}
+        onBackToSite={() => navigateTo("/")}
+      />
+    ) : (
+      <AdminDashboard
+        onLogout={() => setIsAdminAuth(false)}
+        onBackToSite={() => navigateTo("/")}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen font-sans bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-secondary selection:text-white">
@@ -420,37 +493,33 @@ export default function App() {
               {/* Trust Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-secondary/30 bg-secondary/10 text-secondary dark:text-secondary-light text-xs sm:text-sm font-semibold tracking-wide">
                 <Sparkles className="w-4 h-4 animate-spin-slow" />
-                <span>HubSpot Certified CMS Developer</span>
+                <span>{portfolio.hero?.badge || "HubSpot Certified CMS Developer"}</span>
               </div>
 
               {/* Main Headline */}
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-slate-900 dark:text-white" id="hero-headline">
-                Front-End &{" "}
-                <span className="bg-gradient-to-r from-secondary to-fuchsia-500 bg-clip-text text-transparent">
-                  HubSpot CMS
-                </span>{" "}
-                Developer Building Fast, and Responsive Websites
+                {portfolio.hero?.headline}
               </h1>
 
               {/* Intro Paragraph */}
               <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-                I am a Front-End & HubSpot CMS Developer with 8+ years of experience building fast, responsive, and SEO-friendly websites. My expertise includes HubSpot CMS, WordPress, reusable components, drag-and-drop modules, email templates, workflow automation, AI-powered solutions, and scalable frontend development.
+                {portfolio.hero?.description}
               </p>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2 w-full sm:w-auto">
                 <a
-                  href="#contact"
+                  href={portfolio.hero?.ctaLink || "#contact"}
                   className="w-full sm:w-[220px] max-w-[220px] px-6 py-4 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-bold shadow-md hover:shadow-lg hover:scale-[1.01] transition-all cursor-pointer flex items-center justify-center gap-2 text-center"
                 >
-                  <span>Hire Me Now</span>
+                  <span>{portfolio.hero?.ctaText || "Hire Me Now"}</span>
                   <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
-                  href="#portfolio"
+                  href={portfolio.hero?.portfolioLink || "#portfolio"}
                   className="w-full sm:w-[220px] max-w-[220px] px-6 py-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900/60 font-semibold text-slate-700 dark:text-slate-200 transition-all cursor-pointer flex items-center justify-center gap-2 text-center"
                 >
-                  <span>View Portfolio</span>
+                  <span>{portfolio.hero?.portfolioText || "View Portfolio"}</span>
                 </a>
               </div>
 
@@ -460,7 +529,7 @@ export default function App() {
                   { value: `${countStats.years}+`, label: "Years Experience" },
                   { value: `${countStats.projects}+`, label: "Projects Completed" },
                   { value: `${countStats.clients}+`, label: "Happy Clients" },
-                  { value: "100%", label: "Responsive Layouts" }
+                  { value: portfolio.about?.responsiveLayouts || "100%", label: "Responsive Layouts" }
                 ].map((stat, i) => (
                   <div key={i} className="space-y-1">
                     <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-secondary to-fuchsia-500 bg-clip-text text-transparent font-mono">
@@ -603,21 +672,21 @@ export default function App() {
                   {/* Interactive Developer avatar representation */}
                   <div className="relative z-10 w-24 h-24 rounded-full overflow-hidden shadow-xl border-2 border-secondary mb-6 scale-110 transition-transform duration-300 group-hover:scale-115">
                     <img
-                      src={waseemAvatar}
-                      alt="Waseem Ali"
+                      src={getProjectImage(portfolio.hero?.avatarUrl) || waseemAvatar}
+                      alt={portfolio.hero?.name || "Waseem Ali"}
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
                     />
                   </div>
                   
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white relative z-10">Waseem Ali</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1 relative z-10 text-center max-w-[240px]">Front-End & HubSpot CMS Developer</p>
-                  <p className="text-[10px] text-secondary font-mono font-medium mt-1.5 relative z-10">Lahore, Pakistan</p>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white relative z-10">{portfolio.hero?.name || "Waseem Ali"}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1 relative z-10 text-center max-w-[240px]">{portfolio.hero?.title || "Front-End & HubSpot CMS Developer"}</p>
+                  <p className="text-[10px] text-secondary font-mono font-medium mt-1.5 relative z-10">{portfolio.about?.location || "Lahore, Pakistan"}</p>
                   
                   <div className="mt-6 flex flex-wrap justify-center gap-2 relative z-10">
-                    <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 text-[10px] font-semibold">HubSpot CRM</span>
-                    <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 text-[10px] font-semibold">SEO Optimization</span>
-                    <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 text-[10px] font-semibold">UI Implementation</span>
+                    {(portfolio.about?.skillsList || ["HubSpot CRM", "SEO Optimization", "UI Implementation"]).map((skillTag: string, i: number) => (
+                      <span key={i} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 text-[10px] font-semibold">{skillTag}</span>
+                    ))}
                   </div>
 
                 </div>
@@ -630,25 +699,25 @@ export default function App() {
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 dark:bg-secondary/15 border border-secondary/20 dark:border-secondary/10 text-secondary dark:text-secondary-light font-mono text-xs font-semibold tracking-wider uppercase">
                   <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-                  <span>01 • About Me</span>
+                  <span>{portfolio.about?.badge || "01 • About Me"}</span>
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white pt-1">
-                  Your Reliable Remote Partner
+                  {portfolio.about?.heading}
                 </h2>
               </div>
 
               <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-base">
-                My goal is simple: build websites that look professional, load quickly, perform well across all devices, and provide a great user experience. I focus on clean code, responsive development, SEO best practices, and long-term maintainability.
+                {portfolio.about?.description}
               </p>
 
               {/* Positioning Callout Card */}
               <div className="p-5 rounded-2xl bg-gradient-to-tr from-secondary/5 to-fuchsia-500/5 border border-secondary/10 dark:border-secondary/5">
                 <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-2">
                   <CheckSquare className="w-5 h-5 text-secondary" />
-                  Built for Smooth Collaboration
+                  {portfolio.about?.calloutTitle}
                 </h4>
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  I help agencies, startups, and businesses transform designs into clean, responsive websites. I work confidently with Figma files, write maintainable code, communicate clearly throughout the project, and deliver reliable results on time.
+                  {portfolio.about?.calloutDescription}
                 </p>
               </div>
 
@@ -717,7 +786,7 @@ export default function App() {
           {/* Content Pane */}
           {activeServicesTab === "services" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
-              {SERVICES.map((service) => (
+              {(portfolio.services || []).map((service: any) => (
                 <div
                   key={service.id}
                   className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/50 hover:border-secondary/30 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
@@ -815,7 +884,7 @@ export default function App() {
           {/* Grouped Skills Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
             {["Languages & Core", "CMS & Frameworks", "Design & Testing", "SEO & Devops"].map((cat) => {
-              const catSkills = SKILLS.filter(s => s.category === cat);
+              const catSkills = (portfolio.skills || []).filter((s: any) => s.category === cat);
               return (
                 <div key={cat} className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/50">
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
@@ -916,9 +985,9 @@ export default function App() {
                   
                   {/* Real Website Screenshot / Thumbnail Container */}
                   <div className="relative aspect-video w-full overflow-hidden group/image">
-                    {projectImages[project.id] ? (
+                    {getProjectImage(project.imageUrl || project.id) ? (
                       <img
-                        src={projectImages[project.id]}
+                        src={getProjectImage(project.imageUrl || project.id)}
                         alt={`${project.title} Thumbnail`}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/image:scale-105"
@@ -1029,7 +1098,7 @@ export default function App() {
 
               {/* Vertical Timeline */}
               <div className="relative border-l-2 border-slate-200 dark:border-slate-800 pl-6 sm:pl-8 ml-2 space-y-12">
-                {EXPERIENCE.map((exp) => (
+                {(portfolio.experience || []).map((exp: any) => (
                   <div key={exp.id} className="relative group">
                     
                     {/* Bullet dot */}
@@ -1165,7 +1234,7 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-            {TESTIMONIALS.slice(0, visibleReviews).map((review) => (
+            {(portfolio.testimonials || []).slice(0, visibleReviews).map((review: any) => (
               <div
                 key={review.id}
                 className="p-6 sm:p-8 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-900 flex flex-col justify-between shadow-xs hover:border-secondary/20 transition-all duration-200"
@@ -1174,7 +1243,7 @@ export default function App() {
                   
                   {/* Rating Stars */}
                   <div className="flex gap-1">
-                    {[...Array(review.rating)].map((_, index) => (
+                    {[...Array(review.rating || 5)].map((_, index) => (
                       <Star key={index} className="w-4 h-4 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
@@ -1190,13 +1259,13 @@ export default function App() {
                 <div className="mt-6 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center gap-4">
                   <div className="relative shrink-0">
                     <img 
-                      src={review.avatarUrl} 
+                      src={getProjectImage(review.avatarUrl)} 
                       alt={review.name} 
                       className="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-800"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-950 rounded-full p-0.5 shadow-sm border border-slate-100 dark:border-slate-850 flex items-center justify-center">
-                      {review.id === "t2" || review.id === "t4" ? (
+                      {review.platform === "Upwork" || review.id === "t2" || review.id === "t4" ? (
                         <UpworkLogo className="w-4 h-4" />
                       ) : (
                         <FiverrLogo className="w-4 h-4" />
@@ -1217,7 +1286,7 @@ export default function App() {
             ))}
           </div>
 
-          {visibleReviews < TESTIMONIALS.length && (
+          {visibleReviews < (portfolio.testimonials || []).length && (
             <div className="flex justify-center pt-4 w-full">
               <button
                 onClick={() => setVisibleReviews((prev) => prev + 3)}
@@ -1285,7 +1354,7 @@ export default function App() {
 
           {/* Accordion container */}
           <div className="space-y-4">
-            {FAQS.map((faq, index) => {
+            {(portfolio.faqs || FAQS).map((faq: any, index: number) => {
               const isOpen = expandedFAQ === index;
               return (
                 <div
@@ -1334,13 +1403,13 @@ export default function App() {
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 dark:bg-secondary/15 border border-secondary/20 dark:border-secondary/10 text-secondary dark:text-secondary-light font-mono text-xs font-semibold tracking-wider uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-              <span>10 • Let's Connect</span>
+              <span>{portfolio.contact?.badge || "10 • Let's Connect"}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-              Initiate a Digital Collaboration
+              {portfolio.contact?.heading || "Initiate a Digital Collaboration"}
             </h2>
             <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
-              Submit the form below, and let's craft modern web solutions matching your goals.
+              {portfolio.contact?.description || "Submit the form below, and let's craft modern web solutions matching your goals."}
             </p>
           </div>
 
@@ -1359,7 +1428,7 @@ export default function App() {
                   
                   {/* Email */}
                   <a 
-                    href="mailto:waseemali1031@gmail.com"
+                    href={`mailto:${portfolio.contact?.email || "waseemali1031@gmail.com"}`}
                     className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-950 transition-colors group"
                   >
                     <div className="p-3 rounded-xl bg-secondary/10 dark:bg-secondary/5 text-secondary">
@@ -1367,15 +1436,15 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-xs text-slate-400 dark:text-slate-500 font-mono">Email Address</p>
-                      <p className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-secondary dark:group-hover:text-secondary-light transition-colors">
-                        waseemali1031@gmail.com
+                      <p className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-secondary dark:group-hover:text-secondary-light transition-colors truncate max-w-[200px] sm:max-w-[280px]">
+                        {portfolio.contact?.email || "waseemali1031@gmail.com"}
                       </p>
                     </div>
                   </a>
 
                   {/* Phone */}
                   <a 
-                    href="tel:+923048687455"
+                    href={`tel:${(portfolio.contact?.phone || "+923048687455").replace(/\s+/g, "")}`}
                     className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-950 transition-colors group"
                   >
                     <div className="p-3 rounded-xl bg-secondary/10 dark:bg-secondary/5 text-secondary">
@@ -1384,7 +1453,7 @@ export default function App() {
                     <div>
                       <p className="text-xs text-slate-400 dark:text-slate-500 font-mono">Call / Whatsapp</p>
                       <p className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-secondary dark:group-hover:text-secondary-light transition-colors">
-                        +92 304 8687455
+                        {portfolio.contact?.phone || "+92 304 8687455"}
                       </p>
                     </div>
                   </a>
@@ -1406,10 +1475,11 @@ export default function App() {
 
                 <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-start gap-3">
                   {[
-                    { label: "LinkedIn", href: "https://linkedin.com/in/waseemali2", icon: <Linkedin className="w-5 h-5" /> },
-                    { label: "Upwork", href: "https://www.upwork.com/freelancers/~01c370cb3bec57b1a6", icon: <UpworkLogo className="w-5 h-5" /> },
-                    { label: "Fiverr", href: "https://www.fiverr.com/waseemali722", icon: <FiverrLogo className="w-5 h-5" /> }
-                  ].map((soc) => (
+                    { label: "LinkedIn", href: portfolio.socialLinks?.linkedin, icon: <Linkedin className="w-5 h-5" /> },
+                    { label: "Upwork", href: portfolio.socialLinks?.upwork, icon: <UpworkLogo className="w-5 h-5" /> },
+                    { label: "Fiverr", href: portfolio.socialLinks?.fiverr, icon: <FiverrLogo className="w-5 h-5" /> },
+                    { label: "GitHub", href: portfolio.socialLinks?.github, icon: <Code className="w-5 h-5" /> }
+                  ].filter(soc => soc.href).map((soc) => (
                     <a
                       key={soc.label}
                       href={soc.href}
@@ -1649,10 +1719,11 @@ export default function App() {
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 {[
-                  { label: "LinkedIn", href: "https://linkedin.com/in/waseemali2", icon: Linkedin },
-                  { label: "Upwork", href: "https://www.upwork.com/freelancers/~01c370cb3bec57b1a6", icon: UpworkLogo },
-                  { label: "Fiverr", href: "https://www.fiverr.com/waseemali722", icon: FiverrLogo }
-                ].map((s) => (
+                  { label: "LinkedIn", href: portfolio.socialLinks?.linkedin, icon: Linkedin },
+                  { label: "Upwork", href: portfolio.socialLinks?.upwork, icon: UpworkLogo },
+                  { label: "Fiverr", href: portfolio.socialLinks?.fiverr, icon: FiverrLogo },
+                  { label: "GitHub", href: portfolio.socialLinks?.github, icon: Code }
+                ].filter(s => s.href).map((s) => (
                   <a
                     key={s.label}
                     href={s.href}
@@ -1723,10 +1794,10 @@ export default function App() {
               <div className="p-6 sm:p-8 space-y-6 max-h-[60vh] overflow-y-auto text-left leading-relaxed text-slate-600 dark:text-slate-300">
                 
                 {/* 16:9 Real Thumbnail Image */}
-                {projectImages[selectedProject.id] && (
+                {getProjectImage(selectedProject.imageUrl || selectedProject.id) && (
                   <div className="rounded-xl overflow-hidden aspect-video border border-slate-200/50 dark:border-slate-800 shadow-sm relative group mb-2">
                     <img 
-                      src={projectImages[selectedProject.id]} 
+                      src={getProjectImage(selectedProject.imageUrl || selectedProject.id)} 
                       alt={`${selectedProject.title} Case Study Thumbnail`}
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover"
