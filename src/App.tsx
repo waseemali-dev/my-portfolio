@@ -171,9 +171,6 @@ export default function App() {
   // Services and Value Proposition active tab
   const [activeServicesTab, setActiveServicesTab] = useState<"services" | "value">("services");
 
-  // Selected project for Case Study modal
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
   // Active FAQ accordion indexes
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
@@ -389,8 +386,7 @@ export default function App() {
               { label: "Portfolio", href: "#portfolio" },
               { label: "Skills", href: "#skills" },
               { label: "Reviews", href: "#reviews" },
-              { label: "FAQs", href: "#faqs" },
-              { label: "Contact", href: "#contact" }
+              { label: "FAQs", href: "#faqs" }
             ].map((link) => (
               <a
                 key={link.label}
@@ -456,8 +452,7 @@ export default function App() {
                 { label: "Portfolio", href: "#portfolio" },
                 { label: "Skills", href: "#skills" },
                 { label: "Reviews", href: "#reviews" },
-                { label: "FAQs", href: "#faqs" },
-                { label: "Contact", href: "#contact" }
+                { label: "FAQs", href: "#faqs" }
               ].map((link) => (
                 <a
                   key={link.label}
@@ -497,12 +492,43 @@ export default function App() {
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-slate-900 dark:text-white" id="hero-headline">
-                {portfolio.hero?.headline}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.25] text-slate-900 dark:text-white" id="hero-headline">
+                {(() => {
+                  const headline = portfolio.hero?.headline || "";
+                  if (headline.includes("|")) {
+                    const [line1, line2] = headline.split("|");
+                    const line1Text = line1.trim();
+                    const line2Text = line2.trim();
+                    return (
+                      <span className="block">
+                        <span className="block text-secondary dark:text-accent font-extrabold pb-2">
+                          {line1Text}
+                        </span>
+                        <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white">
+                          {line2Text}
+                        </span>
+                      </span>
+                    );
+                  }
+                  const target = "Waseem Ali";
+                  if (headline.includes(target)) {
+                    const parts = headline.split(target);
+                    return (
+                      <>
+                        {parts[0]}
+                        <span className="text-secondary dark:text-accent font-extrabold">
+                          {target}
+                        </span>
+                        {parts[1]}
+                      </>
+                    );
+                  }
+                  return headline;
+                })()}
               </h1>
 
               {/* Intro Paragraph */}
-              <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+              <p className="text-lg text-slate-900 dark:text-white max-w-2xl leading-relaxed">
                 {portfolio.hero?.description}
               </p>
 
@@ -984,55 +1010,85 @@ export default function App() {
                   </div>
                   
                   {/* Real Website Screenshot / Thumbnail Container */}
-                  <div className="relative aspect-video w-full overflow-hidden group/image">
-                    {getProjectImage(project.imageUrl || project.id) ? (
-                      <img
-                        src={getProjectImage(project.imageUrl || project.id)}
-                        alt={`${project.title} Thumbnail`}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/image:scale-105"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-tr from-cyan-500/80 to-slate-950 flex items-center justify-center">
-                        <span className="text-white text-xs font-mono">No Image Available</span>
+                  {project.liveUrl ? (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative aspect-video w-full overflow-hidden group/image block"
+                    >
+                      {getProjectImage(project.imageUrl || project.id) ? (
+                        <img
+                          src={getProjectImage(project.imageUrl || project.id)}
+                          alt={`${project.title} Thumbnail`}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/image:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-tr from-cyan-500/80 to-slate-950 flex items-center justify-center">
+                          <span className="text-white text-xs font-mono">No Image Available</span>
+                        </div>
+                      )}
+                      
+                      {/* Hover Overlay with visit icon */}
+                      <div className="absolute inset-0 bg-slate-950/45 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="p-3 rounded-full bg-cyan-500 text-white shadow-lg transform translate-y-2 group-hover/image:translate-y-0 transition-all duration-300 hover:scale-110">
+                          <ArrowUpRight className="w-5 h-5" />
+                        </div>
                       </div>
-                    )}
-                    
-                    {/* Hover Overlay with visit icon */}
-                    <div className="absolute inset-0 bg-slate-950/45 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="p-3 rounded-full bg-cyan-500 text-white shadow-lg transform translate-y-2 group-hover/image:translate-y-0 transition-all duration-300 hover:scale-110">
-                        <ArrowUpRight className="w-5 h-5" />
-                      </div>
-                    </div>
 
-                    {/* Badge Category */}
-                    <span className="absolute bottom-3 left-3 px-2.5 py-1 text-[10px] font-mono rounded-md bg-slate-950/80 backdrop-blur-sm uppercase font-semibold text-cyan-400 border border-slate-800/50 z-10">
-                      {project.category}
-                    </span>
-                  </div>
+                      {/* Badge Category */}
+                      <span className="absolute bottom-3 left-3 px-2.5 py-1 text-[10px] font-mono rounded-md bg-slate-950/80 backdrop-blur-sm uppercase font-semibold text-cyan-400 border border-slate-800/50 z-10">
+                        {project.category}
+                      </span>
+                    </a>
+                  ) : (
+                    <div className="relative aspect-video w-full overflow-hidden group/image">
+                      {getProjectImage(project.imageUrl || project.id) ? (
+                        <img
+                          src={getProjectImage(project.imageUrl || project.id)}
+                          alt={`${project.title} Thumbnail`}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/image:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-tr from-cyan-500/80 to-slate-950 flex items-center justify-center">
+                          <span className="text-white text-xs font-mono">No Image Available</span>
+                        </div>
+                      )}
+                      {/* Badge Category */}
+                      <span className="absolute bottom-3 left-3 px-2.5 py-1 text-[10px] font-mono rounded-md bg-slate-950/80 backdrop-blur-sm uppercase font-semibold text-cyan-400 border border-slate-800/50 z-10">
+                        {project.category}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
                 <div className="p-6 space-y-4 flex-1 flex flex-col justify-between text-left">
                   
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono font-bold text-cyan-500 dark:text-cyan-400 uppercase tracking-wider">
-                        {project.client}
-                      </span>
-                    </div>
-
-                    <h4 
-                      onClick={() => setSelectedProject(project)}
-                      className="text-lg font-bold text-slate-900 dark:text-white hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors cursor-pointer"
-                    >
-                      {project.title}
-                    </h4>
+                    {project.liveUrl ? (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block group"
+                      >
+                        <h4 className="text-lg font-bold text-slate-900 dark:text-white hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">
+                          {project.title}
+                        </h4>
+                      </a>
+                    ) : (
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-white">
+                        {project.title}
+                      </h4>
+                    )}
 
                     <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">
-                      {project.metaDescription.length > 90 
-                        ? `${project.metaDescription.substring(0, 90)}...` 
-                        : project.metaDescription}
+                      {project.description.length > 85 
+                        ? `${project.description.substring(0, 85)}...` 
+                        : project.description}
                     </p>
 
                     {/* Technologies list */}
@@ -1045,17 +1101,19 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div className="pt-2 flex gap-3 items-center w-full">
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-fit px-4 py-1.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 dark:bg-cyan-500 dark:hover:bg-cyan-600 dark:text-slate-950 font-bold text-[10px] sm:text-xs transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5"
-                    >
-                      <span>Live Site</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  </div>
+                  {project.liveUrl && (
+                    <div className="pt-2 flex gap-3 items-center w-full">
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-fit px-4 py-1.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 dark:bg-cyan-500 dark:hover:bg-cyan-600 dark:text-slate-950 font-bold text-[10px] sm:text-xs transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5"
+                      >
+                        <span>Live Site</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  )}
 
                 </div>
 
@@ -1264,20 +1322,23 @@ export default function App() {
                       className="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-800"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-950 rounded-full p-0.5 shadow-sm border border-slate-100 dark:border-slate-850 flex items-center justify-center">
-                      {review.platform === "Upwork" || review.id === "t2" || review.id === "t4" ? (
-                        <UpworkLogo className="w-4 h-4" />
-                      ) : (
-                        <FiverrLogo className="w-4 h-4" />
-                      )}
-                    </div>
+                    {review.platformIconUrl && (
+                      <div className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-950 rounded-full p-0.5 shadow-sm border border-slate-100 dark:border-slate-800 flex items-center justify-center">
+                        <img
+                          src={review.platformIconUrl}
+                          alt={review.platform || "Platform"}
+                          className="w-3.5 h-3.5 rounded-full object-contain"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    )}
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
                       {review.name}
                     </h4>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      {review.role}, <span className="font-semibold text-slate-600 dark:text-slate-300">{review.company}</span>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                      Source: {review.platform || "Fiverr"}
                     </p>
                   </div>
                 </div>
@@ -1748,156 +1809,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* DETAILED CASE STUDY OVERLAY MODAL */}
-      {selectedProject && (
-        <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            
-            {/* Blur background overlay */}
-            <div 
-              onClick={() => setSelectedProject(null)}
-              className="fixed inset-0 bg-slate-950/75 backdrop-blur-md transition-opacity" 
-              aria-hidden="true"
-            ></div>
 
-            {/* Trick browser alignment centering */}
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            {/* Modal Body Card */}
-            <div className="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-slate-200 dark:border-slate-800">
-              
-              {/* Header Visual */}
-              <div className="p-6 sm:p-8 bg-gradient-to-tr from-slate-950 to-cyan-950 text-white relative flex flex-col justify-between">
-                <div className="absolute inset-0 bg-radial-gradient from-secondary/20 to-transparent pointer-events-none"></div>
-                
-                <div className="flex justify-between items-start z-10">
-                  <span className="px-2.5 py-1 text-[10px] font-mono rounded-md bg-white/10 backdrop-blur-sm uppercase font-bold text-secondary-light">
-                    {selectedProject.category} Case Study
-                  </span>
-                  <button
-                    onClick={() => setSelectedProject(null)}
-                    className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <div className="mt-8 z-10 text-left">
-                  <p className="text-xs font-mono text-fuchsia-400 font-bold uppercase tracking-widest">{selectedProject.client}</p>
-                  <h3 className="text-2xl font-extrabold tracking-tight text-white mt-1">
-                    {selectedProject.title}
-                  </h3>
-                </div>
-              </div>
-
-              {/* Case Study Details Content */}
-              <div className="p-6 sm:p-8 space-y-6 max-h-[60vh] overflow-y-auto text-left leading-relaxed text-slate-600 dark:text-slate-300">
-                
-                {/* 16:9 Real Thumbnail Image */}
-                {getProjectImage(selectedProject.imageUrl || selectedProject.id) && (
-                  <div className="rounded-xl overflow-hidden aspect-video border border-slate-200/50 dark:border-slate-800 shadow-sm relative group mb-2">
-                    <img 
-                      src={getProjectImage(selectedProject.imageUrl || selectedProject.id)} 
-                      alt={`${selectedProject.title} Case Study Thumbnail`}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-                
-                {/* Long Description */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono uppercase tracking-wider">
-                    Overview & Background
-                  </h4>
-                  <p className="text-sm sm:text-base text-slate-800 dark:text-slate-200">
-                    {selectedProject.longDescription}
-                  </p>
-                </div>
-
-                {/* Challenge & Solution Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
-                  <div className="space-y-2 p-4 rounded-xl bg-rose-500/5 border border-rose-500/10">
-                    <h5 className="text-xs font-bold text-rose-500 dark:text-rose-400 font-mono uppercase tracking-wider flex items-center gap-1.5">
-                      <X className="w-3.5 h-3.5 shrink-0" />
-                      The Challenge
-                    </h5>
-                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                      {selectedProject.challenge}
-                    </p>
-                  </div>
-                  <div className="space-y-2 p-4 rounded-xl bg-secondary/5 border border-secondary/10">
-                    <h5 className="text-xs font-bold text-secondary dark:text-secondary-light font-mono uppercase tracking-wider flex items-center gap-1.5">
-                      <Check className="w-3.5 h-3.5 shrink-0" />
-                      The Solution
-                    </h5>
-                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                      {selectedProject.solution}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Key Metrics / Outcomes */}
-                <div className="space-y-3 pt-2">
-                  <h4 className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono uppercase tracking-wider">
-                    Measurable Results
-                  </h4>
-                  <ul className="space-y-2">
-                    {selectedProject.results.map((res, rIdx) => (
-                      <li key={rIdx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-800 dark:text-slate-200">
-                        <CheckCircle2 className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
-                        <span>{res}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Tech Stack used */}
-                <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
-                  <h4 className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono uppercase tracking-wider">
-                    Technologies Leveraged
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.technologies.map((tech) => (
-                      <span key={tech} className="px-3 py-1 text-xs font-mono font-bold rounded-lg bg-slate-50 text-slate-700 dark:bg-slate-950 dark:text-slate-300 border border-slate-100 dark:border-slate-800">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Action Footer */}
-              <div className="px-6 py-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-between items-center gap-3">
-                <span className="text-xs text-slate-400 font-mono">
-                  Ready to achieve similar results?
-                </span>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setSelectedProject(null)}
-                    className="px-4 py-2 text-xs font-semibold rounded-lg text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors cursor-pointer"
-                  >
-                    Close
-                  </button>
-                  {selectedProject.liveUrl && (
-                    <a
-                      href={selectedProject.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2 text-xs font-bold rounded-lg bg-secondary hover:bg-secondary-hover text-white transition-colors cursor-pointer flex items-center gap-1.5"
-                    >
-                      <span>Visit Live Website</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );

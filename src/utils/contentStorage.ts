@@ -15,8 +15,19 @@ export function getPortfolioContent() {
       if (parsed && typeof parsed === "object" && parsed.hero && parsed.about) {
         // Automatically migrate to the new, updated hero description if matching the old long text
         const oldDesc = "I am a Front-End & HubSpot CMS Developer with 8+ years of experience building fast, responsive, and SEO-friendly websites. My expertise includes HubSpot CMS, WordPress, reusable components, drag-and-drop modules, email templates, workflow automation, AI-powered solutions, and scalable frontend development.";
+        let hasHeroMigration = false;
         if (parsed.hero.description === oldDesc) {
           parsed.hero.description = "I build clean, responsive, and high-performing websites using HubSpot CMS, WordPress, and modern front-end technologies.";
+          hasHeroMigration = true;
+        }
+
+        const oldHeadline = "Front-End & HubSpot CMS Developer Building Fast, and Responsive Websites";
+        if (parsed.hero.headline === oldHeadline) {
+          parsed.hero.headline = "Waseem Ali | Front-End & HubSpot CMS Developer";
+          hasHeroMigration = true;
+        }
+
+        if (hasHeroMigration) {
           try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
           } catch (e) {
