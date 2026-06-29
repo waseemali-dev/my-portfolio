@@ -564,7 +564,7 @@ export default function App() {
                   <div className="flex-1 max-w-md mx-auto h-6 rounded bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 flex items-center justify-between px-3 text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-mono">
                     <div className="flex items-center gap-1.5 truncate">
                       <span className="text-secondary">https://</span>
-                      <span>waseemali.dev</span>
+                      <span>waseemdev.vercel.app</span>
                     </div>
                     <span className="text-slate-300 dark:text-slate-700">🔒</span>
                   </div>
