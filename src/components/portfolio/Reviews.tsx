@@ -37,9 +37,9 @@ export function Reviews({ portfolio, getProjectImage }: ReviewsProps) {
           {(portfolio.testimonials || []).slice(0, visibleReviews).map((review: any) => (
             <motion.div
               key={review.id}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
+              transition={{ duration: 0 }}
               className="p-6 sm:p-8 rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 flex flex-col justify-between shadow-[0_0_15px_rgba(6,182,212,0.03)] hover:border-cyan-500/30 transition-all duration-300"
             >
               <div className="space-y-4">
