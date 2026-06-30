@@ -56,19 +56,14 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
         </div>
 
         {/* Portfolio Grid */}
-        <motion.div 
-          key={activeFilter}
-          initial={{ opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0 }}
+        <div 
+          id="portfolio-grid"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {filteredProjects.slice(0, visibleProjectsCount).map((project) => (
-            <motion.div
+            <div
               key={project.id}
-              initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0 }}
+              id={`project-card-${project.id}`}
               className="group rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 overflow-hidden shadow-[0_0_15px_rgba(6,182,212,0.03)] hover:border-cyan-500/30 transition-all duration-300 flex flex-col justify-between"
             >
               
@@ -195,9 +190,9 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
 
               </div>
 
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Show More Button */}
         {filteredProjects.length > 3 && visibleProjectsCount < filteredProjects.length && (
