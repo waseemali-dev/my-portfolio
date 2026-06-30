@@ -57,17 +57,18 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
 
         {/* Portfolio Grid */}
         <motion.div 
-          layout
+          key={activeFilter}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {filteredProjects.slice(0, visibleProjectsCount).map((project, pIdx) => (
+          {filteredProjects.slice(0, visibleProjectsCount).map((project) => (
             <motion.div
-              layout
               key={project.id}
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ duration: 0.4, delay: pIdx * 0.05 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="group rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 overflow-hidden shadow-[0_0_15px_rgba(6,182,212,0.03)] hover:border-cyan-500/30 transition-all duration-300 flex flex-col justify-between"
             >
               

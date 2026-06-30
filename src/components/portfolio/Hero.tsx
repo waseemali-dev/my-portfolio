@@ -106,7 +106,7 @@ export function Hero({ portfolio, countStats }: HeroProps) {
                   "React",
                   "Shopify",
                   "Webflow",
-                  "Automation",
+                  "AI Automation",
                   "Email Marketing"
                 ].map((badge) => (
                   <span

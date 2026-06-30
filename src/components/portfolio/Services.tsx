@@ -95,12 +95,12 @@ export function Services({ portfolio }: ServicesProps) {
         {activeServicesTab === "services" ? (
           <motion.div 
             key="services"
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left"
           >
-            {(portfolio.services || []).map((service: any, sIdx: number) => {
+            {(portfolio.services || []).map((service: any) => {
               // Custom tags depending on the service id
               const tags: string[] = 
                 service.id === "hubspot-cms" ? ["HubL", "HubDB", "Drag & Drop", "CRM Forms"] :
@@ -112,12 +112,8 @@ export function Services({ portfolio }: ServicesProps) {
                 ["CMS Dev", "Front-End", "API Setup"];
 
               return (
-                <motion.div
+                <div
                   key={service.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: sIdx * 0.05 }}
                   className="p-6 sm:p-8 rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 shadow-[0_0_15px_rgba(6,182,212,0.03)] hover:border-cyan-500/30 transition-all duration-300 flex flex-col justify-between"
                 >
                   <div className="space-y-4">
@@ -142,16 +138,16 @@ export function Services({ portfolio }: ServicesProps) {
                       </span>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </motion.div>
         ) : (
           <motion.div 
             key="value"
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left"
           >
             {[
@@ -186,12 +182,8 @@ export function Services({ portfolio }: ServicesProps) {
                 icon: <CheckSquare className="w-6 h-6 text-cyan-500" />
               }
             ].map((card, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
                 className="p-6 sm:p-8 rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 shadow-[0_0_15px_rgba(6,182,212,0.03)] hover:border-cyan-500/30 transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="space-y-4">
@@ -205,7 +197,7 @@ export function Services({ portfolio }: ServicesProps) {
                     {card.description}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
         )}
