@@ -10,8 +10,6 @@ interface TestimonialsEditorProps {
 interface TestimonialItem {
   id: string;
   name: string;
-  role: string;
-  company: string;
   text: string;
   rating: number;
   avatarUrl: string;
@@ -27,8 +25,6 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
 
   // Form states
   const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-  const [company, setCompany] = useState("");
   const [text, setText] = useState("");
   const [rating, setRating] = useState(5);
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -40,8 +36,6 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
 
   const resetForm = () => {
     setName("");
-    setRole("");
-    setCompany("");
     setText("");
     setRating(5);
     setAvatarUrl("");
@@ -54,8 +48,6 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
   const handleEdit = (index: number) => {
     const item = reviews[index];
     setName(item.name);
-    setRole(item.role || "");
-    setCompany(item.company || "");
     setText(item.text);
     setRating(item.rating || 5);
     setAvatarUrl(item.avatarUrl || "");
@@ -90,8 +82,6 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
     const newReview: TestimonialItem = {
       id: targetId,
       name: name.trim(),
-      role: role.trim(),
-      company: company.trim(),
       text: text.trim(),
       rating: Number(rating),
       avatarUrl: avatarUrl.trim() || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150",
@@ -221,30 +211,6 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
               />
             </div>
 
-            {/* Client Role */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Client Role / Position</label>
-              <input
-                type="text"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
-                placeholder="CEO / Founder"
-              />
-            </div>
-
-            {/* Client Company */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Company Name</label>
-              <input
-                type="text"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
-                placeholder="Nextiny Marketing"
-              />
-            </div>
-
             {/* Star Rating select */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Star Recommendation</label>
@@ -364,8 +330,7 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
                 <div>
                   <h5 className="font-bold text-white text-xs">{rev.name}</h5>
                   <p className="text-[10px] text-slate-500">
-                    {rev.role} {rev.company ? `@ ${rev.company}` : ""}
-                    {rev.platform ? ` | Source: ${rev.platform}` : ""}
+                    {rev.platform ? `Source: ${rev.platform}` : "Fiverr Client"}
                   </p>
                 </div>
               </div>

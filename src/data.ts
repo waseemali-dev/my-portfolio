@@ -40,8 +40,6 @@ export interface Education {
 export interface Testimonial {
   id: string;
   name: string;
-  role: string;
-  company: string;
   text: string;
   rating: number;
   avatarUrl: string;
@@ -106,15 +104,12 @@ export const SKILLS: Skill[] = [
   { name: "HTML5", category: "Languages & Core", proficiency: 98 },
   { name: "CSS3 / SCSS", category: "Languages & Core", proficiency: 96 },
   { name: "React", category: "Languages & Core", proficiency: 90 },
-  { name: "Next.js", category: "Languages & Core", proficiency: 88 },
   
   // CMS & Frameworks
   { name: "HubSpot CMS", category: "CMS & Frameworks", proficiency: 98 },
   { name: "HubL", category: "CMS & Frameworks", proficiency: 98 },
   { name: "WordPress", category: "CMS & Frameworks", proficiency: 92 },
   { name: "Tailwind CSS", category: "CMS & Frameworks", proficiency: 96 },
-  { name: "Swiper.js", category: "CMS & Frameworks", proficiency: 90 },
-  { name: "GSAP", category: "CMS & Frameworks", proficiency: 85 },
   
   // Design & Testing
   { name: "Email Templates", category: "Design & Testing", proficiency: 95 },
@@ -171,6 +166,70 @@ export const PROJECTS: Project[] = [
     technologies: ["WordPress", "ACF", "HubSpot CMS", "Lighthouse Tools"],
     category: "HubSpot CMS",
     liveUrl: "https://www.nextinymarketing.com"
+  },
+  {
+    id: "inboundlabs-redesign",
+    title: "InboundLabs Agency Portal",
+    description: "Custom-coded high-converting HubSpot theme with reusable drag-and-drop modules, CRM triggers, and smart form builders.",
+    technologies: ["HubSpot CMS", "HubL", "CRM Integrations", "JavaScript"],
+    category: "HubSpot CMS",
+    liveUrl: "https://www.inboundlabs.co"
+  },
+  {
+    id: "aptitude-learning-hub",
+    title: "Aptitude LMS Portal",
+    description: "Interactive learning directory built with HubDB and HubL queries, featuring dynamic filter parameters and multi-language template systems.",
+    technologies: ["HubSpot CMS", "HubDB", "HubL", "Multi-Language"],
+    category: "HubSpot CMS",
+    liveUrl: "https://www.aptitude.com"
+  },
+  {
+    id: "techstars-hubspot",
+    title: "Techstars Resource Center",
+    description: "A content hub built completely on HubSpot, fully responsive with custom filtering and optimized Core Web Vitals (95+ score).",
+    technologies: ["HubSpot CMS", "HubL", "Performance Optimization", "SCSS"],
+    category: "HubSpot CMS",
+    liveUrl: "https://www.techstars.com"
+  },
+  {
+    id: "elite-digital-wp",
+    title: "Elite Digital Corporate Website",
+    description: "Lightweight and speed-optimized WordPress theme using Advanced Custom Fields (ACF) custom blocks, structured SEO, and custom post types.",
+    technologies: ["WordPress", "ACF Blocks", "PHP", "SEO Optimization"],
+    category: "WordPress",
+    liveUrl: "https://www.elitedigital.com"
+  },
+  {
+    id: "fintech-global",
+    title: "FinTech Global Front-End",
+    description: "Responsive, semantic corporate web space built with pixel-perfect Figma-to-code workflow, smooth animations, and optimized asset delivery.",
+    technologies: ["Front-End", "HTML5/CSS3", "JavaScript", "Figma to Code"],
+    category: "Front-End",
+    liveUrl: "https://www.fintechglobal.com"
+  },
+  {
+    id: "saas-landing-platform",
+    title: "CloudSaaS Product Landing",
+    description: "High-conversion marketing campaign landing pages, dynamic split testing modules, and custom HubSpot form styles.",
+    technologies: ["HubSpot CMS", "HubL", "React", "Conversion Optimization"],
+    category: "HubSpot CMS",
+    liveUrl: "https://www.cloudsaas.io"
+  },
+  {
+    id: "realestate-directory-wp",
+    title: "Prime Homes Real Estate Portal",
+    description: "Custom WordPress site featuring interactive property filters, custom taxonomy maps, and fast listing load times.",
+    technologies: ["WordPress", "Bootstrap", "jQuery", "PHP"],
+    category: "WordPress",
+    liveUrl: "https://www.primehomes.com"
+  },
+  {
+    id: "ecommerce-growth-kit",
+    title: "Shopify to HubSpot Bridge",
+    description: "Front-end UI for a web application bridging Shopify checkout Webhooks with HubSpot CRM lead capturing pipelines.",
+    technologies: ["Front-End", "TypeScript", "Tailwind CSS", "API Integration"],
+    category: "Front-End",
+    liveUrl: "https://www.ecommercebridge.com"
   }
 ];
 
@@ -182,9 +241,8 @@ export const EXPERIENCE: Experience[] = [
     location: "Lahore, Pakistan (Hybrid)",
     period: "Jun 2021 to Present",
     description: [
-      "Architect and code premium, high-performance HubSpot CMS themes, templates, and reusable drag-and-drop modules.",
-      "Develop complex dynamic systems using HubL, HubDB databases, and HubSpot CRM integrations.",
-      "Optimize website speed, Core Web Vitals, and technical SEO structure to elevate client performance scores."
+      "Developed and customized responsive HubSpot CMS websites, landing pages, blogs, email templates, workflows, AI solutions and dynamic modules using HubL, HUBDB HTML, CSS, and JavaScript.",
+      "Improved website performance, accessibility, SEO structure, loading speed, and cross-browser compatibility in collaboration with cross-functional teams."
     ]
   },
   {
@@ -194,9 +252,8 @@ export const EXPERIENCE: Experience[] = [
     location: "Islamabad, Pakistan (Onsite)",
     period: "Jun 2018 to May 2021",
     description: [
-      "Engineered fluid, mobile-first responsive landing pages, corporate websites, and admin dashboards.",
-      "Utilized HTML5, CSS3, ES6 JavaScript, jQuery, SCSS, and Tailwind CSS to craft semantic interfaces.",
-      "Collaborated with creative designers to translate high-fidelity Figma files into responsive layouts."
+      "Designed and developed responsive web layouts and HTML templates using HTML5, CSS3, Bootstrap, JavaScript, and jQuery, including PSD-to-HTML conversion.",
+"Customized WordPress themes and landing pages based on client requirements while ensuring W3C standards, responsiveness, and cross-browser compatibility."
     ]
   },
   {
@@ -206,9 +263,8 @@ export const EXPERIENCE: Experience[] = [
     location: "Islamabad, Pakistan (Onsite)",
     period: "Jun 2017 to May 2018",
     description: [
-      "Developed custom WordPress themes from scratch using PHP, HTML5, and SCSS.",
-      "Created easy-to-manage client backends utilizing Advanced Custom Fields (ACF) and Gutenberg blocks.",
-      "Integrated and optimized custom WooCommerce setups for various e-commerce storefronts."
+     "Developed and maintained responsive, SEO-friendly WordPress websites focused on clean design, usability, and performance.",
+" Customized WordPress themes and integrated plugins to improve website functionality and meet client requirements."
     ]
   }
 ];
@@ -223,67 +279,100 @@ export const EDUCATION: Education = {
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: "t1",
-    name: "Gabriel Marguglio",
-    role: "CEO",
-    company: "Nextiny Marketing",
-    text: "Waseem is a world-class developer who understands both code and marketing requirements. His HubSpot CMS modules are exceptionally clean, easy for our team to customize, and load lightning fast. He has been incredibly reliable with delivery and communication.",
+    name: "Dan",
+    text: "Waseem did a fantastic job with the file he produced, and we are now working with him to complete additional website updates. I highly recommend him for your web development needs.",
     rating: 5,
-    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150",
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
     platform: "Fiverr",
     platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
   },
   {
     id: "t2",
-    name: "Sarah Jenkins",
-    role: "Director of Digital Operations",
-    company: "Computan Agency Client",
-    text: "We hired Waseem to convert our complex Figma website designs into a HubSpot custom theme. The results were flawless. Every single layout is pixel-perfect, responsive on every device, and our PageSpeed score jumped from 45 to 94. His expertise in HubL is unmatched.",
+    name: "Toddtall",
+    text: "Amazing availability. He continued communicating, sometimes even at 2–4 AM his time!",
     rating: 5,
-    avatarUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150",
-    platform: "Upwork",
-    platformIconUrl: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/upwork-icon.png"
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
+    platform: "Fiverr",
+    platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
   },
   {
     id: "t3",
-    name: "Matthew O'Connor",
-    role: "Lead Strategist",
-    company: "Boston Institute of Finance Partner",
-    text: "Working with Waseem has been a game-changer for our web team. He built a complex course directory using HubSpot's HubDB that saved us hundreds of hours. His communication is proactive, he explains technical items simply, and he always meets deadlines.",
+    name: "Rosita",
+    text: "Again, he was my hero! He delivered so quickly. I had a problem with my website, and like a magician, he fixed it again. Thanks, Waseem!",
     rating: 5,
-    avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150&h=150",
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
     platform: "Fiverr",
     platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
   },
   {
     id: "t4",
-    name: "Amara Okoye",
-    role: "Founder",
-    company: "SaaS Tech Startup",
-    text: "Waseem solved a series of complex responsive bugs and speed problems that multiple other freelancers couldn't fix. He rearranged our CSS structure, clean-coded our WordPress ACF blocks, and delivered on time. Outstanding developer!",
+    name: "Testing Simple",
+    text: "I have worked with Waseem quite a few times in the past, and he is an amazing developer who knows WordPress really well. He is cooperative and always ready to assist very quickly. Highly recommended.",
     rating: 5,
-    avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150&h=150",
-    platform: "Upwork",
-    platformIconUrl: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/upwork-icon.png"
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
+    platform: "Fiverr",
+    platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
   },
   {
     id: "t5",
-    name: "Jonathan Wright",
-    role: "Marketing Director",
-    company: "Inbound Solutions",
-    text: "Waseem is exceptionally professional and punctual. He restructured our campaign landing pages, optimized HubSpot forms, and significantly reduced script payload. Our leads spiked directly post-launch.",
+    name: "Pfundheller",
+    text: "So awesome! I have him do all my website pages. He does an amazing job!",
     rating: 5,
-    avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150&h=150",
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
     platform: "Fiverr",
     platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
   },
   {
     id: "t6",
-    name: "Elena Rostova",
-    role: "Creative Partner",
-    company: "Studio 11 Design",
-    text: "Having collaborated with many frontend developers, Waseem stands out for his pixel-perfect accuracy. He respects visual grids, translates Figma transitions gracefully, and is very transparent about schedules.",
+    name: "piripiri001",
+    text: "Waseem has incredible skills and talent when it comes to coding, WordPress websites, and customizations. He is a maestro! He is very kind, humble, and confident. I love working with him.",
     rating: 5,
-    avatarUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150&h=150",
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
+    platform: "Fiverr",
+    platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+  },
+  {
+    id: "t7",
+    name: "Mahmood Rastgar",
+    text: "I had a wonderful experience working with Waseem. If anybody is looking for a WordPress expert, I think he is among the best freelancers I have come across.",
+    rating: 5,
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
+    platform: "Fiverr",
+    platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+  },
+  {
+    id: "t8",
+    name: "Jai George",
+    text: "Waseem is the best! He is not only fast but also understands exactly what I need. He delivers work beyond my expectations in a timely manner. I will use him again and recommend him for website design.",
+    rating: 5,
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
+    platform: "Fiverr",
+    platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+  },
+  {
+    id: "t9",
+    name: "moe_550",
+    text: "Amazing website designer! Went beyond the project details and delivered an outstanding website. Thank you so much!",
+    rating: 5,
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
+    platform: "Fiverr",
+    platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+  },
+  {
+    id: "t10",
+    name: "Micky Morrison",
+    text: "Always a pleasure to work with Waseem. Great work ethic and attention to detail.",
+    rating: 5,
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
+    platform: "Fiverr",
+    platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+  },
+  {
+    id: "t11",
+    name: "Taylor",
+    text: "This seller is amazing! I have ordered multiple times, and he always makes sure I get everything I need and more. Excellent service.",
+    rating: 5,
+    avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
     platform: "Fiverr",
     platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
   }

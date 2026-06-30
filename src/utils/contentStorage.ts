@@ -55,6 +55,69 @@ export function getPortfolioContent() {
             console.warn("Could not save migrated FAQs to localStorage:", e);
           }
         }
+
+        // Migrate experience bullets to new copy
+        let hasExpMigration = false;
+        if (parsed.experience && Array.isArray(parsed.experience)) {
+          parsed.experience = parsed.experience.map((exp: any) => {
+            if (exp.id === "immentia") {
+              // Check if they need update (if they have old or previous hubspot words, or aren't the exact new ones)
+              const hasNewDesignedAndDeveloped = exp.description && exp.description.some((desc: string) => desc.includes("Designed and developed responsive web layouts"));
+              if (!hasNewDesignedAndDeveloped) {
+                exp.description = [
+                  "Designed and developed responsive web layouts and HTML templates using HTML5, CSS3, Bootstrap, JavaScript, and jQuery, including PSD-to-HTML conversion.",
+                  "Customized WordPress themes and landing pages based on client requirements while ensuring W3C standards, responsiveness, and cross-browser compatibility."
+                ];
+                hasExpMigration = true;
+              }
+            } else if (exp.id === "increate") {
+              const hasNewWordPressDeveloped = exp.description && exp.description.some((desc: string) => desc.includes("Developed and maintained responsive, SEO-friendly"));
+              if (!hasNewWordPressDeveloped) {
+                exp.description = [
+                  "Developed and maintained responsive, SEO-friendly WordPress websites focused on clean design, usability, and performance.",
+                  "Customized WordPress themes and integrated plugins to improve website functionality and meet client requirements."
+                ];
+                hasExpMigration = true;
+              }
+            }
+            return exp;
+          });
+        }
+
+        if (hasExpMigration) {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+          } catch (e) {
+            console.warn("Could not save migrated experience to localStorage:", e);
+          }
+        }
+
+        // Migrate testimonials if they are using old content or have fewer than 11 items
+        let hasTestimonialMigration = false;
+        const containsOldTestimonials = parsed.testimonials && parsed.testimonials.some((test: any) => 
+          test.name === "Gabriel Marguglio" || test.name === "Sarah Jenkins" || test.name === "Matthew O'Connor"
+        );
+        if (!parsed.testimonials || parsed.testimonials.length < 11 || containsOldTestimonials) {
+          parsed.testimonials = DEFAULT_PORTFOLIO_CONTENT.testimonials;
+          hasTestimonialMigration = true;
+        } else if (parsed.testimonials && Array.isArray(parsed.testimonials)) {
+          parsed.testimonials = parsed.testimonials.map((test: any) => {
+            if (test.avatarUrl && test.avatarUrl.includes("images.unsplash.com")) {
+              test.avatarUrl = "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s";
+              hasTestimonialMigration = true;
+            }
+            return test;
+          });
+        }
+
+        if (hasTestimonialMigration) {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+          } catch (e) {
+            console.warn("Could not save migrated testimonials to localStorage:", e);
+          }
+        }
+
         return parsed;
       }
     }

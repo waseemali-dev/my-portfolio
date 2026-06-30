@@ -20,7 +20,6 @@ export type AdminTab =
   | "overview"
   | "hero"
   | "about"
-  | "skills"
   | "services"
   | "projects"
   | "experience"
@@ -49,7 +48,6 @@ export default function AdminSidebar({
     { id: "overview", label: "Overview", icon: LayoutDashboard },
     { id: "hero", label: "Hero Section", icon: Sparkles },
     { id: "about", label: "About Section", icon: User },
-    { id: "skills", label: "Skills", icon: Code },
     { id: "services", label: "Services", icon: Briefcase },
     { id: "projects", label: "Projects / Portfolio", icon: Layers },
     { id: "experience", label: "Work Experience", icon: History },

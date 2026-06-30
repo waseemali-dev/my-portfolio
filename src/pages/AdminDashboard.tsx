@@ -4,7 +4,6 @@ import AdminSidebar, { AdminTab } from "../components/admin/AdminSidebar";
 import DashboardHome from "../components/admin/DashboardHome";
 import HeroEditor from "../components/admin/HeroEditor";
 import AboutEditor from "../components/admin/AboutEditor";
-import SkillsEditor from "../components/admin/SkillsEditor";
 import ServicesEditor from "../components/admin/ServicesEditor";
 import ProjectsEditor from "../components/admin/ProjectsEditor";
 import ExperienceEditor from "../components/admin/ExperienceEditor";
@@ -60,8 +59,6 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
         return <HeroEditor content={content} onUpdate={handleUpdate} />;
       case "about":
         return <AboutEditor content={content} onUpdate={handleUpdate} />;
-      case "skills":
-        return <SkillsEditor content={content} onUpdate={handleUpdate} />;
       case "services":
         return <ServicesEditor content={content} onUpdate={handleUpdate} />;
       case "projects":

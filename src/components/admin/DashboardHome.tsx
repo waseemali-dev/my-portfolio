@@ -16,13 +16,6 @@ export default function DashboardHome({ content, setActiveTab }: DashboardHomePr
       tab: "projects" as AdminTab
     },
     {
-      label: "Professional Skills",
-      value: content.skills?.length || 0,
-      icon: Code,
-      color: "from-cyan-500/10 to-blue-500/10 text-cyan-400",
-      tab: "skills" as AdminTab
-    },
-    {
       label: "Offered Services",
       value: content.services?.length || 0,
       icon: Briefcase,
