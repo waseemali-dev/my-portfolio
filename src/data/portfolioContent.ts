@@ -198,7 +198,7 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
     degree: "Bachelor of Science in Computer Science (BSCS)",
     institution: "Federal Urdu University of Arts, Science & Technology",
     period: "Sep 2011 to Sep 2015",
-    details: ""
+    details: "Graduated with focused tracks in Web Architectures, Database Designs, and Software Engineering methodologies."
   },
   testimonials: [
     {
@@ -337,5 +337,19 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
     upwork: "https://www.upwork.com/freelancers/~01c370cb3bec57b1a6",
     fiverr: "https://www.fiverr.com/waseemali722",
     github: "https://github.com/waseemali1031"
+  },
+  certifications: [
+    {
+      id: "hubspot-cms-dev",
+      name: "HubSpot CMS for Developers",
+      authority: "HubSpot Academy",
+      status: "Active & Verified Expert"
+    }
+  ],
+  seo: {
+    title: "Waseem Ali | Front-End & HubSpot CMS Developer Portfolio",
+    description: "Certified HubSpot CMS & Front-End Developer. Specialist in building fast, custom HubSpot themes, high-converting WordPress sites, and semantic React frontends.",
+    keywords: "HubSpot CMS, Front-End Developer, HubSpot Developer, WordPress Developer, React, Web Performance, Core Web Vitals, Lahore, Pakistan",
+    author: "Waseem Ali"
   }
 };

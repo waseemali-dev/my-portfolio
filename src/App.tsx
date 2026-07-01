@@ -9,7 +9,9 @@ import { isAdminLoggedIn } from "./utils/authStorage";
 // Modularized Portfolio components
 import { Header } from "./components/portfolio/Header";
 import { Hero } from "./components/portfolio/Hero";
+import { Stats } from "./components/portfolio/Stats";
 import { About } from "./components/portfolio/About";
+import { Skills } from "./components/portfolio/Skills";
 import { Services } from "./components/portfolio/Services";
 import { PortfolioSection } from "./components/portfolio/PortfolioSection";
 import { Experience } from "./components/portfolio/Experience";
@@ -40,11 +42,12 @@ const projectImages: Record<string, string> = {
 };
 
 export default function App() {
-  // Theme state
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    const saved = localStorage.getItem("theme");
-    return saved ? saved === "dark" : true; // Default to dark mode for modern SaaS vibe
-  });
+  // Theme state - permanently dark mode
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.add("dark");
+    localStorage.removeItem("theme");
+  }, []);
 
   // Client Routing state (state-based paths to support static hosting seamlessly)
   const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname);
@@ -108,17 +111,41 @@ export default function App() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // Apply theme class
+
+
+  // Dynamic SEO meta tags update
   useEffect(() => {
-    const root = window.document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+    if (portfolio.seo) {
+      document.title = portfolio.seo.title || "Waseem Ali | Front-End & HubSpot CMS Developer";
+      
+      // Update meta description
+      let metaDesc = document.querySelector('meta[name="description"]');
+      if (!metaDesc) {
+        metaDesc = document.createElement("meta");
+        metaDesc.setAttribute("name", "description");
+        document.head.appendChild(metaDesc);
+      }
+      metaDesc.setAttribute("content", portfolio.seo.description || "");
+
+      // Update meta keywords
+      let metaKeywords = document.querySelector('meta[name="keywords"]');
+      if (!metaKeywords) {
+        metaKeywords = document.createElement("meta");
+        metaKeywords.setAttribute("name", "keywords");
+        document.head.appendChild(metaKeywords);
+      }
+      metaKeywords.setAttribute("content", portfolio.seo.keywords || "");
+
+      // Update meta author
+      let metaAuthor = document.querySelector('meta[name="author"]');
+      if (!metaAuthor) {
+        metaAuthor = document.createElement("meta");
+        metaAuthor.setAttribute("name", "author");
+        document.head.appendChild(metaAuthor);
+      }
+      metaAuthor.setAttribute("content", portfolio.seo.author || "");
     }
-  }, [darkMode]);
+  }, [portfolio.seo]);
 
   // Handle intersection observer to trigger stats counters animation
   useEffect(() => {
@@ -230,15 +257,13 @@ export default function App() {
         <div className="absolute top-[90%] right-[10%] w-[500px] h-[500px] rounded-full bg-fuchsia-500/[0.03] blur-[130px]"></div>
         
         {/* Fine grid texture with extremely subtle opacity */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-[0.12]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-[0.05]"></div>
       </div>
 
       {/* ALL CONTENT LAYERED ABOVE THE BACKGROUND */}
       <div className="relative z-10">
         {/* 1. STICKY HEADER */}
         <Header
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
         />
@@ -248,6 +273,12 @@ export default function App() {
 
         {/* 3. ABOUT SECTION */}
         <About portfolio={portfolio} getProjectImage={getProjectImage} />
+
+        {/* 2b. STATS SECTION */}
+        <Stats />
+
+        {/* 3b. SKILLS SECTION */}
+        <Skills portfolio={portfolio} />
 
         {/* 4. SERVICES SECTION */}
         <Services portfolio={portfolio} />

@@ -1,5 +1,5 @@
-import { Briefcase, MapPin, GraduationCap, Award } from "lucide-react";
-import { EDUCATION } from "../../data";
+import { useState } from "react";
+import { Briefcase, MapPin, GraduationCap, Award, ChevronDown, ChevronUp } from "lucide-react";
 import { motion } from "motion/react";
 
 interface ExperienceProps {
@@ -7,6 +7,16 @@ interface ExperienceProps {
 }
 
 export function Experience({ portfolio }: ExperienceProps) {
+  // State to track expanded status for each experience card by ID
+  const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({});
+
+  const toggleExpand = (id: string) => {
+    setExpandedIds((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   // Helper to get powerful trending paragraph summaries for each role
   const getParagraphSummary = (role: string) => {
     const roleLower = role.toLowerCase();
@@ -66,7 +76,7 @@ export function Experience({ portfolio }: ExperienceProps) {
                     {/* Card container */}
                     <div className="p-6 sm:p-8 rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 shadow-[0_0_15px_rgba(6,182,212,0.03)] hover:border-cyan-500/30 transition-all duration-300">
                       
-                      <div className="flex flex-wrap justify-between items-start gap-2 mb-4">
+                      <div className="flex flex-wrap justify-between items-start gap-2">
                         <div>
                           <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                             {exp.role}
@@ -87,16 +97,46 @@ export function Experience({ portfolio }: ExperienceProps) {
                         </div>
                       </div>
 
-                      {/* Cleaner, modern, paragraph summaries replacing bullets */}
-                      {summary ? (
-                        <p className="text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
-                          {summary}
-                        </p>
-                      ) : (
-                        <p className="text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
-                          {Array.isArray(exp.description) ? exp.description.join(" ") : exp.description}
-                        </p>
-                      )}
+                      {/* Content details toggled by expand/collapse */}
+                      <motion.div
+                        id={`exp-desc-${exp.id}`}
+                        initial={false}
+                        animate={{
+                          height: expandedIds[exp.id] ? "auto" : 0,
+                          opacity: expandedIds[exp.id] ? 1 : 0,
+                        }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pt-4 text-left">
+                          {summary ? (
+                            <p className="text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
+                              {summary}
+                            </p>
+                          ) : (
+                            <p className="text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
+                              {Array.isArray(exp.description) ? exp.description.join(" ") : exp.description}
+                            </p>
+                          )}
+                        </div>
+                      </motion.div>
+
+                      {/* Minimal toggle button */}
+                      <div className="flex justify-start">
+                        <button
+                          onClick={() => toggleExpand(exp.id)}
+                          aria-expanded={expandedIds[exp.id] || false}
+                          aria-controls={`exp-desc-${exp.id}`}
+                          className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-cyan-500 hover:text-cyan-400 font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded cursor-pointer py-1"
+                        >
+                          <span>{expandedIds[exp.id] ? "Hide Details" : "View Details"}</span>
+                          {expandedIds[exp.id] ? (
+                            <ChevronUp className="w-3.5 h-3.5" />
+                          ) : (
+                            <ChevronDown className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                      </div>
 
                     </div>
 
@@ -139,14 +179,19 @@ export function Experience({ portfolio }: ExperienceProps) {
                   
                   <div>
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100/10 dark:bg-slate-950/40 text-xs font-mono font-medium text-slate-500 dark:text-slate-400 border border-slate-200/10 dark:border-slate-800/40">
-                      Sep 2011 to Sep 2015
+                      {portfolio.education?.period || "Sep 2011 to Sep 2015"}
                     </span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-3">
-                      {EDUCATION.degree}
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-3 leading-snug">
+                      {portfolio.education?.degree || "Bachelor of Science in Computer Science (BSCS)"}
                     </h3>
                     <p className="text-sm font-semibold text-cyan-500 dark:text-cyan-400 mt-1">
-                      {EDUCATION.institution}
+                      {portfolio.education?.institution || "Federal Urdu University of Arts, Science & Technology"}
                     </p>
+                    {portfolio.education?.details && (
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2.5 leading-relaxed">
+                        {portfolio.education.details}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -170,18 +215,29 @@ export function Experience({ portfolio }: ExperienceProps) {
                 </h2>
               </div>
 
-              <div className="p-5 rounded-2xl bg-gradient-to-tr from-cyan-500/10 to-fuchsia-500/10 border border-cyan-500/30 dark:border-cyan-500/20 bg-white/5 dark:bg-slate-900/10 backdrop-blur-md flex items-center gap-4">
-                <div className="p-3.5 rounded-xl bg-cyan-500 text-slate-950 shadow-md flex items-center justify-center shrink-0">
-                  <Award className="w-6 h-6 text-slate-950" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white">
-                    HubSpot CMS for Developers
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    HubSpot Academy • Active & Verified Expert
-                  </p>
-                </div>
+              <div className="space-y-4">
+                {(portfolio.certifications || [
+                  {
+                    id: "hubspot-cms-dev",
+                    name: "HubSpot CMS for Developers",
+                    authority: "HubSpot Academy",
+                    status: "Active & Verified Expert"
+                  }
+                ]).map((cert: any, index: number) => (
+                  <div key={cert.id || index} className="p-5 rounded-2xl bg-gradient-to-tr from-cyan-500/10 to-fuchsia-500/10 border border-cyan-500/30 dark:border-cyan-500/20 bg-white/5 dark:bg-slate-900/10 backdrop-blur-md flex items-center gap-4">
+                    <div className="p-3.5 rounded-xl bg-cyan-500 text-slate-950 shadow-md flex items-center justify-center shrink-0">
+                      <Award className="w-6 h-6 text-slate-950" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 dark:text-white text-left">
+                        {cert.name}
+                      </h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 text-left">
+                        {cert.authority} • {cert.status}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </motion.div>
 

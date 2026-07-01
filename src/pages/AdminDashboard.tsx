@@ -12,6 +12,9 @@ import ContactEditor from "../components/admin/ContactEditor";
 import SocialLinksEditor from "../components/admin/SocialLinksEditor";
 import Settings from "../components/admin/Settings";
 import JsonImportExport from "../components/admin/JsonImportExport";
+import SkillsEditor from "../components/admin/SkillsEditor";
+import FAQEditor from "../components/admin/FAQEditor";
+import SEOEditor from "../components/admin/SEOEditor";
 import { getPortfolioContent } from "../utils/contentStorage";
 import { logoutAdmin } from "../utils/authStorage";
 
@@ -59,6 +62,8 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
         return <HeroEditor content={content} onUpdate={handleUpdate} />;
       case "about":
         return <AboutEditor content={content} onUpdate={handleUpdate} />;
+      case "skills":
+        return <SkillsEditor content={content} onUpdate={handleUpdate} />;
       case "services":
         return <ServicesEditor content={content} onUpdate={handleUpdate} />;
       case "projects":
@@ -67,10 +72,14 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
         return <ExperienceEditor content={content} onUpdate={handleUpdate} />;
       case "testimonials":
         return <TestimonialsEditor content={content} onUpdate={handleUpdate} />;
+      case "faqs":
+        return <FAQEditor content={content} onUpdate={handleUpdate} />;
       case "contact":
         return <ContactEditor content={content} onUpdate={handleUpdate} />;
       case "socials":
         return <SocialLinksEditor content={content} onUpdate={handleUpdate} />;
+      case "seo":
+        return <SEOEditor content={content} onUpdate={handleUpdate} />;
       case "settings":
         return <Settings />;
       case "backup":
@@ -81,7 +90,16 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
   };
 
   // Capitalize active tab for display
-  const tabLabel = activeTab === "overview" ? "Dashboard Home" : activeTab.charAt(0).toUpperCase() + activeTab.slice(1);
+  const tabLabel =
+    activeTab === "overview"
+      ? "Dashboard Home"
+      : activeTab === "faqs"
+      ? "Frequently Asked Questions"
+      : activeTab === "seo"
+      ? "SEO Meta Settings"
+      : activeTab === "socials"
+      ? "Social Links"
+      : activeTab.charAt(0).toUpperCase() + activeTab.slice(1);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex">

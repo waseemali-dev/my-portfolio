@@ -13,19 +13,23 @@ import {
   FileJson,
   LogOut,
   X,
-  Menu
+  Menu,
+  Globe
 } from "lucide-react";
 
 export type AdminTab =
   | "overview"
   | "hero"
   | "about"
+  | "skills"
   | "services"
   | "projects"
   | "experience"
   | "testimonials"
+  | "faqs"
   | "contact"
   | "socials"
+  | "seo"
   | "settings"
   | "backup";
 
@@ -48,12 +52,15 @@ export default function AdminSidebar({
     { id: "overview", label: "Overview", icon: LayoutDashboard },
     { id: "hero", label: "Hero Section", icon: Sparkles },
     { id: "about", label: "About Section", icon: User },
+    { id: "skills", label: "Skills & Tech", icon: Code },
     { id: "services", label: "Services", icon: Briefcase },
     { id: "projects", label: "Projects / Portfolio", icon: Layers },
-    { id: "experience", label: "Work Experience", icon: History },
+    { id: "experience", label: "Timeline & Academics", icon: History },
     { id: "testimonials", label: "Testimonials", icon: MessageSquare },
+    { id: "faqs", label: "FAQs", icon: MessageSquare },
     { id: "contact", label: "Contact Details", icon: Mail },
     { id: "socials", label: "Social Links", icon: Share2 },
+    { id: "seo", label: "SEO Metadata", icon: Globe },
     { id: "settings", label: "Admin Credentials", icon: Shield },
     { id: "backup", label: "JSON Import/Export", icon: FileJson }
   ] as const;

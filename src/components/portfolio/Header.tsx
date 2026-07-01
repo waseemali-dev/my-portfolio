@@ -1,20 +1,33 @@
-import { Sun, Moon, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 
 interface HeaderProps {
-  darkMode: boolean;
-  setDarkMode: (val: boolean) => void;
   isMenuOpen: boolean;
   setIsMenuOpen: (val: boolean) => void;
 }
 
-export function Header({ darkMode, setDarkMode, isMenuOpen, setIsMenuOpen }: HeaderProps) {
+export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
   return (
     <header id="header" className="sticky top-0 z-50 w-full transition-all duration-300 glass-nav shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
         {/* Logo */}
-        <a href="#home" id="header-logo" className="flex items-center gap-2 group">
+        <a
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            if (window.location.pathname === "/" && window.location.hash === "") {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              setTimeout(() => {
+                window.location.reload();
+              }, 300);
+            } else {
+              window.location.href = "/";
+            }
+          }}
+          id="header-logo"
+          className="flex items-center gap-2 group cursor-pointer"
+        >
           <Logo className="w-10 h-10 group-hover:scale-105 transition-transform duration-200" />
           <span className="font-sans font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">
             Waseem<span className="inline-block bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent pr-1.5 pb-1">.dev</span>
@@ -42,16 +55,6 @@ export function Header({ darkMode, setDarkMode, isMenuOpen, setIsMenuOpen }: Hea
 
         {/* Right Action Bar */}
         <div className="hidden sm:flex items-center gap-4">
-          {/* Theme Toggle */}
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
-            aria-label="Toggle Theme"
-            id="theme-toggle"
-          >
-            {darkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-indigo-600" />}
-          </button>
-
           {/* Hire Me CTA */}
           <a
             href="#contact"
@@ -64,14 +67,6 @@ export function Header({ darkMode, setDarkMode, isMenuOpen, setIsMenuOpen }: Hea
 
         {/* Mobile Actions / Toggle */}
         <div className="flex lg:hidden items-center gap-3">
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 cursor-pointer"
-            aria-label="Toggle Theme Mobile"
-          >
-            {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
-          </button>
-
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 cursor-pointer"
