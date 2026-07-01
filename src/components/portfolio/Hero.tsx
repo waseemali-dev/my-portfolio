@@ -39,7 +39,7 @@ export function Hero({ portfolio, countStats }: HeroProps) {
             </motion.div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.25] text-slate-900 dark:text-white" id="hero-headline">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] text-slate-900 dark:text-white" id="hero-headline">
               {(() => {
                 const headline = portfolio.hero?.headline || "";
                 if (headline.includes("|")) {
@@ -48,10 +48,10 @@ export function Hero({ portfolio, countStats }: HeroProps) {
                   const line2Text = line2.trim();
                   return (
                     <span className="block">
-                      <span className="block text-cyan-500 dark:text-cyan-400 font-extrabold pb-2">
+                      <span className="block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pb-2 text-5xl sm:text-6xl lg:text-7xl leading-tight">
                         {line1Text}
                       </span>
-                      <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white">
+                      <span className="block text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white/95 tracking-wide mt-1">
                         {line2Text}
                       </span>
                     </span>
@@ -63,7 +63,7 @@ export function Hero({ portfolio, countStats }: HeroProps) {
                   return (
                     <>
                       {parts[0]}
-                      <span className="text-cyan-500 dark:text-cyan-400 font-extrabold">
+                      <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-1.5 pb-1">
                         {target}
                       </span>
                       {parts[1]}
@@ -127,11 +127,11 @@ export function Hero({ portfolio, countStats }: HeroProps) {
                 { value: `${countStats.clients}+`, label: "Happy Clients" },
                 { value: portfolio.about?.responsiveLayouts || "100%", label: "Responsive Layouts" }
               ].map((stat, i) => (
-                <div key={i} className="space-y-1">
-                  <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent font-mono">
+                <div key={i} className="space-y-1.5">
+                  <p className="text-3xl sm:text-4xl md:text-5xl font-black text-cyan-400 tracking-tight">
                     {stat.value}
                   </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 font-bold tracking-wide">
                     {stat.label}
                   </p>
                 </div>

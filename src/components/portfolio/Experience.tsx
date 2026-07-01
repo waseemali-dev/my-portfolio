@@ -41,8 +41,8 @@ export function Experience({ portfolio }: ExperienceProps) {
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
                 <span>05 • Work Experience</span>
               </div>
-              <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white pt-1">
-                Work Experience Timeline
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white pt-1 leading-[1.1]">
+                Work Experience <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">Timeline</span>
               </h2>
             </div>
 
@@ -123,8 +123,8 @@ export function Experience({ portfolio }: ExperienceProps) {
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
                   <span>06 • Academic Path</span>
                 </div>
-                <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white pt-1">
-                  Education
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white pt-1 leading-[1.1]">
+                  Edu<span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">cation</span>
                 </h2>
               </div>
 
@@ -165,8 +165,8 @@ export function Experience({ portfolio }: ExperienceProps) {
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
                   <span>07 • Credentials</span>
                 </div>
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white pt-1">
-                  Active Certified Credentials
+                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white pt-1">
+                  Active Certified <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">Credentials</span>
                 </h2>
               </div>
 

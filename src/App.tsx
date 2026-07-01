@@ -217,7 +217,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen font-sans bg-[#030712] text-slate-100 transition-colors duration-300 antialiased selection:bg-cyan-500 selection:text-slate-950 relative">
+    <div className="min-h-screen font-sans bg-[#000000] text-slate-100 transition-colors duration-300 antialiased selection:bg-cyan-500 selection:text-slate-950 relative">
       
       {/* CONTINUOUS PREMIUM BACKGROUND GRAPHICS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -229,55 +229,58 @@ export default function App() {
         <div className="absolute top-[75%] left-[10%] w-[500px] h-[500px] rounded-full bg-cyan-500/[0.03] blur-[120px]"></div>
         <div className="absolute top-[90%] right-[10%] w-[500px] h-[500px] rounded-full bg-fuchsia-500/[0.03] blur-[130px]"></div>
         
-        {/* Fine grid texture */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#111827_1px,transparent_1px),linear-gradient(to_bottom,#111827_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40"></div>
+        {/* Fine grid texture with extremely subtle opacity */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-[0.12]"></div>
       </div>
 
-      {/* 1. STICKY HEADER */}
-      <Header
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      />
+      {/* ALL CONTENT LAYERED ABOVE THE BACKGROUND */}
+      <div className="relative z-10">
+        {/* 1. STICKY HEADER */}
+        <Header
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
 
-      {/* 2. HERO SECTION */}
-      <Hero portfolio={portfolio} countStats={countStats} />
+        {/* 2. HERO SECTION */}
+        <Hero portfolio={portfolio} countStats={countStats} />
 
-      {/* 3. ABOUT SECTION */}
-      <About portfolio={portfolio} getProjectImage={getProjectImage} />
+        {/* 3. ABOUT SECTION */}
+        <About portfolio={portfolio} getProjectImage={getProjectImage} />
 
-      {/* 4. SERVICES SECTION */}
-      <Services portfolio={portfolio} />
+        {/* 4. SERVICES SECTION */}
+        <Services portfolio={portfolio} />
 
-      {/* 6. PORTFOLIO SECTION */}
-      <PortfolioSection portfolio={portfolio} getProjectImage={getProjectImage} />
+        {/* 6. PORTFOLIO SECTION */}
+        <PortfolioSection portfolio={portfolio} getProjectImage={getProjectImage} />
 
-      {/* 7. EXPERIENCE & EDUCATION TIMELINE */}
-      <Experience portfolio={portfolio} />
+        {/* 7. EXPERIENCE & EDUCATION TIMELINE */}
+        <Experience portfolio={portfolio} />
 
-      {/* 8. CLIENT REVIEWS */}
-      <Reviews portfolio={portfolio} getProjectImage={getProjectImage} />
+        {/* 8. CLIENT REVIEWS */}
+        <Reviews portfolio={portfolio} getProjectImage={getProjectImage} />
 
-      {/* 9. CALL TO ACTION BANNER */}
-      <CTABanner />
+        {/* 9. CALL TO ACTION BANNER */}
+        <CTABanner />
 
-      {/* 10. FAQS ACCORDION */}
-      <FAQs portfolio={portfolio} />
+        {/* 10. FAQS ACCORDION */}
+        <FAQs portfolio={portfolio} />
 
-      {/* 11. DIRECT INQUIRY CONTACT FORM */}
-      <Contact
-        portfolio={portfolio}
-        formState={formState}
-        setFormState={setFormState}
-        isSubmitted={isSubmitted}
-        isSubmitting={isSubmitting}
-        submitError={submitError}
-        handleContactSubmit={handleContactSubmit}
-      />
+        {/* 11. DIRECT INQUIRY CONTACT FORM */}
+        <Contact
+          portfolio={portfolio}
+          formState={formState}
+          setFormState={setFormState}
+          isSubmitted={isSubmitted}
+          isSubmitting={isSubmitting}
+          submitError={submitError}
+          handleContactSubmit={handleContactSubmit}
+        />
 
-      {/* 12. FOOTER */}
-      <Footer portfolio={portfolio} />
+        {/* 12. FOOTER */}
+        <Footer portfolio={portfolio} />
+      </div>
 
     </div>
   );

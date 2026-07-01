@@ -17,7 +17,7 @@ export function Header({ darkMode, setDarkMode, isMenuOpen, setIsMenuOpen }: Hea
         <a href="#home" id="header-logo" className="flex items-center gap-2 group">
           <Logo className="w-10 h-10 group-hover:scale-105 transition-transform duration-200" />
           <span className="font-sans font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">
-            Waseem<span className="bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent">.dev</span>
+            Waseem<span className="inline-block bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent pr-1.5 pb-1">.dev</span>
           </span>
         </a>
 

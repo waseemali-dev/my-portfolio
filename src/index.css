@@ -28,8 +28,8 @@
   --slate-600: #06B6D4; /* Primary */
   --slate-700: #0891B2; /* Secondary */
   --slate-800: #0e3a46; /* Border/input */
-  --slate-900: #08262E; /* Surface */
-  --slate-950: #02131A; /* Background */
+  --slate-900: #050505; /* Surface */
+  --slate-950: #000000; /* Background */
   --white-color: #ECFEFF;
 }
 

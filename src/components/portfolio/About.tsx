@@ -133,8 +133,24 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
                 <span>{portfolio.about?.badge || "01 • About Me"}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white pt-1">
-                {portfolio.about?.heading}
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white pt-1 leading-[1.1]">
+                {(() => {
+                  const heading = portfolio.about?.heading || "";
+                  const words = heading.split(" ");
+                  if (words.length > 2) {
+                    const lastTwo = words.slice(-2).join(" ");
+                    const firstPart = words.slice(0, -2).join(" ");
+                    return (
+                      <>
+                        {firstPart}{" "}
+                        <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">
+                          {lastTwo}
+                        </span>
+                      </>
+                    );
+                  }
+                  return heading;
+                })()}
               </h2>
             </div>
 

@@ -77,7 +77,7 @@ export default function AdminSidebar({
         {/* Sidebar Header */}
         <div className="h-16 px-6 border-b border-slate-800/80 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-lg bg-gradient-to-r from-cyan-400 to-fuchsia-400 bg-clip-text text-transparent">
+            <span className="inline-block font-bold text-lg bg-gradient-to-r from-cyan-400 to-fuchsia-400 bg-clip-text text-transparent pr-1.5 pb-1">
               Waseem Ali Admin
             </span>
           </div>

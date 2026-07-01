@@ -10,7 +10,7 @@ export function CTABanner() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
         <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
           Need a Reliable Front-End or <br className="hidden sm:inline" />
-          <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-fuchsia-400 bg-clip-text text-transparent">HubSpot CMS Developer</span> for your next project?
+          <span className="inline-block bg-gradient-to-r from-cyan-400 via-cyan-300 to-fuchsia-400 bg-clip-text text-transparent pr-1.5 pb-1">HubSpot CMS Developer</span> for your next project?
         </h2>
         <p className="text-slate-300/90 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
           Let's design and engineer high-performance web spaces, optimize PageSpeed, code custom drag-and-drop modules, or migrate your sites smoothly.

@@ -39,8 +39,24 @@ export function Contact({
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
             <span>{portfolio.contact?.badge || "10 • Let's Connect"}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-            {portfolio.contact?.heading || "Initiate a Digital Collaboration"}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+            {(() => {
+              const heading = portfolio.contact?.heading || "Initiate a Digital Collaboration";
+              const words = heading.split(" ");
+              if (words.length > 2) {
+                const lastTwo = words.slice(-2).join(" ");
+                const firstPart = words.slice(0, -2).join(" ");
+                return (
+                  <>
+                    {firstPart}{" "}
+                    <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">
+                      {lastTwo}
+                    </span>
+                  </>
+                );
+              }
+              return heading;
+            })()}
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
             {portfolio.contact?.description || "Submit the form below, and let's craft modern web solutions matching your goals."}
@@ -107,27 +123,21 @@ export function Contact({
 
               </div>
 
-              <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-start gap-3">
+              <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-2.5">
                 {[
-                  { label: "LinkedIn", href: portfolio.socialLinks?.linkedin, imgUrl: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png", imgClass: "object-contain rounded" },
-                  { label: "Upwork", href: portfolio.socialLinks?.upwork, imgUrl: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/upwork-icon.png", imgClass: "object-contain rounded-full" },
-                  { label: "Fiverr", href: portfolio.socialLinks?.fiverr, imgUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png", imgClass: "object-contain rounded-full" },
-                  { label: "GitHub", href: portfolio.socialLinks?.github, imgUrl: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.png", imgClass: "object-contain rounded-full dark:invert" }
+                  { label: "LinkedIn", href: portfolio.socialLinks?.linkedin },
+                  { label: "Upwork", href: portfolio.socialLinks?.upwork },
+                  { label: "Fiverr", href: portfolio.socialLinks?.fiverr }
                 ].filter(soc => soc.href).map((soc) => (
                   <a
                     key={soc.label}
                     href={soc.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-800 transition-colors border border-slate-100 dark:border-slate-800 flex items-center justify-center w-10 h-10"
-                    aria-label={soc.label}
+                    className="px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-800 transition-all border border-slate-100 dark:border-slate-800 text-xs font-bold tracking-wider text-slate-700 dark:text-cyan-400 hover:text-slate-900 dark:hover:text-cyan-300 flex items-center gap-2 shadow-sm"
                   >
-                    <img
-                      src={soc.imgUrl}
-                      alt={soc.label}
-                      className={`w-5 h-5 ${soc.imgClass}`}
-                      referrerPolicy="no-referrer"
-                    />
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>
+                    {soc.label}
                   </a>
                 ))}
               </div>

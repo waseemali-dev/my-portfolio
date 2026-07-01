@@ -18,8 +18,8 @@ export function FAQs({ portfolio }: FAQsProps) {
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
             <span>09 • FAQ Directory</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-            Frequently Asked Questions
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+            Frequently Asked <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">Questions</span>
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
             Get answers to deployment timelines, HubSpot configurations, and agency scaling questions.

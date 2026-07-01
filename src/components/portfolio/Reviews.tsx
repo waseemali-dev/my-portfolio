@@ -25,8 +25,8 @@ export function Reviews({ portfolio, getProjectImage }: ReviewsProps) {
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
             <span>08 • Testimonials</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-            What Clients & Partners Say About Me
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+            What Clients & <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">Partners Say</span>
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
             Real endorsements from corporate executives, agency owners, and tech founders globally.
