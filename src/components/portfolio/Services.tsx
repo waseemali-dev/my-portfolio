@@ -49,7 +49,7 @@ export function Services({ portfolio }: ServicesProps) {
             <span>02 • Services & Standards</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-            Professional Services & Quality Standards
+            Services & Quality Standards
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
             High-impact specialized engineering and strategic implementation designed to scale your web presence and convert traffic.

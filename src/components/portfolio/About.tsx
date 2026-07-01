@@ -49,7 +49,13 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
                   
                   {/* The Image */}
                   <img
-                    src="https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/Profile-update.jpg?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTAxNDUxNzQ0LCJpYXQiOjE3ODI4NTgyNTIxMjh9.uNU0m_wpTxEZmMAmGo89_fTNPekcnP2hfzzeRs5b6uA&vercel-blob-signature=lBepInYVV8kz2hNfidU7duFKDi_TzOUWu6iQ5Xk-p5Y"
+                    src={(() => {
+                      const url = portfolio.hero?.avatarUrl;
+                      if (url && !url.includes("private.blob.vercel-storage.com")) {
+                        return getProjectImage(url);
+                      }
+                      return "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/Profile-update.jpg?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTY5NzgwODM3LCJpYXQiOjE3ODI5MjY1ODEwNTh9.zJRbqrMF31q9N-vSdC4tYbJCekjNhW3ROUG2yqyTafg&vercel-blob-signature=Ef1wnU3nW-dUOWw3IvastuFLFgbmq2Bi_j8oOr9YsTc";
+                    })()}
                     alt={portfolio.hero?.name || "Waseem Ali"}
                     className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     referrerPolicy="no-referrer"
