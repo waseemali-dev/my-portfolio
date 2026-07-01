@@ -59,12 +59,9 @@ export function Reviews({ portfolio, getProjectImage }: ReviewsProps) {
               {/* Author Info */}
               <div className="mt-6 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center gap-4">
                 <div className="relative shrink-0">
-                  <img 
-                    src={getProjectImage(review.avatarUrl)} 
-                    alt={review.name} 
-                    className="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-800"
-                    referrerPolicy="no-referrer"
-                  />
+                  <div className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-800 bg-cyan-500/10 dark:bg-cyan-500/5 text-cyan-500 dark:text-cyan-400 flex items-center justify-center font-bold text-base sm:text-lg select-none">
+                    {review.name ? review.name.trim().charAt(0).toUpperCase() : "?"}
+                  </div>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">

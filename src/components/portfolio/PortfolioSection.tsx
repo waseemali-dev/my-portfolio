@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { ArrowUpRight, ChevronDown, ExternalLink } from "lucide-react";
-import { motion } from "motion/react";
 
 interface PortfolioSectionProps {
   portfolio: any;
@@ -27,7 +26,7 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
         
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 border border-cyan-500/20 dark:border-cyan-500/10 text-cyan-500 dark:text-cyan-400 font-mono text-xs font-semibold tracking-wider uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>
             <span>04 • Work</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
@@ -64,7 +63,7 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
             <div
               key={project.id}
               id={`project-card-${project.id}`}
-              className="group rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 overflow-hidden shadow-[0_0_15px_rgba(6,182,212,0.03)] hover:border-cyan-500/30 transition-all duration-300 flex flex-col justify-between"
+              className="group rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 overflow-hidden shadow-[0_0_15px_rgba(6,182,212,0.03)] hover:border-cyan-500/30 flex flex-col justify-between"
             >
               
               {/* Visual Thumbnail Container with 16:9 aspect ratio */}
@@ -95,7 +94,7 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
                         src={getProjectImage(project.imageUrl || project.id)}
                         alt={`${project.title} Thumbnail`}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/image:scale-105"
+                        className="w-full h-full object-cover"
                       />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-tr from-cyan-500/80 to-slate-950 flex items-center justify-center">
@@ -104,8 +103,8 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
                     )}
                     
                     {/* Hover Overlay with visit icon */}
-                    <div className="absolute inset-0 bg-slate-950/45 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="p-3 rounded-full bg-cyan-500 text-slate-950 shadow-lg transform translate-y-2 group-hover/image:translate-y-0 transition-all duration-300 hover:scale-110">
+                    <div className="absolute inset-0 bg-slate-950/45 opacity-0 group-hover/image:opacity-100 flex items-center justify-center">
+                      <div className="p-3 rounded-full bg-cyan-500 text-slate-950 shadow-lg">
                         <ArrowUpRight className="w-5 h-5 text-slate-950" />
                       </div>
                     </div>
@@ -122,7 +121,7 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
                         src={getProjectImage(project.imageUrl || project.id)}
                         alt={`${project.title} Thumbnail`}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/image:scale-105"
+                        className="w-full h-full object-cover"
                       />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-tr from-cyan-500/80 to-slate-950 flex items-center justify-center">
