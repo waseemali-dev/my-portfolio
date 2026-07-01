@@ -12,7 +12,6 @@ import ContactEditor from "../components/admin/ContactEditor";
 import SocialLinksEditor from "../components/admin/SocialLinksEditor";
 import Settings from "../components/admin/Settings";
 import JsonImportExport from "../components/admin/JsonImportExport";
-import SkillsEditor from "../components/admin/SkillsEditor";
 import FAQEditor from "../components/admin/FAQEditor";
 import SEOEditor from "../components/admin/SEOEditor";
 import { getPortfolioContent } from "../utils/contentStorage";
@@ -62,8 +61,6 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
         return <HeroEditor content={content} onUpdate={handleUpdate} />;
       case "about":
         return <AboutEditor content={content} onUpdate={handleUpdate} />;
-      case "skills":
-        return <SkillsEditor content={content} onUpdate={handleUpdate} />;
       case "services":
         return <ServicesEditor content={content} onUpdate={handleUpdate} />;
       case "projects":

@@ -223,12 +223,13 @@ export function Contact({
                         value={formState.projectType}
                         onChange={(e) => setFormState({ ...formState, projectType: e.target.value })}
                       >
-                        <option>HubSpot CMS Development</option>
-                        <option>Landing Page Optimization</option>
-                        <option>Website Migration / Redesign</option>
-                        <option>WordPress / ACF Blocks</option>
-                        <option>Email Builder templates</option>
-                        <option>Other Custom Front-End Fix</option>
+                        <option>HubSpot Website</option>
+                        <option>Landing Page</option>
+                        <option>Website Migration</option>
+                        <option>WordPress Website</option>
+                        <option>SEO Optimation</option>
+                        <option>Email Marketing</option>
+                        <option>Other</option>
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-500 dark:text-slate-400">
                         <ChevronDown className="w-4 h-4" />

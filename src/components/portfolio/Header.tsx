@@ -53,28 +53,28 @@ export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
           ))}
         </nav>
 
-        {/* Right Action Bar */}
-        <div className="hidden sm:flex items-center gap-4">
+        {/* Right Action/Toggle Bar */}
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* Hire Me CTA */}
           <a
             href="#contact"
-            className="px-5 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 dark:bg-cyan-500 dark:hover:bg-cyan-600 dark:text-white font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer"
+            className="px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 dark:bg-cyan-500 dark:hover:bg-cyan-600 dark:text-white font-semibold text-xs sm:text-sm transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
             id="header-cta"
           >
             Hire Me
           </a>
-        </div>
 
-        {/* Mobile Actions / Toggle */}
-        <div className="flex lg:hidden items-center gap-3">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 cursor-pointer"
-            aria-label="Toggle Navigation Menu"
-            id="hamburger-btn"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Toggle */}
+          <div className="flex lg:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 cursor-pointer"
+              aria-label="Toggle Navigation Menu"
+              id="hamburger-btn"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
       </div>

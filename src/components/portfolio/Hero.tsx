@@ -109,7 +109,7 @@ export function Hero({ portfolio, countStats }: HeroProps) {
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-fuchsia-500/20 rounded-3xl blur-2xl pointer-events-none -rotate-3 animate-pulse-slow"></div>
 
             <img
-              src="https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/hero-right.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTc0ODY0NzA1LCJpYXQiOjE3ODI5MzE2NjUwMTl9.ZnVsj9WvUYmZ4Ihn35IuyQsZCa48eEQCt7Zoyk1XeRI&vercel-blob-signature=xGIvEpRdt0fVwDJzXSBynCOVzaciCknAwmQ_ThhwUlE"
+              src="https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/ai-automation-transparent.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTg0NzA2MjMyLCJpYXQiOjE3ODI5NDE1MDYyOTZ9.48eHcKzIYW5R_slCclF-moR25KlEIo8ENbVUQGpBzlk&vercel-blob-signature=Q3Hq3JuWL6AbeZAEvB9VMS30odALNA0UgBig8JeHg_w"
               alt="Portfolio hero preview"
               className="relative z-10 w-full max-w-[500px] lg:max-w-none h-auto object-contain mx-auto transition-transform duration-300"
               fetchPriority="high"

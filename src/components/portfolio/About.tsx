@@ -17,7 +17,7 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
           
           {/* Left Photo/Visual Column */}
           <motion.div 
-            className="lg:col-span-5 relative min-h-[480px] flex items-center justify-center" 
+            className="lg:col-span-5 relative min-h-[480px] flex items-center justify-start" 
             id="about-visual"
             initial={{ opacity: 0, scale: 0.92 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -25,12 +25,12 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             {/* Ambient Background Glows */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-gradient-to-tr from-cyan-500/30 to-fuchsia-500/30 opacity-40 blur-3xl pointer-events-none"></div>
+            <div className="absolute top-1/2 left-0 w-80 h-80 rounded-full bg-gradient-to-tr from-cyan-500/30 to-fuchsia-500/30 opacity-40 blur-3xl pointer-events-none -translate-y-1/2"></div>
             
             {/* High-Tech Grid Accent */}
-            <div className="absolute inset-0 bg-[radial-gradient(#0891b2_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-25 dark:opacity-30 pointer-events-none max-w-md mx-auto h-[440px] rounded-3xl"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(#0891b2_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-25 dark:opacity-30 pointer-events-none max-w-md ml-0 mr-auto h-[440px] rounded-3xl"></div>
             
-            <div className="relative w-full max-w-[360px] sm:max-w-[380px] mx-auto h-[440px] flex items-center justify-center">
+            <div className="relative w-full max-w-[360px] sm:max-w-[380px] ml-0 mr-auto h-[440px] flex items-center justify-center">
               
               {/* Rotating outer dash/ring */}
               <div className="absolute inset-0 border border-dashed border-cyan-500/30 dark:border-cyan-500/20 rounded-full animate-[spin_80s_linear_infinite] p-4 scale-95 pointer-events-none"></div>

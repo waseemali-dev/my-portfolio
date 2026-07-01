@@ -11,7 +11,6 @@ import { Header } from "./components/portfolio/Header";
 import { Hero } from "./components/portfolio/Hero";
 import { Stats } from "./components/portfolio/Stats";
 import { About } from "./components/portfolio/About";
-import { Skills } from "./components/portfolio/Skills";
 import { Services } from "./components/portfolio/Services";
 import { PortfolioSection } from "./components/portfolio/PortfolioSection";
 import { Experience } from "./components/portfolio/Experience";
@@ -103,7 +102,7 @@ export default function App() {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
-    projectType: "HubSpot CMS Development",
+    projectType: "HubSpot Website",
     budget: "",
     message: ""
   });
@@ -276,9 +275,6 @@ export default function App() {
 
         {/* 2b. STATS SECTION */}
         <Stats />
-
-        {/* 3b. SKILLS SECTION */}
-        <Skills portfolio={portfolio} />
 
         {/* 4. SERVICES SECTION */}
         <Services portfolio={portfolio} />
