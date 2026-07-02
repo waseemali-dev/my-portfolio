@@ -49,7 +49,23 @@ export default function App() {
   }, []);
 
   // Client Routing state (state-based paths to support static hosting seamlessly)
-  const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname);
+  const getInitialPath = () => {
+    const p = window.location.pathname;
+    const h = window.location.hash;
+    const s = window.location.search;
+    if (
+      p === "/admin-dev" || 
+      p.endsWith("/admin-dev") || 
+      h === "#/admin-dev" || 
+      h === "#admin-dev" || 
+      s.includes("admin-dev")
+    ) {
+      return "/admin-dev";
+    }
+    return p;
+  };
+
+  const [currentPath, setCurrentPath] = useState<string>(getInitialPath);
   const [isAdminAuth, setIsAdminAuth] = useState<boolean>(() => isAdminLoggedIn());
 
   // Dynamic Portfolio Content State
@@ -58,14 +74,29 @@ export default function App() {
   // Watch for location path modifications (history pop/push states)
   useEffect(() => {
     const handleLocationChange = () => {
-      setCurrentPath(window.location.pathname);
+      const p = window.location.pathname;
+      const h = window.location.hash;
+      const s = window.location.search;
+      if (
+        p === "/admin-dev" || 
+        p.endsWith("/admin-dev") || 
+        h === "#/admin-dev" || 
+        h === "#admin-dev" || 
+        s.includes("admin-dev")
+      ) {
+        setCurrentPath("/admin-dev");
+      } else {
+        setCurrentPath(p);
+      }
       setIsAdminAuth(isAdminLoggedIn());
     };
     window.addEventListener("popstate", handleLocationChange);
     window.addEventListener("pushstate_nav", handleLocationChange);
+    window.addEventListener("hashchange", handleLocationChange);
     return () => {
       window.removeEventListener("popstate", handleLocationChange);
       window.removeEventListener("pushstate_nav", handleLocationChange);
+      window.removeEventListener("hashchange", handleLocationChange);
     };
   }, []);
 
