@@ -16,6 +16,10 @@ export default function ImageUploadInput({
   onChange,
   placeholder = "Paste custom image URL or upload directly"
 }: ImageUploadInputProps) {
+  const [showUrlInput, setShowUrlInput] = useState(() => {
+    // If the value is a remote URL (starts with http and not from local uploads), show the URL input on mount
+    return value ? value.startsWith("http") && !value.includes("uploads") : false;
+  });
   const [isDragOver, setIsDragOver] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -88,77 +92,47 @@ export default function ImageUploadInput({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2.5">
       <div className="flex justify-between items-center">
         <label htmlFor={id} className="text-xs font-bold uppercase tracking-wider text-slate-400">
           {label}
         </label>
         {value && (
-          <span className="text-[10px] font-medium text-cyan-400 flex items-center gap-1">
+          <span className="text-[10px] font-semibold text-emerald-400 flex items-center gap-1 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/15">
             <CheckCircle className="w-3 h-3 text-emerald-500" />
-            Image Selected
+            Image Active
           </span>
         )}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {/* URL Input text box */}
-        <div className="sm:col-span-2">
-          <input
-            id={id}
-            type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
-            placeholder={placeholder}
-          />
-        </div>
-
-        {/* Upload Button */}
-        <div>
-          <button
-            type="button"
-            onClick={triggerFileSelect}
-            disabled={isUploading}
-            className="w-full h-full px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-805 hover:border-slate-700 disabled:bg-slate-950 disabled:border-slate-900 rounded-xl flex items-center justify-center gap-2 text-sm text-slate-300 font-medium transition-all cursor-pointer"
-          >
-            {isUploading ? (
-              <RefreshCw className="w-4 h-4 animate-spin text-cyan-400" />
-            ) : (
-              <Upload className="w-4 h-4 text-slate-400" />
-            )}
-            <span>{isUploading ? "Uploading..." : "Upload Image"}</span>
-          </button>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={(e) => {
-              const files = e.target.files;
-              if (files && files.length > 0) {
-                handleFileChange(files[0]);
-              }
-            }}
-            accept="image/*"
-            className="hidden"
-          />
-        </div>
-      </div>
-
-      {/* Drag and Drop Zone */}
+      {/* Primary Drag & Drop upload container */}
       <div
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         onClick={triggerFileSelect}
-        className={`border border-dashed rounded-xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all ${
+        className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
           isDragOver
-            ? "border-cyan-400 bg-cyan-500/5"
-            : "border-slate-800 hover:border-slate-700 bg-slate-950 hover:bg-slate-900/50"
+            ? "border-cyan-400 bg-cyan-500/5 shadow-[0_0_15px_rgba(6,182,212,0.1)]"
+            : "border-slate-800 hover:border-slate-700 bg-slate-950 hover:bg-slate-900/40"
         }`}
       >
-        <div className="flex items-center gap-3">
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={(e) => {
+            const files = e.target.files;
+            if (files && files.length > 0) {
+              handleFileChange(files[0]);
+            }
+          }}
+          accept="image/*"
+          className="hidden"
+        />
+
+        <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
           {value ? (
-            <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-slate-800 bg-slate-900 flex-shrink-0">
+            <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2 border-slate-800 bg-slate-900 flex-shrink-0 group shadow-lg">
               <img
                 src={value}
                 alt="Uploaded preview"
@@ -168,26 +142,75 @@ export default function ImageUploadInput({
                   (e.target as HTMLElement).style.display = "none";
                 }}
               />
-              <div className="absolute inset-0 bg-slate-950/40 flex items-center justify-center">
-                <FileImage className="w-4 h-4 text-white/80" />
+              <div className="absolute inset-0 bg-slate-950/50 flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                <FileImage className="w-5 h-5 text-white/85" />
               </div>
             </div>
           ) : (
-            <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-850">
-              <Upload className="w-5 h-5 text-slate-500" />
+            <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-850 text-slate-500 shadow-md">
+              <Upload className="w-6 h-6" />
             </div>
           )}
 
-          <div className="text-left">
-            <p className="text-xs font-semibold text-slate-300">
-              Drag & drop image here, or <span className="text-cyan-400 underline">browse</span>
+          <div>
+            <p className="text-sm font-bold text-slate-200">
+              {isUploading ? (
+                <span className="flex items-center gap-2 text-cyan-400">
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  Uploading image asset...
+                </span>
+              ) : (
+                <>
+                  Drag & drop image here, or <span className="text-cyan-400 hover:text-cyan-300 underline">browse files</span>
+                </>
+              )}
             </p>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-xs text-slate-500 mt-1">
               Supports PNG, JPG, JPEG, WEBP, SVG up to 10MB
             </p>
+            {value && !isUploading && (
+              <p className="text-[10px] font-mono text-slate-400 truncate max-w-[280px] sm:max-w-xs mt-1.5 bg-slate-900 px-2 py-0.5 rounded border border-slate-800/60 inline-block">
+                Path: {value}
+              </p>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Actions and expandables */}
+      <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
+        <button
+          type="button"
+          onClick={() => setShowUrlInput(!showUrlInput)}
+          className="text-slate-500 hover:text-cyan-400 font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+        >
+          {showUrlInput ? "Hide custom URL input" : "Or use custom image URL"}
+        </button>
+
+        {value && (
+          <button
+            type="button"
+            onClick={() => onChange("")}
+            className="text-red-400/80 hover:text-red-400 font-bold transition-colors cursor-pointer"
+          >
+            Clear Selected Image
+          </button>
+        )}
+      </div>
+
+      {/* Expandable manual URL text input */}
+      {showUrlInput && (
+        <div className="pt-1.5 transition-all animate-in fade-in slide-in-from-top-1 duration-200">
+          <input
+            id={id}
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-xs font-mono text-slate-100 placeholder:text-slate-600 shadow-inner"
+            placeholder={placeholder}
+          />
+        </div>
+      )}
 
       {/* Status Messages */}
       {uploadError && (
@@ -199,7 +222,7 @@ export default function ImageUploadInput({
       {uploadSuccess && (
         <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 rounded-lg">
           <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" />
-          <span>Image uploaded and selected successfully!</span>
+          <span>Image asset uploaded and selected successfully!</span>
         </div>
       )}
     </div>
