@@ -64,12 +64,24 @@ export function Reviews({ portfolio, getProjectImage }: ReviewsProps) {
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
                     {review.name}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                    Source: {review.platform || "Fiverr"}
-                  </p>
+                  </h3>
+                  {review.sourceUrl ? (
+                    <a
+                      href={review.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold hover:underline inline-flex items-center gap-1 transition-all duration-200"
+                    >
+                      <span>Source: {review.platform || "Fiverr"}</span>
+                      <span className="text-[10px] select-none">↗</span>
+                    </a>
+                  ) : (
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                      Source: {review.platform || "Fiverr"}
+                    </p>
+                  )}
                 </div>
               </div>
 

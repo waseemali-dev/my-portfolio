@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Globe, Save, RefreshCw } from "lucide-react";
 import { savePortfolioContent } from "../../utils/contentStorage";
+import ImageUploadInput from "./ImageUploadInput";
 
 interface SEOEditorProps {
   content: any;
@@ -12,7 +13,8 @@ export default function SEOEditor({ content, onUpdate }: SEOEditorProps) {
     title: content.seo?.title || "Waseem Ali | Front-End & HubSpot CMS Developer Portfolio",
     description: content.seo?.description || "Certified HubSpot CMS & Front-End Developer. Specialist in building fast, custom HubSpot themes, high-converting WordPress sites, and semantic React frontends.",
     keywords: content.seo?.keywords || "HubSpot CMS, Front-End Developer, HubSpot Developer, WordPress Developer, React, Web Performance, Core Web Vitals, Lahore, Pakistan",
-    author: content.seo?.author || "Waseem Ali"
+    author: content.seo?.author || "Waseem Ali",
+    favicon: content.seo?.favicon || "/favicon.ico"
   });
 
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -29,7 +31,8 @@ export default function SEOEditor({ content, onUpdate }: SEOEditorProps) {
         title: formData.title.trim(),
         description: formData.description.trim(),
         keywords: formData.keywords.trim(),
-        author: formData.author.trim()
+        author: formData.author.trim(),
+        favicon: formData.favicon.trim()
       }
     };
 
@@ -37,7 +40,7 @@ export default function SEOEditor({ content, onUpdate }: SEOEditorProps) {
       const success = savePortfolioContent(updatedContent);
       if (success) {
         onUpdate(updatedContent);
-        setMessage({ type: "success", text: "SEO Metadata saved successfully!" });
+        setMessage({ type: "success", text: "SEO Metadata & Favicon saved successfully!" });
       } else {
         setMessage({ type: "error", text: "Failed to save SEO metadata modifications. Please try again." });
       }
@@ -93,6 +96,18 @@ export default function SEOEditor({ content, onUpdate }: SEOEditorProps) {
             placeholder="Waseem Ali | Front-End & HubSpot CMS Developer"
           />
           <p className="text-[10px] text-slate-500">Recommended length: 50-60 characters.</p>
+        </div>
+
+        {/* Website Favicon */}
+        <div className="space-y-1.5">
+          <ImageUploadInput
+            id="favicon"
+            label="Website Favicon"
+            value={formData.favicon}
+            onChange={(url) => setFormData({ ...formData, favicon: url })}
+            placeholder="Paste custom favicon URL or upload below"
+          />
+          <p className="text-[10px] text-slate-500">Recommended format: Square .ico, .png, or .svg image.</p>
         </div>
 
         {/* SEO Author */}

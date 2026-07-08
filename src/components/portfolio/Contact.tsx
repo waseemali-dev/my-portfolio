@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { Mail, Smartphone, CheckCircle2, Award, ChevronDown, RefreshCw, Send } from "lucide-react";
 
 interface ContactProps {
@@ -9,6 +9,8 @@ interface ContactProps {
     projectType: string;
     budget: string;
     message: string;
+    captchaAnswer?: string;
+    captchaToken?: string;
   };
   setFormState: (val: any) => void;
   isSubmitted: boolean;
@@ -26,6 +28,38 @@ export function Contact({
   submitError,
   handleContactSubmit
 }: ContactProps) {
+  const [challengeText, setChallengeText] = useState<string>("");
+  const [isLoadingCaptcha, setIsLoadingCaptcha] = useState<boolean>(false);
+
+  const fetchCaptcha = async () => {
+    setIsLoadingCaptcha(true);
+    try {
+      const res = await fetch("/api/captcha");
+      if (res.ok) {
+        const data = await res.json();
+        setChallengeText(data.text);
+        setFormState((prev: any) => ({
+          ...prev,
+          captchaToken: data.token,
+          captchaAnswer: ""
+        }));
+      }
+    } catch (err) {
+      console.error("Failed to load captcha", err);
+    } finally {
+      setIsLoadingCaptcha(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCaptcha();
+  }, []);
+
+  useEffect(() => {
+    if (submitError) {
+      fetchCaptcha();
+    }
+  }, [submitError]);
   return (
     <section id="contact" className="py-20 md:py-28 bg-transparent relative overflow-hidden">
       
@@ -146,10 +180,10 @@ export function Contact({
 
             {/* Trust Badge Column Card */}
             <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-tr from-cyan-500/10 to-fuchsia-500/10 border border-cyan-500/30 dark:border-cyan-500/20 bg-white/5 dark:bg-slate-900/10 backdrop-blur-md space-y-4">
-              <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <Award className="w-5 h-5 text-cyan-500" />
                 Satisfaction Guarantee
-              </h4>
+              </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 I believe in transparent collaboration, clean development, and regular progress updates. I ensure your project is implemented accurately, matches the requirements, and is thoroughly tested before delivery.
               </p>
@@ -238,27 +272,32 @@ export function Contact({
                   </div>
 
                   {/* Budget Input */}
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 relative">
                     <label htmlFor="form-budget" className="text-xs font-semibold text-slate-600 dark:text-slate-400 tracking-wider block">
-                      Approximate Budget
+                      Approximate Budget (USD)
                     </label>
-                    <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus-within:ring-2 focus-within:ring-cyan-500 dark:focus-within:ring-cyan-400 transition-all duration-200">
-                      <input
-                        type="text"
+                    <div className="relative">
+                      <select
                         id="form-budget"
-                        placeholder="e.g. $2,500"
-                        className="w-full pl-4 pr-20 py-3 bg-transparent text-sm focus:outline-none text-slate-900 dark:text-white"
+                        required
+                        className="w-full px-4 py-3 pr-10 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-cyan-400 cursor-pointer appearance-none text-slate-900 dark:text-white"
                         value={formState.budget}
                         onChange={(e) => setFormState({ ...formState, budget: e.target.value })}
-                      />
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                        <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider bg-slate-200/50 dark:bg-slate-900 px-2 py-0.5 rounded-md">
-                          Est.
-                        </span>
+                      >
+                        <option value="" disabled>Select Budget Range</option>
+                        <option value="Under $500">Under $500</option>
+                        <option value="$500 - $900">$500 - $900</option>
+                        <option value="$1000 - $1499">$1000 - $1499</option>
+                        <option value="$1500 - $1990">$1500 - $1990</option>
+                        <option value="$2000+">$2000+</option>
+                        <option value="Not sure yet">Not sure yet</option>
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-500 dark:text-slate-400">
+                        <ChevronDown className="w-4 h-4" />
                       </div>
                     </div>
                     <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
-                      Rough estimate or budget range for matching resources.
+                      Select a rough budget estimate in USD for your project.
                     </p>
                   </div>
                 </div>
@@ -277,6 +316,45 @@ export function Contact({
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                   ></textarea>
+                </div>
+
+                {/* CAPTCHA Verification Block */}
+                <div className="space-y-3 border-t border-slate-100/10 dark:border-slate-800/50 pt-6">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
+                    Security Verification
+                  </label>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">
+                    Please solve this simple equation to prove you are human and prevent spam.
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                    <div className="flex items-center justify-between gap-3 px-4 py-3 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl min-w-[180px]">
+                      <span className="font-mono text-sm font-bold text-slate-800 dark:text-cyan-400">
+                        {isLoadingCaptcha ? "Loading..." : challengeText || "Equation"}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={fetchCaptcha}
+                        disabled={isLoadingCaptcha || isSubmitting}
+                        className="p-1.5 rounded-lg bg-slate-200/50 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-cyan-500 transition-colors cursor-pointer"
+                        title="Get another challenge"
+                      >
+                        <RefreshCw className={`w-3.5 h-3.5 ${isLoadingCaptcha ? "animate-spin" : ""}`} />
+                      </button>
+                    </div>
+
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        required
+                        placeholder="Enter your answer here"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:focus:ring-cyan-400 text-slate-900 dark:text-white"
+                        value={formState.captchaAnswer || ""}
+                        onChange={(e) => setFormState({ ...formState, captchaAnswer: e.target.value })}
+                        disabled={isSubmitting}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 {/* Submit Button */}

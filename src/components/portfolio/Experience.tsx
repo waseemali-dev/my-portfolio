@@ -229,9 +229,9 @@ export function Experience({ portfolio }: ExperienceProps) {
                       <Award className="w-6 h-6 text-slate-950" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 dark:text-white text-left">
+                      <h3 className="font-bold text-slate-900 dark:text-white text-left text-sm sm:text-base">
                         {cert.name}
-                      </h4>
+                      </h3>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 text-left">
                         {cert.authority} • {cert.status}
                       </p>

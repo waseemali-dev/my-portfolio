@@ -113,6 +113,82 @@ export default function App() {
     return () => window.removeEventListener("portfolio_content_updated", handlePortfolioUpdated);
   }, []);
 
+  // Synchronize SEO Meta Tags dynamically with state-edited properties
+  useEffect(() => {
+    if (portfolio?.seo) {
+      // 1. Update document title
+      if (portfolio.seo.title) {
+        document.title = portfolio.seo.title;
+      }
+      
+      // 2. Update description meta tag
+      if (portfolio.seo.description) {
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if (!metaDescription) {
+          metaDescription = document.createElement('meta');
+          metaDescription.setAttribute('name', 'description');
+          document.head.appendChild(metaDescription);
+        }
+        metaDescription.setAttribute('content', portfolio.seo.description);
+        
+        // Also update og:description & twitter:description
+        let ogDescription = document.querySelector('meta[property="og:description"]');
+        if (ogDescription) {
+          ogDescription.setAttribute('content', portfolio.seo.description);
+        }
+        let twitterDescription = document.querySelector('meta[property="twitter:description"]');
+        if (twitterDescription) {
+          twitterDescription.setAttribute('content', portfolio.seo.description);
+        }
+      }
+      
+      // 3. Update keywords meta tag
+      if (portfolio.seo.keywords) {
+        let metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (!metaKeywords) {
+          metaKeywords = document.createElement('meta');
+          metaKeywords.setAttribute('name', 'keywords');
+          document.head.appendChild(metaKeywords);
+        }
+        metaKeywords.setAttribute('content', portfolio.seo.keywords);
+      }
+      
+      // 4. Update author meta tag
+      if (portfolio.seo.author) {
+        let metaAuthor = document.querySelector('meta[name="author"]');
+        if (!metaAuthor) {
+          metaAuthor = document.createElement('meta');
+          metaAuthor.setAttribute('name', 'author');
+          document.head.appendChild(metaAuthor);
+        }
+        metaAuthor.setAttribute('content', portfolio.seo.author);
+      }
+
+      // 5. Update open graph & twitter titles
+      if (portfolio.seo.title) {
+        let ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) {
+          ogTitle.setAttribute('content', portfolio.seo.title);
+        }
+        let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+        if (twitterTitle) {
+          twitterTitle.setAttribute('content', portfolio.seo.title);
+        }
+      }
+
+      // 6. Update Favicon dynamically
+      if (portfolio.seo.favicon) {
+        let linkFavicon = document.querySelector('link[rel="icon"]') || document.querySelector('link[rel="shortcut icon"]');
+        if (!linkFavicon) {
+          linkFavicon = document.createElement('link');
+          linkFavicon.setAttribute('rel', 'icon');
+          document.head.appendChild(linkFavicon);
+        }
+        linkFavicon.setAttribute('href', portfolio.seo.favicon);
+      }
+    }
+  }, [portfolio?.seo]);
+
   // Custom router helper
   const navigateTo = (path: string) => {
     window.history.pushState({}, "", path);
@@ -139,7 +215,9 @@ export default function App() {
     email: "",
     projectType: "HubSpot Website",
     budget: "",
-    message: ""
+    message: "",
+    captchaAnswer: "",
+    captchaToken: ""
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -236,6 +314,8 @@ export default function App() {
           projectType: formState.projectType,
           budget: formState.budget,
           message: formState.message,
+          captchaToken: formState.captchaToken,
+          captchaAnswer: formState.captchaAnswer,
         }),
       });
 
@@ -244,7 +324,8 @@ export default function App() {
       if (response.ok) {
         setIsSubmitted(true);
       } else {
-        setSubmitError(data.error || "Failed to submit form. Please try again.");
+        const detailMsg = data.details ? ` (${data.details})` : "";
+        setSubmitError(`${data.error || "Failed to submit form."}${detailMsg}`);
       }
     } catch (err: any) {
       console.error("Submission error:", err);
@@ -302,43 +383,45 @@ export default function App() {
           setIsMenuOpen={setIsMenuOpen}
         />
 
-        {/* 2. HERO SECTION */}
-        <Hero portfolio={portfolio} countStats={countStats} />
+        <main id="main-content">
+          {/* 2. HERO SECTION */}
+          <Hero portfolio={portfolio} countStats={countStats} />
 
-        {/* 3. ABOUT SECTION */}
-        <About portfolio={portfolio} getProjectImage={getProjectImage} />
+          {/* 3. ABOUT SECTION */}
+          <About portfolio={portfolio} getProjectImage={getProjectImage} />
 
-        {/* 2b. STATS SECTION */}
-        <Stats />
+          {/* 2b. STATS SECTION */}
+          <Stats portfolio={portfolio} />
 
-        {/* 4. SERVICES SECTION */}
-        <Services portfolio={portfolio} />
+          {/* 4. SERVICES SECTION */}
+          <Services portfolio={portfolio} />
 
-        {/* 6. PORTFOLIO SECTION */}
-        <PortfolioSection portfolio={portfolio} getProjectImage={getProjectImage} />
+          {/* 6. PORTFOLIO SECTION */}
+          <PortfolioSection portfolio={portfolio} getProjectImage={getProjectImage} />
 
-        {/* 7. EXPERIENCE & EDUCATION TIMELINE */}
-        <Experience portfolio={portfolio} />
+          {/* 7. EXPERIENCE & EDUCATION TIMELINE */}
+          <Experience portfolio={portfolio} />
 
-        {/* 8. CLIENT REVIEWS */}
-        <Reviews portfolio={portfolio} getProjectImage={getProjectImage} />
+          {/* 8. CLIENT REVIEWS */}
+          <Reviews portfolio={portfolio} getProjectImage={getProjectImage} />
 
-        {/* 9. CALL TO ACTION BANNER */}
-        <CTABanner />
+          {/* 9. CALL TO ACTION BANNER */}
+          <CTABanner portfolio={portfolio} />
 
-        {/* 10. FAQS ACCORDION */}
-        <FAQs portfolio={portfolio} />
+          {/* 10. FAQS ACCORDION */}
+          <FAQs portfolio={portfolio} />
 
-        {/* 11. DIRECT INQUIRY CONTACT FORM */}
-        <Contact
-          portfolio={portfolio}
-          formState={formState}
-          setFormState={setFormState}
-          isSubmitted={isSubmitted}
-          isSubmitting={isSubmitting}
-          submitError={submitError}
-          handleContactSubmit={handleContactSubmit}
-        />
+          {/* 11. DIRECT INQUIRY CONTACT FORM */}
+          <Contact
+            portfolio={portfolio}
+            formState={formState}
+            setFormState={setFormState}
+            isSubmitted={isSubmitted}
+            isSubmitting={isSubmitting}
+            submitError={submitError}
+            handleContactSubmit={handleContactSubmit}
+          />
+        </main>
 
         {/* 12. FOOTER */}
         <Footer portfolio={portfolio} />

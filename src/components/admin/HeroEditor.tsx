@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { Sparkles, Save, RefreshCw } from "lucide-react";
 import { savePortfolioContent } from "../../utils/contentStorage";
+import ImageUploadInput from "./ImageUploadInput";
 
 interface HeroEditorProps {
   content: any;
@@ -158,17 +159,14 @@ export default function HeroEditor({ content, onUpdate }: HeroEditorProps) {
             />
           </div>
 
-          {/* Profile image URL */}
-          <div className="space-y-1.5 md:col-span-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Profile Avatar Image URL / Local Asset Path
-            </label>
-            <input
-              type="text"
+          {/* Profile image URL with direct upload support */}
+          <div className="md:col-span-2">
+            <ImageUploadInput
+              id="avatarUrl"
+              label="Profile Avatar Image"
               value={formData.avatarUrl}
-              onChange={(e) => setFormData({ ...formData, avatarUrl: e.target.value })}
-              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
-              placeholder="Paste custom image URL, or leave blank to keep original"
+              onChange={(url) => setFormData({ ...formData, avatarUrl: url })}
+              placeholder="Paste custom image URL, or upload below"
             />
           </div>
 

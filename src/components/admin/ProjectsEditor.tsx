@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Layers, Trash2, Edit, Plus, Save, X, RefreshCw, ArrowUp, ArrowDown, Star, CheckCircle } from "lucide-react";
 import { savePortfolioContent } from "../../utils/contentStorage";
+import ImageUploadInput from "./ImageUploadInput";
 
 interface ProjectsEditorProps {
   content: any;
@@ -255,17 +256,14 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
               />
             </div>
 
-            {/* Image URL */}
-            <div className="space-y-1.5 md:col-span-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">
-                Project Image URL / Local Asset Reference
-              </label>
-              <input
-                type="text"
+            {/* Image URL with direct upload support */}
+            <div className="md:col-span-2">
+              <ImageUploadInput
+                id="imageUrl"
+                label="Project Image Preview"
                 value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
-                placeholder="Paste public image link (or local asset import variable like bostonBifImage)"
+                onChange={(url) => setImageUrl(url)}
+                placeholder="Paste public image link, or upload below"
               />
             </div>
 

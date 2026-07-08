@@ -92,9 +92,12 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
                     {getProjectImage(project.imageUrl || project.id) ? (
                       <img
                         src={getProjectImage(project.imageUrl || project.id)}
-                        alt={`${project.title} Thumbnail`}
+                        alt={`${project.title} Preview - Waseem Ali Certified HubSpot & Front-End Developer Project`}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
+                        width="380"
+                        height="214"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-tr from-cyan-500/80 to-slate-950 flex items-center justify-center">
@@ -119,9 +122,12 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
                     {getProjectImage(project.imageUrl || project.id) ? (
                       <img
                         src={getProjectImage(project.imageUrl || project.id)}
-                        alt={`${project.title} Thumbnail`}
+                        alt={`${project.title} Preview - Waseem Ali Certified HubSpot & Front-End Developer Project`}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
+                        width="380"
+                        height="214"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-tr from-cyan-500/80 to-slate-950 flex items-center justify-center">
@@ -147,14 +153,14 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
                       rel="noopener noreferrer"
                       className="block group"
                     >
-                      <h4 className="text-lg font-bold text-slate-900 dark:text-white hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">
                         {project.title}
-                      </h4>
+                      </h3>
                     </a>
                   ) : (
-                    <h4 className="text-lg font-bold text-slate-900 dark:text-white">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                       {project.title}
-                    </h4>
+                    </h3>
                   )}
 
                   <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">

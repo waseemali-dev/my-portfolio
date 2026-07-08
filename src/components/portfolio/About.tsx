@@ -56,15 +56,18 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
                       }
                       return "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/Profile-update.jpg?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTY5NzgwODM3LCJpYXQiOjE3ODI5MjY1ODEwNTh9.zJRbqrMF31q9N-vSdC4tYbJCekjNhW3ROUG2yqyTafg&vercel-blob-signature=Ef1wnU3nW-dUOWw3IvastuFLFgbmq2Bi_j8oOr9YsTc";
                     })()}
-                    alt={portfolio.hero?.name || "Waseem Ali"}
+                    alt={`${portfolio.hero?.name || "Waseem Ali"} - Senior Front-End & HubSpot CMS Developer portrait`}
                     className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                    width="310"
+                    height="390"
+                    loading="lazy"
                     referrerPolicy="no-referrer"
                   />
                   
                   {/* Bottom Text/Label on the image for neatness */}
                   <div className="absolute bottom-4 left-4 right-4 z-20 bg-slate-950/85 backdrop-blur-md border border-white/10 dark:border-slate-800/60 rounded-2xl p-3 flex items-center justify-between shadow-lg">
                     <div>
-                      <h4 className="font-bold text-white text-xs tracking-tight">{portfolio.hero?.name || "Waseem Ali"}</h4>
+                      <h3 className="font-bold text-white text-xs tracking-tight">{portfolio.hero?.name || "Waseem Ali"}</h3>
                       <p className="text-[10px] text-cyan-400 font-medium mt-0.5">{portfolio.hero?.title || "Front-End & HubSpot CMS Developer"}</p>
                     </div>
                     <div className="flex items-center gap-1.5">
@@ -87,8 +90,12 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
                     ★
                   </div>
                   <div>
-                    <div className="text-[10px] font-black tracking-wider text-slate-400 uppercase leading-none">CMS MASTER</div>
-                    <div className="text-[11px] font-bold text-white mt-0.5 leading-none">HubSpot Elite</div>
+                    <div className="text-[10px] font-black tracking-wider text-slate-400 uppercase leading-none">
+                      {portfolio.about?.widget1Title || "CMS MASTER"}
+                    </div>
+                    <div className="text-[11px] font-bold text-white mt-0.5 leading-none">
+                      {portfolio.about?.widget1Value || "HubSpot Elite"}
+                    </div>
                   </div>
                 </motion.div>
 
@@ -104,8 +111,12 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
                     ✓
                   </div>
                   <div>
-                    <div className="text-[10px] font-black tracking-wider text-slate-400 uppercase leading-none">RATING</div>
-                    <div className="text-[11px] font-bold text-white mt-0.5 leading-none">5.0 ★ Fiverr</div>
+                    <div className="text-[10px] font-black tracking-wider text-slate-400 uppercase leading-none">
+                      {portfolio.about?.widget2Title || "RATING"}
+                    </div>
+                    <div className="text-[11px] font-bold text-white mt-0.5 leading-none">
+                      {portfolio.about?.widget2Value || "5.0 ★ Fiverr"}
+                    </div>
                   </div>
                 </motion.div>
 
@@ -160,10 +171,10 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
 
             {/* Positioning Callout Card */}
             <div className="p-5 rounded-2xl bg-gradient-to-tr from-cyan-500/5 to-fuchsia-500/5 border border-cyan-500/10 dark:border-cyan-500/5">
-              <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-2">
+              <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-2">
                 <CheckSquare className="w-5 h-5 text-cyan-500" />
                 {portfolio.about?.calloutTitle}
-              </h4>
+              </h3>
               <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 {portfolio.about?.calloutDescription}
               </p>

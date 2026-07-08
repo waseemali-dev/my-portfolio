@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MessageSquare, Trash2, Edit, Plus, Save, X, RefreshCw, Star } from "lucide-react";
 import { savePortfolioContent } from "../../utils/contentStorage";
+import ImageUploadInput from "./ImageUploadInput";
 
 interface TestimonialsEditorProps {
   content: any;
@@ -15,6 +16,7 @@ interface TestimonialItem {
   avatarUrl: string;
   platform?: string;
   platformIconUrl?: string;
+  sourceUrl?: string;
 }
 
 export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEditorProps) {
@@ -30,6 +32,7 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
   const [avatarUrl, setAvatarUrl] = useState("");
   const [platform, setPlatform] = useState("");
   const [platformIconUrl, setPlatformIconUrl] = useState("");
+  const [sourceUrl, setSourceUrl] = useState("");
 
   const [message, setMessage] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
@@ -41,6 +44,7 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
     setAvatarUrl("");
     setPlatform("");
     setPlatformIconUrl("");
+    setSourceUrl("");
     setEditingIndex(null);
     setIsAdding(false);
   };
@@ -53,6 +57,7 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
     setAvatarUrl(item.avatarUrl || "");
     setPlatform(item.platform || "");
     setPlatformIconUrl(item.platformIconUrl || "");
+    setSourceUrl(item.sourceUrl || "");
     setEditingIndex(index);
     setIsAdding(true);
   };
@@ -86,7 +91,8 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
       rating: Number(rating),
       avatarUrl: avatarUrl.trim() || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150",
       platform: platform.trim(),
-      platformIconUrl: platformIconUrl.trim()
+      platformIconUrl: platformIconUrl.trim(),
+      sourceUrl: sourceUrl.trim()
     };
 
     let updatedList = [...reviews];
@@ -199,15 +205,14 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
               />
             </div>
 
-            {/* Avatar URL */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Avatar Image URL</label>
-              <input
-                type="text"
+            {/* Avatar URL with direct upload support */}
+            <div className="md:col-span-2">
+              <ImageUploadInput
+                id="avatarUrl"
+                label="Client Avatar Image"
                 value={avatarUrl}
-                onChange={(e) => setAvatarUrl(e.target.value)}
-                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
-                placeholder="https://images.unsplash.com/photo-..."
+                onChange={(url) => setAvatarUrl(url)}
+                placeholder="Paste client avatar link, or upload below"
               />
             </div>
 
@@ -237,15 +242,26 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
               />
             </div>
 
-            {/* Platform Icon URL */}
-            <div className="space-y-1.5 md:col-span-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Platform Icon URL (Fiverr / Upwork Icon)</label>
+            {/* Platform Source URL */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Review Source Link (Fiverr / Upwork URL)</label>
               <input
-                type="text"
-                value={platformIconUrl}
-                onChange={(e) => setPlatformIconUrl(e.target.value)}
+                type="url"
+                value={sourceUrl}
+                onChange={(e) => setSourceUrl(e.target.value)}
                 className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
-                placeholder="https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+                placeholder="https://www.fiverr.com/waseemali722"
+              />
+            </div>
+
+            {/* Platform Icon URL with direct upload support */}
+            <div className="md:col-span-2">
+              <ImageUploadInput
+                id="platformIconUrl"
+                label="Platform Icon Image"
+                value={platformIconUrl}
+                onChange={(url) => setPlatformIconUrl(url)}
+                placeholder="Paste platform icon link, or upload below"
               />
             </div>
 
@@ -331,6 +347,7 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
                   <h5 className="font-bold text-white text-xs">{rev.name}</h5>
                   <p className="text-[10px] text-slate-500">
                     {rev.platform ? `Source: ${rev.platform}` : "Fiverr Client"}
+                    {rev.sourceUrl && " (Linked)"}
                   </p>
                 </div>
               </div>

@@ -65,28 +65,33 @@ function AnimatedStatCard({ value, suffix, label, icon, duration = 1500 }: StatI
   );
 }
 
-export function Stats() {
+interface StatsProps {
+  portfolio: any;
+}
+
+export function Stats({ portfolio }: StatsProps) {
+  const about = portfolio?.about || {};
   const statsData = [
     {
-      value: 8,
+      value: Number(about.yearsOfExperience) || 8,
       suffix: "+",
       label: "Years Experience",
       icon: <Award className="w-5 h-5 sm:w-6 sm:h-6" />,
     },
     {
-      value: 200,
+      value: Number(about.projectsCompleted) || 200,
       suffix: "+",
       label: "Projects Completed",
       icon: <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />,
     },
     {
-      value: 75,
+      value: Number(about.happyClients) || 75,
       suffix: "+",
       label: "Happy Clients",
       icon: <Users className="w-5 h-5 sm:w-6 sm:h-6" />,
     },
     {
-      value: 100,
+      value: parseInt(about.responsiveLayouts) || 100,
       suffix: "%",
       label: "Responsive Layouts",
       icon: <Layers className="w-5 h-5 sm:w-6 sm:h-6" />,

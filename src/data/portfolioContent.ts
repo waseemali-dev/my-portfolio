@@ -29,7 +29,11 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
     happyClients: 50,
     responsiveLayouts: "100%",
     location: "Lahore, Pakistan",
-    skillsList: ["HubSpot CRM", "SEO Optimization", "UI Implementation"]
+    skillsList: ["HubSpot CRM", "SEO Optimization", "UI Implementation"],
+    widget1Title: "CMS MASTER",
+    widget1Value: "HubSpot Elite",
+    widget2Title: "RATING",
+    widget2Value: "5.0 ★ Fiverr"
   },
   skills: [
     // Languages & Core
@@ -208,7 +212,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t2",
@@ -217,7 +222,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t3",
@@ -226,7 +232,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t4",
@@ -235,7 +242,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t5",
@@ -244,7 +252,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t6",
@@ -253,7 +262,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t7",
@@ -262,7 +272,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t8",
@@ -271,7 +282,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t9",
@@ -280,7 +292,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t10",
@@ -289,7 +302,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     },
     {
       id: "t11",
@@ -298,7 +312,8 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
       rating: 5,
       avatarUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       platform: "Fiverr",
-      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png"
+      platformIconUrl: "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
+      sourceUrl: "https://www.fiverr.com/waseemali722"
     }
   ],
   faqs: [
@@ -330,7 +345,9 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
     infoHeading: "Direct Contact Particulars",
     email: "waseemali1031@gmail.com",
     phone: "+92 304 8687455",
-    statusText: "Open for Freelance Projects"
+    statusText: "Open for Freelance Projects",
+    ctaTitle: "Need a Reliable Front-End or HubSpot CMS Developer for your next project?",
+    ctaDescription: "Let's design and engineer high-performance web spaces, optimize PageSpeed, code custom drag-and-drop modules, or migrate your sites smoothly."
   },
   socialLinks: {
     linkedin: "https://linkedin.com/in/waseemali2",
@@ -350,6 +367,7 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
     title: "Waseem Ali | Front-End & HubSpot CMS Developer Portfolio",
     description: "Certified HubSpot CMS & Front-End Developer. Specialist in building fast, custom HubSpot themes, high-converting WordPress sites, and semantic React frontends.",
     keywords: "HubSpot CMS, Front-End Developer, HubSpot Developer, WordPress Developer, React, Web Performance, Core Web Vitals, Lahore, Pakistan",
-    author: "Waseem Ali"
+    author: "Waseem Ali",
+    favicon: "/favicon.ico"
   }
 };

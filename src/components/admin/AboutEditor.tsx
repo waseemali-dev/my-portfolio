@@ -19,7 +19,11 @@ export default function AboutEditor({ content, onUpdate }: AboutEditorProps) {
     happyClients: content.about?.happyClients ?? 50,
     responsiveLayouts: content.about?.responsiveLayouts || "100%",
     location: content.about?.location || "",
-    skillsListRaw: (content.about?.skillsList || []).join(", ")
+    skillsListRaw: (content.about?.skillsList || []).join(", "),
+    widget1Title: content.about?.widget1Title || "CMS MASTER",
+    widget1Value: content.about?.widget1Value || "HubSpot Elite",
+    widget2Title: content.about?.widget2Title || "RATING",
+    widget2Value: content.about?.widget2Value || "5.0 ★ Fiverr"
   });
 
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -56,7 +60,11 @@ export default function AboutEditor({ content, onUpdate }: AboutEditorProps) {
         happyClients: Number(formData.happyClients),
         responsiveLayouts: formData.responsiveLayouts,
         location: formData.location,
-        skillsList: parsedSkillsList
+        skillsList: parsedSkillsList,
+        widget1Title: formData.widget1Title,
+        widget1Value: formData.widget1Value,
+        widget2Title: formData.widget2Title,
+        widget2Value: formData.widget2Value
       }
     };
 
@@ -250,6 +258,62 @@ export default function AboutEditor({ content, onUpdate }: AboutEditorProps) {
               onChange={(e) => setFormData({ ...formData, responsiveLayouts: e.target.value })}
               className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
               placeholder="100%"
+            />
+          </div>
+
+          {/* Widget 1 Title */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Photo Widget 1 Label
+            </label>
+            <input
+              type="text"
+              value={formData.widget1Title}
+              onChange={(e) => setFormData({ ...formData, widget1Title: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="e.g. CMS MASTER"
+            />
+          </div>
+
+          {/* Widget 1 Value */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Photo Widget 1 Value
+            </label>
+            <input
+              type="text"
+              value={formData.widget1Value}
+              onChange={(e) => setFormData({ ...formData, widget1Value: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="e.g. HubSpot Elite"
+            />
+          </div>
+
+          {/* Widget 2 Title */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Photo Widget 2 Label
+            </label>
+            <input
+              type="text"
+              value={formData.widget2Title}
+              onChange={(e) => setFormData({ ...formData, widget2Title: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="e.g. RATING"
+            />
+          </div>
+
+          {/* Widget 2 Value */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Photo Widget 2 Value
+            </label>
+            <input
+              type="text"
+              value={formData.widget2Value}
+              onChange={(e) => setFormData({ ...formData, widget2Value: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="e.g. 5.0 ★ Fiverr"
             />
           </div>
         </div>
