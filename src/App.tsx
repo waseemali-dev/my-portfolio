@@ -55,7 +55,9 @@ export default function App() {
     const s = window.location.search;
     if (
       p === "/admin-dev" || 
+      p === "/admin-dev/" ||
       p.endsWith("/admin-dev") || 
+      p.endsWith("/admin-dev/") ||
       h === "#/admin-dev" || 
       h === "#admin-dev" || 
       s.includes("admin-dev")
@@ -79,7 +81,9 @@ export default function App() {
       const s = window.location.search;
       if (
         p === "/admin-dev" || 
+        p === "/admin-dev/" ||
         p.endsWith("/admin-dev") || 
+        p.endsWith("/admin-dev/") ||
         h === "#/admin-dev" || 
         h === "#admin-dev" || 
         s.includes("admin-dev")
@@ -259,7 +263,7 @@ export default function App() {
     return projectImages[imgUrlOrKey] || imgUrlOrKey;
   };
 
-  if (currentPath === "/admin-dev") {
+  if (currentPath === "/admin-dev" || currentPath === "/admin-dev/") {
     return !isAdminAuth ? (
       <AdminLogin
         onLoginSuccess={() => setIsAdminAuth(true)}
