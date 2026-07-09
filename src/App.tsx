@@ -385,7 +385,7 @@ export default function App() {
 
         <main id="main-content">
           {/* 2. HERO SECTION */}
-          <Hero portfolio={portfolio} countStats={countStats} />
+          <Hero portfolio={portfolio} countStats={countStats} getProjectImage={getProjectImage} />
 
           {/* 3. ABOUT SECTION */}
           <About portfolio={portfolio} getProjectImage={getProjectImage} />

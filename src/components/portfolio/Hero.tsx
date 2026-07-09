@@ -1,6 +1,9 @@
 import { Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
+// @ts-ignore
+import waseemAvatar from "../../assets/images/waseem_profile_new_1782634792957.jpg";
+
 interface HeroProps {
   portfolio: any;
   countStats: {
@@ -9,9 +12,10 @@ interface HeroProps {
     clients: number;
     lighthouse: number;
   };
+  getProjectImage: (imgUrlOrKey: string) => string;
 }
 
-export function Hero({ portfolio, countStats }: HeroProps) {
+export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
   return (
     <section id="home" className="relative pt-10 pb-20 md:pt-16 md:pb-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -109,9 +113,16 @@ export function Hero({ portfolio, countStats }: HeroProps) {
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-fuchsia-500/20 rounded-3xl blur-2xl pointer-events-none -rotate-3 animate-pulse-slow"></div>
 
             <img
-              src="https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/ai-automation-transparent.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTg0NzA2MjMyLCJpYXQiOjE3ODI5NDE1MDYyOTZ9.48eHcKzIYW5R_slCclF-moR25KlEIo8ENbVUQGpBzlk&vercel-blob-signature=Q3Hq3JuWL6AbeZAEvB9VMS30odALNA0UgBig8JeHg_w"
-              alt="Waseem Ali - Certified HubSpot CMS Developer Portfolio Illustration"
-              className="relative z-10 w-full max-w-[500px] lg:max-w-none h-auto object-contain mx-auto transition-transform duration-300"
+              src={(() => {
+                const url = portfolio.hero?.avatarUrl;
+                if (url && !url.includes("private.blob.vercel-storage.com")) {
+                  return getProjectImage(url);
+                }
+                // Fallback to local profile photo if original blob is expired or no custom image is set
+                return waseemAvatar;
+              })()}
+              alt="Waseem Ali - Certified HubSpot CMS Developer Portfolio"
+              className="relative z-10 w-full max-w-[500px] lg:max-w-none h-auto object-cover rounded-2xl border border-cyan-500/10 shadow-2xl mx-auto transition-transform duration-300"
               width="500"
               height="400"
               fetchPriority="high"
