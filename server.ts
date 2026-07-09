@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import dotenv from "dotenv";
 import crypto from "crypto";
 import multer from "multer";
@@ -369,47 +369,17 @@ async function startServer() {
 </html>
     `;
 
-    // Attempt to send the email
-    const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
-    const smtpPort = parseInt(process.env.SMTP_PORT || "587");
-    const smtpUser = process.env.SMTP_USER || "waseemali1031@gmail.com";
-    let smtpPass = (process.env.SMTP_PASS || "").trim();
-    
-    // Strip any accidental surrounding quotes
-    if ((smtpPass.startsWith('"') && smtpPass.endsWith('"')) || (smtpPass.startsWith("'") && smtpPass.endsWith("'"))) {
-      smtpPass = smtpPass.slice(1, -1).trim();
-    }
-
-    // Google App Passwords are 16 characters long. Strip spaces to ensure a compact, correct password representation.
-    if (smtpHost === "smtp.gmail.com" || smtpUser.endsWith("@gmail.com")) {
-      const withoutSpaces = smtpPass.replace(/\s+/g, "");
-      if (withoutSpaces.length === 16) {
-        smtpPass = withoutSpaces;
-      }
-    }
-
-    let smtpFrom = process.env.SMTP_FROM || `"Waseem Ali Portfolio" <${smtpUser}>`;
-    // Replace [Sender Name] with the actual contact form submitter's name
-    if (smtpFrom.includes("[Sender Name]")) {
-      smtpFrom = smtpFrom.replace("[Sender Name]", fullName);
-    }
-
+    // Attempt to send the email using Resend API
+    const resendApiKey = process.env.RESEND_API_KEY;
     const recipient = process.env.NOTIFICATION_EMAIL || "waseemali1031@gmail.com";
-    const smtpSecure = process.env.SMTP_SECURE === "true" || (process.env.SMTP_SECURE !== "false" && smtpPort === 465);
 
     console.log("-----------------------------------------");
     console.log(`Processing contact form submission from ${fullName} (${email}).`);
-    console.log(`SMTP Host: ${smtpHost}, Port: ${smtpPort}, Secure: ${smtpSecure}`);
-    console.log(`SMTP User: ${smtpUser}`);
     console.log(`Recipient Email: ${recipient}`);
-    console.log(`SMTP Pass configured: ${smtpPass ? "YES" : "NO"}`);
-    if (smtpPass) {
-      console.log(`SMTP Pass length: ${smtpPass.length}`);
-      console.log(`SMTP Pass masked: ${smtpPass.slice(0, 3)}...${smtpPass.slice(-3)}`);
-    }
+    console.log(`Resend API Key configured: ${resendApiKey ? "YES" : "NO"}`);
     
-    if (!smtpPass) {
-      console.warn("WARNING: SMTP_PASS is not configured in environment secrets.");
+    if (!resendApiKey) {
+      console.warn("WARNING: RESEND_API_KEY is not configured in environment secrets.");
       console.log("The email html generated is:");
       console.log(emailHtml);
       console.log("-----------------------------------------");
@@ -420,59 +390,29 @@ async function startServer() {
     }
 
     try {
-      const transporterOptions: any = {
-        host: smtpHost,
-        port: smtpPort,
-        secure: smtpSecure,
-        auth: {
-          user: smtpUser,
-          pass: smtpPass,
-        },
-        tls: {
-          rejectUnauthorized: false
-        }
-      };
+      const resend = new Resend(resendApiKey);
 
-      // Gmail has a built-in nodemailer service configuration which is much more reliable
-      if (smtpHost === "smtp.gmail.com" || smtpUser.endsWith("@gmail.com")) {
-        transporterOptions.service = "gmail";
-        delete transporterOptions.host;
-        delete transporterOptions.port;
-        delete transporterOptions.secure;
-      }
-
-      const transporter = nodemailer.createTransport(transporterOptions);
-
-      await transporter.sendMail({
-        from: smtpFrom,
+      await resend.emails.send({
+        from: "Farm Solution <onboarding@resend.dev>",
         to: recipient,
         subject: `🚀 Waseem Ali Portfolio - New Inquiry from ${fullName} [${projectType || "General"}]`,
         html: emailHtml,
         replyTo: email,
       });
 
-      console.log(`Email sent successfully to ${recipient}`);
+      console.log(`Email sent successfully via Resend to ${recipient}`);
       console.log("-----------------------------------------");
       return res.status(200).json({
         success: true,
         message: "Your message has been sent successfully!"
       });
     } catch (error: any) {
-      console.error("Error sending email via nodemailer:", error);
+      console.error("Error sending email via Resend:", error);
       console.log("-----------------------------------------");
       
-      let errorDetails = error.message || "Unknown SMTP error";
-      
-      // Provide actionable feedback for common Gmail auth errors
-      if (errorDetails.includes("535") || errorDetails.toLowerCase().includes("username and password not accepted")) {
-        errorDetails += " - Action Required: Please ensure you are using a 16-character Google App Password (not your standard Gmail account password) and that 2-Step Verification is active on your Google account.";
-      } else if (errorDetails.includes("ETIMEDOUT") || errorDetails.includes("ENOTFOUND")) {
-        errorDetails += " - Connection timed out. This often happens if the outbound SMTP ports are restricted or the host is unreachable.";
-      }
-
       return res.status(500).json({
         error: "Failed to send email. Server error.",
-        details: errorDetails
+        details: error.message || "Unknown Resend error occurred"
       });
     }
   });

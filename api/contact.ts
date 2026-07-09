@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import crypto from "crypto";
 
 function verifyCaptcha(userAnswer: string, token: string): { success: boolean; error?: string } {
@@ -205,17 +205,12 @@ export default async function handler(req: any, res: any) {
 </html>
   `;
 
-  // Attempt to send the email
-  const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
-  const smtpPort = parseInt(process.env.SMTP_PORT || "587");
-  const smtpUser = process.env.SMTP_USER || "waseemali1031@gmail.com";
-  const smtpPass = process.env.SMTP_PASS;
-  const smtpFrom = process.env.SMTP_FROM || `"Waseem Ali Portfolio" <${smtpUser}>`;
+  // Attempt to send the email using Resend API
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const recipient = process.env.NOTIFICATION_EMAIL || "waseemali1031@gmail.com";
 
-  const recipient = "waseemali1031@gmail.com";
-
-  if (!smtpPass) {
-    console.warn("WARNING: SMTP_PASS is not configured in Vercel environment variables.");
+  if (!resendApiKey) {
+    console.warn("WARNING: RESEND_API_KEY is not configured in Vercel environment variables.");
     console.log("The email html generated is:");
     console.log(emailHtml);
     return res.status(200).json({
@@ -225,18 +220,10 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: smtpPort === 465,
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    });
+    const resend = new Resend(resendApiKey);
 
-    await transporter.sendMail({
-      from: smtpFrom,
+    await resend.emails.send({
+      from: "Farm Solution <onboarding@resend.dev>",
       to: recipient,
       subject: `New Portfolio Inquiry Received From: ${fullName}`,
       html: emailHtml,
@@ -248,10 +235,10 @@ export default async function handler(req: any, res: any) {
       message: "Your message has been sent successfully!"
     });
   } catch (error: any) {
-    console.error("Error sending email via nodemailer in Vercel function:", error);
+    console.error("Error sending email via Resend in Vercel function:", error);
     return res.status(500).json({
       error: "Failed to send email. Server error.",
-      details: error.message
+      details: error.message || "Unknown Resend error occurred"
     });
   }
 }

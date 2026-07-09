@@ -1,20 +1,23 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Farm Solution - Developer Portfolio & Inquiry System
 
-# Run and deploy your AI Studio app
+This project features a modern full-stack developer portfolio with a fully-integrated admin control panel, static content storage, dynamic page previews, image asset uploader, and secure captcha-protected client inquiry system.
 
-This contains everything you need to run your app locally.
+## 📧 Email Provider Migration: Resend API
 
-View your app in AI Studio: https://ai.studio/apps/d59a2e67-d480-4628-ac37-eacb19abbbd5
+We have fully migrated the contact form inquiry delivery engine from Gmail SMTP (Nodemailer) to **Resend API** to resolve authentication handshake issues (`535-5.7.8 Username and Password not accepted`) and ensure maximum deliverability under cloud server environments.
 
-## Run Locally
+### Required Environment Variables
 
-**Prerequisites:**  Node.js
+To operate the live contact inquiry system on development and production environments (e.g. Vercel, Cloud Run), configure the following keys in your environments:
 
+1. **`RESEND_API_KEY`**: Your unique Resend API authentication token (obtained from your [Resend Dashboard](https://resend.com)).
+2. **`NOTIFICATION_EMAIL`**: The destination inbox where incoming portfolio client inquiries are forwarded (e.g., `waseemali1031@gmail.com`).
+3. **`CAPTCHA_SECRET`**: A secure cryptographic salt string used to sign and verify form submissions against automatic spam scripts.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+*Note: If `RESEND_API_KEY` is not present, the system operates gracefully in **Dev Mode**, printing the fully rendered client email template directly into the server logs for convenient previewing and local testing.*
+
+### Live Form Submission Flow
+1. Visitor submits their inquiry via the contact form on the front page.
+2. The request answers a cryptographically signed captcha on the client.
+3. `/api/contact` verifies the signature, renders a polished, responsive HTML email body, and dispatches it via Resend.
+4. The inquiry lands securely in your `NOTIFICATION_EMAIL` inbox instantly.
