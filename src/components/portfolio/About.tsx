@@ -50,7 +50,7 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
                   {/* The Image */}
                   <img
                     src={(() => {
-                      const url = portfolio.hero?.avatarUrl;
+                      const url = portfolio.about?.imageUrl || portfolio.hero?.avatarUrl;
                       if (url && !url.includes("private.blob.vercel-storage.com")) {
                         return getProjectImage(url);
                       }

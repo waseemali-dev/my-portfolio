@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { User, Save, RefreshCw } from "lucide-react";
 import { savePortfolioContent } from "../../utils/contentStorage";
+import ImageUploadInput from "./ImageUploadInput";
 
 interface AboutEditorProps {
   content: any;
@@ -12,6 +13,7 @@ export default function AboutEditor({ content, onUpdate }: AboutEditorProps) {
     badge: content.about?.badge || "",
     heading: content.about?.heading || "",
     description: content.about?.description || "",
+    imageUrl: content.about?.imageUrl || "",
     calloutTitle: content.about?.calloutTitle || "",
     calloutDescription: content.about?.calloutDescription || "",
     yearsOfExperience: content.about?.yearsOfExperience ?? 8,
@@ -53,6 +55,7 @@ export default function AboutEditor({ content, onUpdate }: AboutEditorProps) {
         badge: formData.badge,
         heading: formData.heading,
         description: formData.description,
+        imageUrl: formData.imageUrl,
         calloutTitle: formData.calloutTitle,
         calloutDescription: formData.calloutDescription,
         yearsOfExperience: Number(formData.yearsOfExperience),
@@ -163,6 +166,17 @@ export default function AboutEditor({ content, onUpdate }: AboutEditorProps) {
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
               placeholder="Main about paragraph..."
+            />
+          </div>
+
+          {/* About Image with direct upload support */}
+          <div className="md:col-span-2">
+            <ImageUploadInput
+              id="aboutImageUrl"
+              label="About Section Profile Image"
+              value={formData.imageUrl}
+              onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+              placeholder="Paste custom image URL, or upload below (defaults to Hero avatar if left empty)"
             />
           </div>
 

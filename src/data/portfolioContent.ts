@@ -21,6 +21,7 @@ export const DEFAULT_PORTFOLIO_CONTENT = {
   about: {
     badge: "01 • About Me",
     heading: "Your Reliable Remote Partner",
+    imageUrl: "",
     description: "My goal is simple: build websites that look professional, load quickly, perform well across all devices, and provide a great user experience. I focus on clean code, responsive development, SEO best practices, and long-term maintainability.",
     calloutTitle: "Built for Smooth Collaboration",
     calloutDescription: "I help agencies, startups, and businesses transform designs into clean, responsive websites. I work confidently with Figma files, write maintainable code, communicate clearly throughout the project, and deliver reliable results on time.",

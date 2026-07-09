@@ -40,6 +40,16 @@ export default function ImageUploadInput({
     setUploadError(null);
     setUploadSuccess(false);
 
+    // Helper to convert file to Base64 Data URL
+    const convertToBase64 = (file: File): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+      });
+    };
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -49,6 +59,16 @@ export default function ImageUploadInput({
         body: formData,
       });
 
+      // Handle 404 or non-JSON responses gracefully (common on serverless platforms like Vercel)
+      if (response.status === 404 || !response.headers.get("content-type")?.includes("application/json")) {
+        console.warn("Upload API is not available or returned 404 (possibly running on serverless Vercel). Falling back to client-side Base64 encoding.");
+        const base64Url = await convertToBase64(file);
+        onChange(base64Url);
+        setUploadSuccess(true);
+        setTimeout(() => setUploadSuccess(false), 3000);
+        return;
+      }
+
       const data = await response.json();
 
       if (response.ok && data.success) {
@@ -57,11 +77,24 @@ export default function ImageUploadInput({
         // Clear success message after 3 seconds
         setTimeout(() => setUploadSuccess(false), 3000);
       } else {
-        setUploadError(data.error || "Failed to upload image. Please try again.");
+        // If upload endpoint explicitly failed, also fall back to Base64 so the user is not blocked!
+        console.warn("Server upload failed, falling back to client-side Base64 encoding:", data.error);
+        const base64Url = await convertToBase64(file);
+        onChange(base64Url);
+        setUploadSuccess(true);
+        setTimeout(() => setUploadSuccess(false), 3000);
       }
     } catch (err) {
-      console.error("Upload error:", err);
-      setUploadError("Network error. Could not upload image.");
+      console.warn("Network error during upload, falling back to client-side Base64 encoding:", err);
+      try {
+        const base64Url = await convertToBase64(file);
+        onChange(base64Url);
+        setUploadSuccess(true);
+        setTimeout(() => setUploadSuccess(false), 3000);
+      } catch (base64Err) {
+        console.error("Base64 conversion failed:", base64Err);
+        setUploadError("Failed to upload image and Base64 conversion failed.");
+      }
     } finally {
       setIsUploading(false);
     }
