@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 
@@ -7,6 +8,47 @@ interface HeaderProps {
 }
 
 export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  useEffect(() => {
+    const sections = ["about", "services", "portfolio", "reviews", "faqs"];
+    
+    // Using IntersectionObserver with fallback for scroll tracking
+    const observerOptions = {
+      root: null,
+      rootMargin: "-25% 0px -55% 0px", // Trigger when section occupies the active middle portion
+      threshold: 0,
+    };
+
+    const sectionElements = sections
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    sectionElements.forEach((el) => observer.observe(el));
+
+    // Fallback: simple top-of-page check
+    const handleScroll = () => {
+      if (window.scrollY < 100) {
+        setActiveSection("");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      sectionElements.forEach((el) => observer.unobserve(el));
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <header id="header" className="sticky top-0 z-50 w-full transition-all duration-300 glass-nav shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -42,15 +84,22 @@ export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
             { label: "Portfolio", href: "#portfolio" },
             { label: "Reviews", href: "#reviews" },
             { label: "FAQs", href: "#faqs" }
-          ].map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="px-4 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/30 transition-all duration-200"
-            >
-              {link.label}
-            </a>
-          ))}
+          ].map((link) => {
+            const isActive = activeSection === link.href.substring(1);
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "text-cyan-500 dark:text-cyan-400 bg-cyan-500/10 dark:bg-cyan-500/10 shadow-xs"
+                    : "text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/30"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
         {/* Right Action/Toggle Bar */}
@@ -89,16 +138,23 @@ export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
               { label: "Portfolio", href: "#portfolio" },
               { label: "Reviews", href: "#reviews" },
               { label: "FAQs", href: "#faqs" }
-            ].map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="block px-3 py-3 text-base font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-cyan-500 dark:hover:text-cyan-400"
-              >
-                {link.label}
-              </a>
-            ))}
+            ].map((link) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`block px-3 py-3 text-base font-bold rounded-lg transition-colors ${
+                    isActive
+                      ? "bg-cyan-500/10 text-cyan-500 dark:text-cyan-400"
+                      : "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-cyan-500 dark:hover:text-cyan-400"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
             <div className="pt-4 px-3 flex flex-col items-start gap-3">
               <a
                 href="#contact"
