@@ -30,6 +30,24 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
   useEffect(() => {
     // Load dynamic content from localStorage or defaults on mount
     setContent(getPortfolioContent());
+
+    const handlePortfolioUpdated = () => {
+      setContent(getPortfolioContent());
+    };
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "portfolio_content") {
+        setContent(getPortfolioContent());
+      }
+    };
+
+    window.addEventListener("portfolio_content_updated", handlePortfolioUpdated);
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("portfolio_content_updated", handlePortfolioUpdated);
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   const handleUpdate = (updatedContent: any) => {

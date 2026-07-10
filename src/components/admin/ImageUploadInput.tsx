@@ -40,6 +40,70 @@ export default function ImageUploadInput({
     setUploadError(null);
     setUploadSuccess(false);
 
+    // Helper to compress image file using canvas
+    const compressImage = (imageFile: File, maxWidth = 800, maxHeight = 800, quality = 0.75): Promise<File> => {
+      return new Promise((resolve) => {
+        if (imageFile.type === "image/svg+xml") {
+          resolve(imageFile);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.readAsDataURL(imageFile);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target?.result as string;
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+              if (width > maxWidth) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+              }
+            } else {
+              if (height > maxHeight) {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) {
+              resolve(imageFile);
+              return;
+            }
+            ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob(
+              (blob) => {
+                if (blob) {
+                  const compressedFile = new File([blob], imageFile.name, {
+                    type: "image/jpeg",
+                    lastModified: Date.now(),
+                  });
+                  if (compressedFile.size < imageFile.size) {
+                    resolve(compressedFile);
+                  } else {
+                    resolve(imageFile);
+                  }
+                } else {
+                  resolve(imageFile);
+                }
+              },
+              "image/jpeg",
+              quality
+            );
+          };
+          img.onerror = () => resolve(imageFile);
+        };
+        reader.onerror = () => resolve(imageFile);
+      });
+    };
+
     // Helper to convert file to Base64 Data URL
     const convertToBase64 = (file: File): Promise<string> => {
       return new Promise((resolve, reject) => {
@@ -50,8 +114,15 @@ export default function ImageUploadInput({
       });
     };
 
+    let fileToUpload = file;
+    try {
+      fileToUpload = await compressImage(file);
+    } catch (compressErr) {
+      console.warn("Client-side image compression failed, using original file:", compressErr);
+    }
+
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", fileToUpload);
 
     try {
       const response = await fetch("/api/upload", {
@@ -62,7 +133,7 @@ export default function ImageUploadInput({
       // Handle 404 or non-JSON responses gracefully (common on serverless platforms like Vercel)
       if (response.status === 404 || !response.headers.get("content-type")?.includes("application/json")) {
         console.warn("Upload API is not available or returned 404 (possibly running on serverless Vercel). Falling back to client-side Base64 encoding.");
-        const base64Url = await convertToBase64(file);
+        const base64Url = await convertToBase64(fileToUpload);
         onChange(base64Url);
         setUploadSuccess(true);
         setTimeout(() => setUploadSuccess(false), 3000);
@@ -79,7 +150,7 @@ export default function ImageUploadInput({
       } else {
         // If upload endpoint explicitly failed, also fall back to Base64 so the user is not blocked!
         console.warn("Server upload failed, falling back to client-side Base64 encoding:", data.error);
-        const base64Url = await convertToBase64(file);
+        const base64Url = await convertToBase64(fileToUpload);
         onChange(base64Url);
         setUploadSuccess(true);
         setTimeout(() => setUploadSuccess(false), 3000);
@@ -87,7 +158,7 @@ export default function ImageUploadInput({
     } catch (err) {
       console.warn("Network error during upload, falling back to client-side Base64 encoding:", err);
       try {
-        const base64Url = await convertToBase64(file);
+        const base64Url = await convertToBase64(fileToUpload);
         onChange(base64Url);
         setUploadSuccess(true);
         setTimeout(() => setUploadSuccess(false), 3000);

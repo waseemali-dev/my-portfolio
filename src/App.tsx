@@ -109,8 +109,20 @@ export default function App() {
     const handlePortfolioUpdated = () => {
       setPortfolio(getPortfolioContent());
     };
+    
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "portfolio_content") {
+        setPortfolio(getPortfolioContent());
+      }
+    };
+
     window.addEventListener("portfolio_content_updated", handlePortfolioUpdated);
-    return () => window.removeEventListener("portfolio_content_updated", handlePortfolioUpdated);
+    window.addEventListener("storage", handleStorageChange);
+    
+    return () => {
+      window.removeEventListener("portfolio_content_updated", handlePortfolioUpdated);
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   // Synchronize SEO Meta Tags dynamically with state-edited properties

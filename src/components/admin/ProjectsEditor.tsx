@@ -11,7 +11,7 @@ interface ProjectsEditorProps {
 interface ProjectItem {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   technologies: string[];
   category: "HubSpot CMS" | "Front-End" | "WordPress";
   liveUrl?: string;
@@ -24,6 +24,86 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
+
+  // Helper to compress pre-existing giant base64 images
+  const compressBase64Image = (base64Str: string, maxWidth = 800, maxHeight = 800, quality = 0.75): Promise<string> => {
+    return new Promise((resolve) => {
+      if (!base64Str.startsWith("data:image/") || base64Str.length < 100000) {
+        resolve(base64Str);
+        return;
+      }
+      const img = new Image();
+      img.src = base64Str;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(base64Str);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressed = canvas.toDataURL("image/jpeg", quality);
+        if (compressed.length < base64Str.length) {
+          resolve(compressed);
+        } else {
+          resolve(base64Str);
+        }
+      };
+      img.onerror = () => resolve(base64Str);
+    });
+  };
+
+  React.useEffect(() => {
+    const compressExisting = async () => {
+      let changed = false;
+      const updatedList = await Promise.all(
+        projects.map(async (p) => {
+          if (p.imageUrl && p.imageUrl.startsWith("data:image/") && p.imageUrl.length > 100000) {
+            try {
+              const compressed = await compressBase64Image(p.imageUrl);
+              if (compressed.length < p.imageUrl.length) {
+                changed = true;
+                return { ...p, imageUrl: compressed };
+              }
+            } catch (err) {
+              console.warn("Error compressing pre-existing project image:", p.title, err);
+            }
+          }
+          return p;
+        })
+      );
+
+      if (changed) {
+        const updatedContent = {
+          ...content,
+          projects: updatedList,
+        };
+        setProjects(updatedList);
+        savePortfolioContent(updatedContent);
+        onUpdate(updatedContent);
+        console.log("Automatically compressed giant base64 project images to free up storage space.");
+      }
+    };
+
+    compressExisting();
+  }, []);
 
   // Form states
   const [title, setTitle] = useState("");
@@ -95,8 +175,8 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim() || !description.trim()) {
-      setMessage({ type: "error", text: "Project Title and Short Description are required." });
+    if (!title.trim()) {
+      setMessage({ type: "error", text: "Project Title is required." });
       return;
     }
 
@@ -269,14 +349,13 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
 
             {/* Short Description */}
             <div className="space-y-1.5 md:col-span-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Short Description *</label>
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Short Description (Optional)</label>
               <input
                 type="text"
-                required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
-                placeholder="Brief summary card pitch..."
+                placeholder="Brief summary card pitch... (Optional)"
               />
             </div>
 

@@ -163,11 +163,13 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
                     </h3>
                   )}
 
-                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">
-                    {project.description.length > 85 
-                      ? `${project.description.substring(0, 85)}...` 
-                      : project.description}
-                  </p>
+                  {project.description && (
+                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                      {project.description.length > 85 
+                        ? `${project.description.substring(0, 85)}...` 
+                        : project.description}
+                    </p>
+                  )}
 
                   {/* Technologies list */}
                   <div className="flex flex-wrap gap-1.5 pt-1">

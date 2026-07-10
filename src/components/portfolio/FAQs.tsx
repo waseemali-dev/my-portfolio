@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { FAQS } from "../../data";
 
 interface FAQsProps {
@@ -48,15 +49,21 @@ export function FAQs({ portfolio }: FAQsProps) {
                 </button>
 
                 {/* Answer slide */}
-                <div
-                  className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                    isOpen ? "max-h-[300px] border-t border-slate-200/50 dark:border-slate-800/50" : "max-h-0"
-                  }`}
-                >
-                  <div className="p-5 text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed text-left">
-                    {faq.answer}
-                  </div>
-                </div>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: [0.04, 0.62, 0.23, 0.98] }}
+                      className="overflow-hidden border-t border-slate-200/50 dark:border-slate-800/50"
+                    >
+                      <div className="p-5 text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed text-left">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
               </div>
             );

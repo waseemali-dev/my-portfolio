@@ -15,7 +15,7 @@ export interface Skill {
 export interface Project {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   technologies: string[];
   category: "HubSpot CMS" | "Front-End" | "WordPress";
   liveUrl?: string;
