@@ -109,20 +109,17 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            {/* Outer Decorative Glow */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-fuchsia-500/20 rounded-3xl blur-2xl pointer-events-none -rotate-3 animate-pulse-slow"></div>
-
             <img
               src={(() => {
                 const url = portfolio.hero?.avatarUrl;
-                if (url && !url.includes("private.blob.vercel-storage.com")) {
+                if (url && !url.includes("Profile-update.jpg")) {
                   return getProjectImage(url);
                 }
                 // Fallback to local profile photo if original blob is expired or no custom image is set
                 return waseemAvatar;
               })()}
               alt="Waseem Ali - Certified HubSpot CMS Developer Portfolio"
-              className="relative z-10 w-full max-w-[500px] lg:max-w-none h-auto object-cover rounded-2xl border border-cyan-500/10 shadow-2xl mx-auto transition-transform duration-300"
+              className="relative z-10 w-full max-w-[500px] lg:max-w-none h-auto object-contain mx-auto transition-transform duration-300"
               width="500"
               height="400"
               fetchPriority="high"

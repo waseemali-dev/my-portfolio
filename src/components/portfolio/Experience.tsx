@@ -127,7 +127,7 @@ export function Experience({ portfolio }: ExperienceProps) {
                           onClick={() => toggleExpand(exp.id)}
                           aria-expanded={expandedIds[exp.id] || false}
                           aria-controls={`exp-desc-${exp.id}`}
-                          className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-cyan-500 hover:text-cyan-400 font-mono transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded cursor-pointer py-1"
+                          className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-cyan-500 hover:text-cyan-400 font-mono transition-colors outline-none focus:outline-none focus:ring-0 rounded cursor-pointer py-1"
                         >
                           <span>{expandedIds[exp.id] ? "Hide Details" : "View Details"}</span>
                           {expandedIds[exp.id] ? (

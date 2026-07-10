@@ -30,13 +30,13 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
             {/* High-Tech Grid Accent */}
             <div className="absolute inset-0 bg-[radial-gradient(#0891b2_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-25 dark:opacity-30 pointer-events-none max-w-md ml-0 mr-auto h-[440px] rounded-3xl"></div>
             
-            <div className="relative w-full max-w-[360px] sm:max-w-[380px] ml-0 mr-auto h-[440px] flex items-center justify-center">
+            <div className="relative w-full max-w-[310px] sm:max-w-[360px] mx-auto lg:ml-0 lg:mr-auto aspect-[31/39] flex items-center justify-center">
               
               {/* Rotating outer dash/ring */}
               <div className="absolute inset-0 border border-dashed border-cyan-500/30 dark:border-cyan-500/20 rounded-full animate-[spin_80s_linear_infinite] p-4 scale-95 pointer-events-none"></div>
               
               {/* Elegant Profile Portrait Container */}
-              <div className="relative w-[310px] h-[390px] rounded-3xl p-1 bg-gradient-to-br from-cyan-500/40 via-transparent to-fuchsia-500/40 dark:from-cyan-500/30 dark:to-fuchsia-500/30 shadow-2xl overflow-visible group">
+              <div className="relative w-full h-full rounded-3xl p-1 bg-gradient-to-br from-cyan-500/40 via-transparent to-fuchsia-500/40 dark:from-cyan-500/30 dark:to-fuchsia-500/30 shadow-2xl overflow-visible group">
                 
                 {/* Outer Glass Ring inside frame */}
                 <div className="absolute inset-0.5 rounded-[22px] bg-slate-900/10 dark:bg-slate-950/40 backdrop-blur-md -z-10"></div>
@@ -51,10 +51,10 @@ export function About({ portfolio, getProjectImage }: AboutProps) {
                   <img
                     src={(() => {
                       const url = portfolio.about?.imageUrl || portfolio.hero?.avatarUrl;
-                      if (url && !url.includes("private.blob.vercel-storage.com")) {
+                      if (url && !url.includes("Profile-update.jpg")) {
                         return getProjectImage(url);
                       }
-                      return "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/Profile-update.jpg?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTY5NzgwODM3LCJpYXQiOjE3ODI5MjY1ODEwNTh9.zJRbqrMF31q9N-vSdC4tYbJCekjNhW3ROUG2yqyTafg&vercel-blob-signature=Ef1wnU3nW-dUOWw3IvastuFLFgbmq2Bi_j8oOr9YsTc";
+                      return waseemAvatar;
                     })()}
                     alt={`${portfolio.hero?.name || "Waseem Ali"} - Senior Front-End & HubSpot CMS Developer portrait`}
                     className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
