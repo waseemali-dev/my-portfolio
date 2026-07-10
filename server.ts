@@ -122,6 +122,53 @@ async function startServer() {
     });
   });
 
+  // GET API for portfolio content (no-cache headers included to prevent stale responses)
+  app.get("/api/portfolio-content", (req, res) => {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+    const filePath = path.join(process.cwd(), "uploads", "portfolio_content.json");
+    if (fs.existsSync(filePath)) {
+      try {
+        const data = fs.readFileSync(filePath, "utf-8");
+        return res.json(JSON.parse(data));
+      } catch (err) {
+        console.error("Error reading portfolio_content.json:", err);
+        return res.status(500).json({ error: "Failed to read portfolio content." });
+      }
+    }
+    return res.json(null);
+  });
+
+  // POST API to save portfolio content
+  app.post("/api/portfolio-content", (req, res) => {
+    const filePath = path.join(process.cwd(), "uploads", "portfolio_content.json");
+    try {
+      const content = req.body;
+      if (!content || typeof content !== "object") {
+        return res.status(400).json({ error: "Invalid content payload." });
+      }
+      fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf-8");
+      return res.json({ success: true });
+    } catch (err: any) {
+      console.error("Error writing portfolio_content.json:", err);
+      return res.status(500).json({ error: "Failed to save portfolio content.", details: err.message });
+    }
+  });
+
+  // DELETE API to remove custom portfolio content and reset to default
+  app.delete("/api/portfolio-content", (req, res) => {
+    const filePath = path.join(process.cwd(), "uploads", "portfolio_content.json");
+    if (fs.existsSync(filePath)) {
+      try {
+        fs.unlinkSync(filePath);
+        return res.json({ success: true });
+      } catch (err: any) {
+        console.error("Error deleting portfolio_content.json:", err);
+        return res.status(500).json({ error: "Failed to reset portfolio content.", details: err.message });
+      }
+    }
+    return res.json({ success: true, message: "No custom file existed." });
+  });
+
   // GET API for captcha challenge
   app.get("/api/captcha", (req, res) => {
     try {

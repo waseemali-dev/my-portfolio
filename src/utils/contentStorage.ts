@@ -135,6 +135,18 @@ export function savePortfolioContent(content: any) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
     // Trigger custom event so any listeners in App know to update
     window.dispatchEvent(new Event("portfolio_content_updated"));
+
+    // Async save to the server to synchronize across devices/tabs
+    fetch("/api/portfolio-content", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(content),
+    }).catch((err) => {
+      console.warn("Could not synchronize portfolio content with the server:", err);
+    });
+
     return true;
   } catch (error) {
     console.error("Error saving portfolio content to localStorage:", error);
@@ -149,6 +161,14 @@ export function resetPortfolioContent() {
   try {
     localStorage.removeItem(STORAGE_KEY);
     window.dispatchEvent(new Event("portfolio_content_updated"));
+
+    // Async delete from the server to reset back to default content
+    fetch("/api/portfolio-content", {
+      method: "DELETE",
+    }).catch((err) => {
+      console.warn("Could not reset portfolio content on the server:", err);
+    });
+
     return true;
   } catch (error) {
     console.error("Error resetting portfolio content:", error);

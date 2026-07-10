@@ -118,6 +118,24 @@ export default function App() {
 
     window.addEventListener("portfolio_content_updated", handlePortfolioUpdated);
     window.addEventListener("storage", handleStorageChange);
+
+    // Asynchronously fetch latest content from the server (Stale-While-Revalidate pattern)
+    // Ensures other devices/browsers/windows get the updated view immediately on load.
+    const syncWithServer = async () => {
+      try {
+        const res = await fetch("/api/portfolio-content");
+        if (res.ok) {
+          const serverContent = await res.json();
+          if (serverContent && typeof serverContent === "object" && serverContent.hero) {
+            localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
+            setPortfolio(serverContent);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to sync portfolio content with server on load:", err);
+      }
+    };
+    syncWithServer();
     
     return () => {
       window.removeEventListener("portfolio_content_updated", handlePortfolioUpdated);

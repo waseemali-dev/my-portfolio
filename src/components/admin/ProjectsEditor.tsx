@@ -108,7 +108,6 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
   // Form states
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<"HubSpot CMS" | "Front-End" | "WordPress">("HubSpot CMS");
-  const [description, setDescription] = useState("");
   const [liveUrl, setLiveUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [featured, setFeatured] = useState(false);
@@ -121,7 +120,6 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
   const resetForm = () => {
     setTitle("");
     setCategory("HubSpot CMS");
-    setDescription("");
     setLiveUrl("");
     setImageUrl("");
     setFeatured(false);
@@ -134,7 +132,6 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
     const p = projects[index];
     setTitle(p.title);
     setCategory(p.category || "HubSpot CMS");
-    setDescription(p.description || "");
     setLiveUrl(p.liveUrl || "");
     setImageUrl(p.imageUrl || "");
     setFeatured(!!p.featured);
@@ -193,7 +190,6 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
       id: targetId,
       title: title.trim(),
       category,
-      description: description.trim(),
       liveUrl: liveUrl.trim(),
       imageUrl: imageUrl.trim(),
       featured,
@@ -344,18 +340,6 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
                 value={imageUrl}
                 onChange={(url) => setImageUrl(url)}
                 placeholder="Paste public image link, or upload below"
-              />
-            </div>
-
-            {/* Short Description */}
-            <div className="space-y-1.5 md:col-span-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Short Description (Optional)</label>
-              <input
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
-                placeholder="Brief summary card pitch... (Optional)"
               />
             </div>
 

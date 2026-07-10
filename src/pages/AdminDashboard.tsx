@@ -44,6 +44,23 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
     window.addEventListener("portfolio_content_updated", handlePortfolioUpdated);
     window.addEventListener("storage", handleStorageChange);
 
+    // Asynchronously fetch latest content from the server
+    const syncWithServer = async () => {
+      try {
+        const res = await fetch("/api/portfolio-content");
+        if (res.ok) {
+          const serverContent = await res.json();
+          if (serverContent && typeof serverContent === "object" && serverContent.hero) {
+            localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
+            setContent(serverContent);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to sync portfolio content with server on dashboard mount:", err);
+      }
+    };
+    syncWithServer();
+
     return () => {
       window.removeEventListener("portfolio_content_updated", handlePortfolioUpdated);
       window.removeEventListener("storage", handleStorageChange);

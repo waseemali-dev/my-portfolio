@@ -45,6 +45,44 @@ export default function Settings() {
     }, 400);
   };
 
+  const handleFlushCache = async () => {
+    try {
+      setMessage({ type: "success", text: "Flushing caches and re-syncing with the server..." });
+      
+      // 1. Clear portfolio local storage content
+      localStorage.removeItem("portfolio_content");
+      
+      // 2. Clear caches storage if available
+      if (window.caches) {
+        try {
+          const cacheKeys = await caches.keys();
+          await Promise.all(cacheKeys.map(key => caches.delete(key)));
+        } catch (e) {
+          console.warn("Could not delete CacheStorage:", e);
+        }
+      }
+      
+      // 3. Unregister active service workers
+      if (navigator.serviceWorker) {
+        try {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations.map(reg => reg.unregister()));
+        } catch (e) {
+          console.warn("Could not unregister Service Workers:", e);
+        }
+      }
+
+      setMessage({ type: "success", text: "All caches successfully flushed! Force reloading in 1.5 seconds..." });
+      
+      // 4. Reload page
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (err: any) {
+      setMessage({ type: "error", text: "Failed to clear cache: " + (err.message || err) });
+    }
+  };
+
   return (
     <div className="bg-slate-950 border border-slate-800/80 rounded-2xl p-6 sm:p-8 text-left space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-5">
@@ -139,6 +177,34 @@ export default function Settings() {
           </button>
         </div>
       </form>
+
+      {/* Cache & Synchronization Management Section */}
+      <div className="border-t border-slate-800/80 pt-6 mt-6 space-y-4">
+        <div className="space-y-1">
+          <h4 className="text-base font-bold text-white flex items-center gap-2">
+            <RefreshCw className="w-4 h-4 text-cyan-400" />
+            <span>Cache & Synchronization</span>
+          </h4>
+          <p className="text-xs text-slate-400">
+            Force clear your local browser storage caches, session states, and assets, then retrieve the latest synchronized version from the server. Use this if your changes are not appearing instantly on other tabs or devices.
+          </p>
+        </div>
+
+        <div className="bg-slate-900/40 border border-slate-800/60 p-5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-0.5">
+            <p className="text-xs font-bold text-slate-200">Force Flush All Caches</p>
+            <p className="text-[10px] text-slate-400">Clears client storage, unregisters active service workers, clears cache databases, and performs a hard reload.</p>
+          </div>
+          <button
+            type="button"
+            onClick={handleFlushCache}
+            className="px-4 py-2 bg-slate-900 hover:bg-red-500/10 hover:text-red-400 border border-slate-800 hover:border-red-500/30 text-slate-300 font-bold rounded-lg text-xs cursor-pointer transition-all flex items-center justify-center gap-1.5 self-start sm:self-center"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Flush Cache & Reload</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
