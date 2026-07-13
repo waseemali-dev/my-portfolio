@@ -3,6 +3,28 @@ import { Layers, Trash2, Edit, Plus, Save, X, RefreshCw, ArrowUp, ArrowDown, Sta
 import { savePortfolioContent } from "../../utils/contentStorage";
 import ImageUploadInput from "./ImageUploadInput";
 
+import bostonBifImage from "../../assets/images/boston_bif_new_1782634821929.jpg";
+import centersquareImage from "../../assets/images/centersquare_new_1782634843010.jpg";
+import cypherLearningImage from "../../assets/images/cypher_learning_new_1782634864135.jpg";
+import nextinyMarketingImage from "../../assets/images/nextiny_marketing_new_1782634890772.jpg";
+import remoteTechImage from "../../assets/images/remote_tech_new_1782634917528.jpg";
+
+const projectImages: Record<string, string> = {
+  "boston-institute-finance": bostonBifImage,
+  "centersquare": centersquareImage,
+  "cypher-learning": cypherLearningImage,
+  "nextiny-marketing": nextinyMarketingImage,
+  "remote-technology": remoteTechImage,
+};
+
+const getProjectImage = (imgUrlOrKey: string) => {
+  if (!imgUrlOrKey) return "";
+  if (imgUrlOrKey.startsWith("http") || imgUrlOrKey.startsWith("/") || imgUrlOrKey.startsWith("data:")) {
+    return imgUrlOrKey;
+  }
+  return projectImages[imgUrlOrKey] || imgUrlOrKey;
+};
+
 interface ProjectsEditorProps {
   content: any;
   onUpdate: (updatedContent: any) => void;
@@ -409,7 +431,7 @@ export default function ProjectsEditor({ content, onUpdate }: ProjectsEditorProp
                 {/* Image thumb preview */}
                 <div className="w-16 h-16 rounded-xl bg-slate-900 border border-slate-800 overflow-hidden shrink-0 flex items-center justify-center">
                   {proj.imageUrl ? (
-                    <img src={proj.imageUrl} alt={proj.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    <img src={getProjectImage(proj.imageUrl)} alt={proj.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   ) : (
                     <Layers className="w-6 h-6 text-slate-700" />
                   )}

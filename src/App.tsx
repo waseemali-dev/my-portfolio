@@ -123,7 +123,7 @@ export default function App() {
     // Ensures other devices/browsers/windows get the updated view immediately on load.
     const syncWithServer = async () => {
       try {
-        const res = await fetch("/api/portfolio-content");
+        const res = await fetch(`/api/portfolio-content?t=${Date.now()}`, { cache: "no-store" });
         if (res.ok) {
           const serverContent = await res.json();
           if (serverContent && typeof serverContent === "object" && serverContent.hero) {

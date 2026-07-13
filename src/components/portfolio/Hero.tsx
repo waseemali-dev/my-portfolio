@@ -112,10 +112,10 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
             <img
               src={(() => {
                 const url = portfolio.hero?.avatarUrl;
-                if (url && !url.includes("Profile-update.jpg")) {
+                if (url && !url.includes("qapjrhwxw5rzkefc.private.blob.vercel-storage.com")) {
                   return getProjectImage(url);
                 }
-                // Fallback to local profile photo if original blob is expired or no custom image is set
+                // Fallback to local profile photo if no custom image is set or default is the expired private Vercel blob
                 return waseemAvatar;
               })()}
               alt="Waseem Ali - Certified HubSpot CMS Developer Portfolio"

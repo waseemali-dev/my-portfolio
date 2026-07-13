@@ -47,7 +47,7 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
     // Asynchronously fetch latest content from the server
     const syncWithServer = async () => {
       try {
-        const res = await fetch("/api/portfolio-content");
+        const res = await fetch(`/api/portfolio-content?t=${Date.now()}`, { cache: "no-store" });
         if (res.ok) {
           const serverContent = await res.json();
           if (serverContent && typeof serverContent === "object" && serverContent.hero) {
