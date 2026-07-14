@@ -1,5 +1,18 @@
-import React, { useState, useRef, DragEvent } from "react";
-import { Upload, FileImage, RefreshCw, AlertCircle, CheckCircle, Folder, Trash2 } from "lucide-react";
+import React, { useState, useRef, DragEvent, useEffect } from "react";
+import { 
+  Upload, 
+  FileImage, 
+  RefreshCw, 
+  AlertCircle, 
+  CheckCircle, 
+  Folder, 
+  Trash2, 
+  Search, 
+  Plus, 
+  X, 
+  ExternalLink,
+  Image as ImageIcon
+} from "lucide-react";
 
 interface ImageUploadInputProps {
   id?: string;
@@ -20,17 +33,22 @@ export default function ImageUploadInput({
     // If the value is a remote URL (starts with http and not from local uploads), show the URL input on mount
     return value ? value.startsWith("http") && !value.includes("uploads") : false;
   });
+  
+  // Media Library state
+  const [showPicker, setShowPicker] = useState(false);
+  const [activeTab, setActiveTab] = useState<"upload" | "library">("library");
+  const [existingImages, setExistingImages] = useState<{ filename: string; url: string; size: number; createdAt: number }[]>([]);
+  const [isLoadingExisting, setIsLoadingExisting] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Upload states
   const [isDragOver, setIsDragOver] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Media Library state
-  const [showMediaLibrary, setShowMediaLibrary] = useState(false);
-  const [existingImages, setExistingImages] = useState<{ filename: string; url: string; size: number; createdAt: number }[]>([]);
-  const [isLoadingExisting, setIsLoadingExisting] = useState(false);
-
+  // Fetch images from `/api/images`
   const fetchExistingImages = async () => {
     setIsLoadingExisting(true);
     try {
@@ -45,6 +63,23 @@ export default function ImageUploadInput({
       setIsLoadingExisting(false);
     }
   };
+
+  // Pre-load images count on mount
+  useEffect(() => {
+    fetchExistingImages();
+  }, []);
+
+  // Sync tab choice depending on empty states
+  useEffect(() => {
+    if (showPicker) {
+      fetchExistingImages();
+      if (existingImages.length === 0) {
+        setActiveTab("upload");
+      } else {
+        setActiveTab("library");
+      }
+    }
+  }, [showPicker]);
 
   const handleDeleteImage = async (filename: string, e: React.MouseEvent) => {
     e.stopPropagation(); // prevent choosing the image when deleting
@@ -174,9 +209,9 @@ export default function ImageUploadInput({
         body: formData,
       });
 
-      // Handle 404 or non-JSON responses gracefully (common on serverless platforms like Vercel)
+      // Handle 404 or non-JSON responses gracefully (common on serverless platforms)
       if (response.status === 404 || !response.headers.get("content-type")?.includes("application/json")) {
-        console.warn("Upload API is not available or returned 404 (possibly running on serverless Vercel). Falling back to client-side Base64 encoding.");
+        console.warn("Upload API is not available or returned 404. Falling back to client-side Base64 encoding.");
         const base64Url = await convertToBase64(fileToUpload);
         onChange(base64Url);
         setUploadSuccess(true);
@@ -189,18 +224,20 @@ export default function ImageUploadInput({
       if (response.ok && data.success) {
         onChange(data.url);
         setUploadSuccess(true);
-        // Clear success message after 3 seconds
+        // Refresh library files listing so the new file shows up
+        await fetchExistingImages();
+        // Switch tab to library so they see it in the list
+        setActiveTab("library");
         setTimeout(() => setUploadSuccess(false), 3000);
       } else {
-        // If upload endpoint explicitly failed, also fall back to Base64 so the user is not blocked!
-        console.warn("Server upload failed, falling back to client-side Base64 encoding:", data.error);
+        console.warn("Server upload failed, falling back to client-side Base64:", data.error);
         const base64Url = await convertToBase64(fileToUpload);
         onChange(base64Url);
         setUploadSuccess(true);
         setTimeout(() => setUploadSuccess(false), 3000);
       }
     } catch (err) {
-      console.warn("Network error during upload, falling back to client-side Base64 encoding:", err);
+      console.warn("Network error during upload, falling back to client-side Base64:", err);
       try {
         const base64Url = await convertToBase64(fileToUpload);
         onChange(base64Url);
@@ -239,112 +276,88 @@ export default function ImageUploadInput({
     }
   };
 
+  // Filter list of existing images based on search input
+  const filteredImages = existingImages.filter((img) =>
+    img.filename.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-3 bg-slate-900/40 p-4 rounded-xl border border-slate-800/80">
       <div className="flex justify-between items-center">
-        <label htmlFor={id} className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <label className="text-xs font-black uppercase tracking-wider text-slate-300">
           {label}
         </label>
         {value && (
-          <span className="text-[10px] font-semibold text-emerald-400 flex items-center gap-1 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/15">
+          <span className="text-[10px] font-bold text-emerald-400 flex items-center gap-1 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/15">
             <CheckCircle className="w-3 h-3 text-emerald-500" />
-            Image Active
+            Image Selected
           </span>
         )}
       </div>
 
-      {/* Primary Drag & Drop upload container */}
-      <div
-        onDragOver={onDragOver}
-        onDragLeave={onDragLeave}
-        onDrop={onDrop}
-        onClick={triggerFileSelect}
-        className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
-          isDragOver
-            ? "border-cyan-400 bg-cyan-500/5 shadow-[0_0_15px_rgba(6,182,212,0.1)]"
-            : "border-slate-800 hover:border-slate-700 bg-slate-950 hover:bg-slate-900/40"
+      {/* Active Preview Frame & Launcher */}
+      <div 
+        onClick={() => setShowPicker(!showPicker)}
+        className={`group relative rounded-xl overflow-hidden border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center min-h-[140px] bg-slate-950/80 hover:bg-slate-950 hover:border-cyan-500/40 ${
+          value ? "border-slate-800" : "border-slate-800 hover:border-slate-700"
         }`}
       >
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={(e) => {
-            const files = e.target.files;
-            if (files && files.length > 0) {
-              handleFileChange(files[0]);
-            }
-          }}
-          accept="image/*"
-          className="hidden"
-        />
-
-        <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-          {value ? (
-            <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2 border-slate-800 bg-slate-900 flex-shrink-0 group shadow-lg">
-              <img
-                src={value}
-                alt="Uploaded preview"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  // Fallback if URL is invalid or broken
-                  (e.target as HTMLElement).style.display = "none";
-                }}
-              />
-              <div className="absolute inset-0 bg-slate-950/50 flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                <FileImage className="w-5 h-5 text-white/85" />
+        {value ? (
+          <div className="relative w-full h-44 bg-slate-950 flex items-center justify-center">
+            <img
+              src={value}
+              alt="Active section layout preview"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                // If broken URL, hide image and show placeholder
+                (e.target as HTMLElement).style.display = "none";
+              }}
+            />
+            {/* Absolute layout glassmorphism details bar */}
+            <div className="absolute inset-x-0 bottom-0 bg-slate-950/80 backdrop-blur-sm p-3 border-t border-slate-850 flex items-center justify-between">
+              <div className="min-w-0 pr-2">
+                <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Selected Image Path</p>
+                <p className="text-xs font-mono text-cyan-400 truncate max-w-xs">{value}</p>
               </div>
+              <span className="shrink-0 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2.5 py-1 rounded-lg text-[10px] font-bold group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all">
+                Change Image
+              </span>
             </div>
-          ) : (
-            <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-850 text-slate-500 shadow-md">
-              <Upload className="w-6 h-6" />
-            </div>
-          )}
-
-          <div>
-            <p className="text-sm font-bold text-slate-200">
-              {isUploading ? (
-                <span className="flex items-center gap-2 text-cyan-400">
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                  Uploading image asset...
-                </span>
-              ) : (
-                <>
-                  Drag & drop image here, or <span className="text-cyan-400 hover:text-cyan-300 underline">browse files</span>
-                </>
-              )}
-            </p>
-            <p className="text-xs text-slate-500 mt-1">
-              Supports PNG, JPG, JPEG, WEBP, SVG up to 10MB
-            </p>
-            {value && !isUploading && (
-              <p className="text-[10px] font-mono text-slate-400 truncate max-w-[280px] sm:max-w-xs mt-1.5 bg-slate-900 px-2 py-0.5 rounded border border-slate-800/60 inline-block">
-                Path: {value}
-              </p>
-            )}
           </div>
-        </div>
+        ) : (
+          <div className="p-6 text-center space-y-2 flex flex-col items-center justify-center">
+            <div className="p-3 bg-slate-900 rounded-xl border border-slate-850 text-slate-400 group-hover:text-cyan-400 transition-colors">
+              <ImageIcon className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-white">No image selected</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">Click to browse uploads folder or upload a new image</p>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Actions and expandables */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
+      {/* Selector Action Tools */}
+      <div className="flex items-center justify-between gap-2 text-xs pt-0.5">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={() => {
-              const nextState = !showMediaLibrary;
-              setShowMediaLibrary(nextState);
+              const nextState = !showPicker;
+              setShowPicker(nextState);
               if (nextState) {
                 fetchExistingImages();
               }
             }}
             className={`font-semibold transition-all flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-lg border text-[11px] ${
-              showMediaLibrary 
+              showPicker 
                 ? "bg-cyan-500 text-slate-950 border-cyan-400 font-bold" 
                 : "bg-cyan-500/10 text-cyan-400 border-cyan-500/20 hover:bg-cyan-500/20"
             }`}
           >
             <Folder className="w-3.5 h-3.5" />
-            {showMediaLibrary ? "Hide Uploaded Folder" : "Choose from Uploaded Folder"}
+            {showPicker ? "Hide Media Selector" : "Choose / Upload Image"}
           </button>
 
           <button
@@ -360,105 +373,217 @@ export default function ImageUploadInput({
           <button
             type="button"
             onClick={() => onChange("")}
-            className="text-red-400/80 hover:text-red-400 font-bold transition-colors cursor-pointer"
+            className="text-red-400/80 hover:text-red-400 font-bold transition-colors cursor-pointer text-[11px] bg-red-500/5 hover:bg-red-500/10 px-2.5 py-1.5 rounded-lg border border-red-500/10"
           >
-            Clear Selected Image
+            Clear Image
           </button>
         )}
       </div>
 
-      {/* Uploaded Images Folder View */}
-      {showMediaLibrary && (
-        <div className="border border-slate-800 rounded-xl p-4 bg-slate-950/60 space-y-3 transition-all animate-in fade-in slide-in-from-top-2 duration-300">
-          <div className="flex items-center justify-between border-b border-slate-850 pb-2">
-            <div className="flex items-center gap-2">
-              <Folder className="w-4 h-4 text-cyan-400" />
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                Uploaded Images Folder
-              </h4>
+      {/* EXPANSED UNIFIED MEDIA SELECTOR PANEL */}
+      {showPicker && (
+        <div className="border border-slate-800 rounded-xl bg-slate-950 overflow-hidden shadow-2xl transition-all animate-in fade-in slide-in-from-top-2 duration-300">
+          {/* Tabs header */}
+          <div className="bg-slate-900 border-b border-slate-800 px-4 py-2 flex items-center justify-between">
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setActiveTab("library")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeTab === "library"
+                    ? "bg-slate-800 text-cyan-400 shadow"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                <Folder className="w-3.5 h-3.5" />
+                Browse Media Folder
+                <span className="text-[10px] px-1.5 py-0.5 bg-slate-950 text-slate-400 rounded-full font-mono">
+                  {existingImages.length}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("upload")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeTab === "upload"
+                    ? "bg-slate-800 text-cyan-400 shadow"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                <Upload className="w-3.5 h-3.5" />
+                Upload New Image
+              </button>
             </div>
+
             <button
               type="button"
-              onClick={fetchExistingImages}
-              className="text-[10px] font-semibold text-slate-400 hover:text-cyan-400 flex items-center gap-1 bg-slate-900 hover:bg-slate-850 px-2.5 py-1 rounded border border-slate-800 transition-colors cursor-pointer"
+              onClick={() => setShowPicker(false)}
+              className="text-slate-500 hover:text-white p-1 rounded-md bg-slate-950/40 hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              <RefreshCw className={`w-3 h-3 ${isLoadingExisting ? "animate-spin" : ""}`} />
-              Refresh Folder
+              <X className="w-4 h-4" />
             </button>
           </div>
 
-          {isLoadingExisting ? (
-            <div className="flex flex-col items-center justify-center py-8 text-slate-500 gap-2">
-              <RefreshCw className="w-6 h-6 animate-spin text-cyan-400" />
-              <span className="text-xs">Scanning uploads folder...</span>
-            </div>
-          ) : existingImages.length === 0 ? (
-            <div className="text-center py-6 text-slate-500">
-              <FileImage className="w-8 h-8 mx-auto mb-2 opacity-30 text-slate-400" />
-              <p className="text-xs font-semibold">No images found in the uploads folder.</p>
-              <p className="text-[10px] text-slate-600 mt-1">Upload a new image above to populate this folder.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-60 overflow-y-auto pr-1">
-              {existingImages.map((img) => {
-                const isSelected = value === img.url;
-                return (
-                  <div
-                    key={img.filename}
-                    onClick={() => {
-                      onChange(img.url);
-                    }}
-                    className={`group relative aspect-square rounded-lg overflow-hidden border cursor-pointer transition-all ${
-                      isSelected
-                        ? "border-cyan-500 bg-cyan-950/10 shadow-[0_0_10px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500"
-                        : "border-slate-800 hover:border-slate-700 bg-slate-900"
-                    }`}
-                    title={img.filename}
-                  >
-                    <img
-                      src={img.url}
-                      alt={img.filename}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-350"
-                      referrerPolicy="no-referrer"
+          <div className="p-4">
+            {/* TAB CONTENT: BROWSE LIBRARY */}
+            {activeTab === "library" && (
+              <div className="space-y-3">
+                {/* Search / Refresh toolbar */}
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                      <Search className="w-3.5 h-3.5" />
+                    </span>
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search folder..."
+                      className="w-full pl-9 pr-4 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
                     />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={fetchExistingImages}
+                    className="p-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+                    title="Refresh folder"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${isLoadingExisting ? "animate-spin" : ""}`} />
+                  </button>
+                </div>
 
-                    {/* Delete button */}
-                    <button
-                      type="button"
-                      onClick={(e) => handleDeleteImage(img.filename, e)}
-                      className="absolute top-1 right-1 p-1.5 rounded-md bg-slate-950/80 text-slate-400 hover:text-red-400 hover:bg-slate-950 opacity-0 group-hover:opacity-100 transition-opacity border border-slate-800/50"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                {isLoadingExisting ? (
+                  <div className="flex flex-col items-center justify-center py-10 text-slate-500 gap-2">
+                    <RefreshCw className="w-6 h-6 animate-spin text-cyan-400" />
+                    <span className="text-xs">Reading uploads folder...</span>
+                  </div>
+                ) : existingImages.length === 0 ? (
+                  <div className="text-center py-10 text-slate-500 border border-dashed border-slate-900 rounded-xl bg-slate-900/10">
+                    <FileImage className="w-10 h-10 mx-auto mb-2 opacity-35 text-slate-400" />
+                    <p className="text-xs font-bold text-slate-400">The uploads folder is empty.</p>
+                    <p className="text-[10px] text-slate-600 mt-1">Upload a new image using the "Upload New Image" tab!</p>
+                  </div>
+                ) : filteredImages.length === 0 ? (
+                  <div className="text-center py-10 text-slate-500">
+                    <p className="text-xs font-bold text-slate-400">No images match your search.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-60 overflow-y-auto pr-1">
+                    {filteredImages.map((img) => {
+                      const isSelected = value === img.url;
+                      return (
+                        <div
+                          key={img.filename}
+                          onClick={() => {
+                            onChange(img.url);
+                          }}
+                          className={`group relative aspect-square rounded-xl overflow-hidden border cursor-pointer transition-all ${
+                            isSelected
+                              ? "border-cyan-500 bg-cyan-950/15 shadow-[0_0_15px_rgba(6,182,212,0.2)] ring-1 ring-cyan-500"
+                              : "border-slate-800 hover:border-slate-700 bg-slate-900/40"
+                          }`}
+                          title={img.filename}
+                        >
+                          <img
+                            src={img.url}
+                            alt={img.filename}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-350"
+                            referrerPolicy="no-referrer"
+                          />
 
-                    {/* Selected Indicator Badge */}
-                    {isSelected && (
-                      <div className="absolute inset-0 bg-cyan-950/30 flex items-center justify-center">
-                        <span className="bg-cyan-500 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full flex items-center gap-0.5 shadow-md">
-                          <CheckCircle className="w-3 h-3 text-slate-950 stroke-[3]" />
-                          Selected
-                        </span>
-                      </div>
-                    )}
+                          {/* Delete Action (absolute) */}
+                          <button
+                            type="button"
+                            onClick={(e) => handleDeleteImage(img.filename, e)}
+                            className="absolute top-1 right-1 p-1.5 rounded-lg bg-slate-950/90 text-slate-400 hover:text-red-400 hover:bg-slate-950 opacity-0 group-hover:opacity-100 transition-opacity border border-slate-800/40"
+                            title="Delete file permanently"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
 
-                    {/* Filename hover overlay */}
-                    <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/90 to-slate-950/20 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end">
-                      <p className="text-[9px] font-medium text-slate-200 truncate leading-none">
-                        {img.filename}
+                          {/* Selected Banner */}
+                          {isSelected && (
+                            <div className="absolute inset-0 bg-cyan-950/20 flex items-center justify-center">
+                              <span className="bg-cyan-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full flex items-center gap-0.5 shadow-md">
+                                <CheckCircle className="w-3 h-3 text-slate-950 stroke-[3]" />
+                                Selected
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Filename and details hover info bar */}
+                          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/95 to-slate-950/30 p-2 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end">
+                            <p className="text-[10px] font-bold text-slate-200 truncate leading-none">
+                              {img.filename}
+                            </p>
+                            <p className="text-[8px] font-mono text-slate-400 mt-0.5 leading-none">
+                              {Math.round(img.size / 1024)} KB
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB CONTENT: UPLOAD NEW */}
+            {activeTab === "upload" && (
+              <div
+                onDragOver={onDragOver}
+                onDragLeave={onDragLeave}
+                onDrop={onDrop}
+                onClick={triggerFileSelect}
+                className={`border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer relative flex flex-col items-center justify-center min-h-[160px] ${
+                  isDragOver
+                    ? "border-cyan-400 bg-cyan-950/20 scale-[0.99] shadow-[0_0_20px_rgba(6,182,212,0.1)]"
+                    : "border-slate-800 hover:border-slate-700 bg-slate-900/20 hover:bg-slate-900/40"
+                }`}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      handleFileChange(e.target.files[0]);
+                    }
+                  }}
+                  className="hidden"
+                />
+
+                {isUploading ? (
+                  <div className="space-y-2">
+                    <RefreshCw className="w-7 h-7 text-cyan-400 animate-spin mx-auto" />
+                    <div>
+                      <p className="text-xs font-bold text-white">Uploading to media folder...</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5">Your image is being saved on the server</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 inline-block text-slate-400 mx-auto">
+                      <Upload className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-slate-200">
+                        Drag & drop image file here, or <span className="text-cyan-400 underline">browse files</span>
                       </p>
-                      <p className="text-[8px] font-mono text-slate-400 mt-0.5 leading-none">
-                        {Math.round(img.size / 1024)} KB
+                      <p className="text-[10px] text-slate-500 mt-1">
+                        Supports JPG, JPEG, PNG, WEBP, GIF, SVG up to 10MB
                       </p>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          )}
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
-      {/* Expandable manual URL text input */}
+      {/* Expandable Manual URL Text Input */}
       {showUrlInput && (
         <div className="pt-1.5 transition-all animate-in fade-in slide-in-from-top-1 duration-200">
           <input
@@ -466,23 +591,23 @@ export default function ImageUploadInput({
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-xs font-mono text-slate-100 placeholder:text-slate-600 shadow-inner"
+            className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-xs font-mono text-slate-100 placeholder:text-slate-600 rounded-xl shadow-inner"
             placeholder={placeholder}
           />
         </div>
       )}
 
-      {/* Status Messages */}
+      {/* Action status toast feedback */}
       {uploadError && (
-        <div className="flex items-center gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-lg">
+        <div className="flex items-center gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-lg animate-in fade-in slide-in-from-bottom-1">
           <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
           <span>{uploadError}</span>
         </div>
       )}
       {uploadSuccess && (
-        <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 rounded-lg">
+        <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 rounded-lg animate-in fade-in slide-in-from-bottom-1">
           <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" />
-          <span>Image asset uploaded and selected successfully!</span>
+          <span>Image uploaded and saved to Media Folder successfully!</span>
         </div>
       )}
     </div>

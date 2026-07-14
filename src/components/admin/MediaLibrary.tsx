@@ -43,11 +43,19 @@ export default function MediaLibrary() {
         const data = await res.json();
         setImages(data);
       } else {
-        setUploadError("Could not retrieve uploaded files.");
+        let errorMessage = `Server error (${res.status} ${res.statusText})`;
+        try {
+          const data = await res.json();
+          if (data && data.error) {
+            errorMessage += `: ${data.error}`;
+            if (data.details) errorMessage += ` (${data.details})`;
+          }
+        } catch (_) {}
+        setUploadError(errorMessage);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error loading images:", err);
-      setUploadError("Failed to communicate with the server.");
+      setUploadError(`Failed to communicate with the server: ${err.message || err}`);
     } finally {
       setIsLoading(false);
     }
@@ -83,7 +91,7 @@ export default function MediaLibrary() {
     setUploadSuccess(false);
 
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("file", file); // Fixed: changed from "image" to "file" to match backend expectation
 
     try {
       const res = await fetch("/api/upload", {
