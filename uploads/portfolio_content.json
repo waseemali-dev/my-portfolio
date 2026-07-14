@@ -1,4 +1,4 @@
-export const SAVED_PORTFOLIO_CONTENT = {
+{
   "version": "1.1.0",
   "hero": {
     "badge": "HubSpot Certified CMS Developer",
@@ -437,4 +437,4 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "author": "Waseem Ali",
     "favicon": "/favicon.ico"
   }
-};
+}
