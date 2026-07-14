@@ -14,6 +14,7 @@ import Settings from "../components/admin/Settings";
 import JsonImportExport from "../components/admin/JsonImportExport";
 import FAQEditor from "../components/admin/FAQEditor";
 import SEOEditor from "../components/admin/SEOEditor";
+import MediaLibrary from "../components/admin/MediaLibrary";
 import { getPortfolioContent } from "../utils/contentStorage";
 import { logoutAdmin } from "../utils/authStorage";
 
@@ -92,6 +93,8 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
     switch (activeTab) {
       case "overview":
         return <DashboardHome content={content} setActiveTab={setActiveTab} />;
+      case "media":
+        return <MediaLibrary />;
       case "hero":
         return <HeroEditor content={content} onUpdate={handleUpdate} />;
       case "about":
@@ -125,6 +128,8 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
   const tabLabel =
     activeTab === "overview"
       ? "Dashboard Home"
+      : activeTab === "media"
+      ? "Uploaded Images Folder"
       : activeTab === "faqs"
       ? "Frequently Asked Questions"
       : activeTab === "seo"

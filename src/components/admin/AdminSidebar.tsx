@@ -14,11 +14,13 @@ import {
   LogOut,
   X,
   Menu,
-  Globe
+  Globe,
+  Folder
 } from "lucide-react";
 
 export type AdminTab =
   | "overview"
+  | "media"
   | "hero"
   | "about"
   | "services"
@@ -49,6 +51,7 @@ export default function AdminSidebar({
 }: SidebarProps) {
   const menuItems = [
     { id: "overview", label: "Overview", icon: LayoutDashboard },
+    { id: "media", label: "Uploaded Images Folder", icon: Folder },
     { id: "hero", label: "Hero Section", icon: Sparkles },
     { id: "about", label: "About Section", icon: User },
     { id: "services", label: "Services", icon: Briefcase },
