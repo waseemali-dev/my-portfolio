@@ -117,26 +117,76 @@ async function startServer() {
         return res.status(400).json({ error: "No file was uploaded." });
       }
 
-      const filePath = req.file.path;
       try {
-        const fileBuffer = fs.readFileSync(filePath);
-        const mimeType = req.file.mimetype;
-        const base64Data = fileBuffer.toString("base64");
-        const base64Url = `data:${mimeType};base64,${base64Data}`;
-        
-        // Clean up the uploaded file from disk immediately to keep filesystem stateless
-        try {
-          fs.unlinkSync(filePath);
-        } catch (unlinkErr) {
-          console.warn("Could not clean up uploaded file from disk:", unlinkErr);
-        }
-
-        return res.json({ success: true, url: base64Url });
-      } catch (readErr: any) {
-        console.error("Error converting uploaded file to base64:", readErr);
-        return res.status(500).json({ error: "Failed to process uploaded file.", details: readErr.message });
+        const fileUrl = `/uploads/${req.file.filename}`;
+        return res.json({ 
+          success: true, 
+          url: fileUrl,
+          filename: req.file.filename,
+          size: req.file.size
+        });
+      } catch (err: any) {
+        console.error("Error processing upload response:", err);
+        return res.status(500).json({ error: "Failed to process uploaded file.", details: err.message });
       }
     });
+  });
+
+  // GET API to list all uploaded images in the uploads folder
+  app.get("/api/images", (req, res) => {
+    const uploadsDir = path.join(process.cwd(), "uploads");
+    try {
+      if (!fs.existsSync(uploadsDir)) {
+        return res.json([]);
+      }
+      const files = fs.readdirSync(uploadsDir);
+      const allowedExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
+      const images = files
+        .filter((file) => {
+          const ext = path.extname(file).toLowerCase();
+          return allowedExtensions.includes(ext);
+        })
+        .map((file) => {
+          const stats = fs.statSync(path.join(uploadsDir, file));
+          return {
+            filename: file,
+            url: `/uploads/${file}`,
+            size: stats.size,
+            createdAt: stats.birthtimeMs || stats.mtimeMs,
+          };
+        })
+        .sort((a, b) => b.createdAt - a.createdAt); // Newest first
+
+      return res.json(images);
+    } catch (err: any) {
+      console.error("Error listing images:", err);
+      return res.status(500).json({ error: "Failed to list images.", details: err.message });
+    }
+  });
+
+  // DELETE API to delete an uploaded image from the uploads folder
+  app.delete("/api/images/:filename", (req, res) => {
+    const filename = req.params.filename;
+    // Prevent directory traversal attacks
+    if (filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
+      return res.status(400).json({ error: "Invalid filename." });
+    }
+    const filePath = path.join(process.cwd(), "uploads", filename);
+    try {
+      if (fs.existsSync(filePath)) {
+        const allowedExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
+        const ext = path.extname(filename).toLowerCase();
+        if (!allowedExtensions.includes(ext)) {
+          return res.status(400).json({ error: "Only image files can be deleted." });
+        }
+        fs.unlinkSync(filePath);
+        return res.json({ success: true });
+      }
+      return res.status(404).json({ error: "Image file not found." });
+    } catch (err: any) {
+      console.error("Error deleting image file:", err);
+      return res.status(500).json({ error: "Failed to delete image.", details: err.message });
+    }
   });
 
   // GET API for portfolio content (no-cache headers included to prevent stale responses)
