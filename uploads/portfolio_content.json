@@ -24,32 +24,112 @@
     "happyClients": 50,
     "responsiveLayouts": "100%",
     "location": "Lahore, Pakistan",
-    "skillsList": ["HubSpot CRM", "SEO Optimization", "UI Implementation"],
+    "skillsList": [
+      "HubSpot CRM",
+      "SEO Optimization",
+      "UI Implementation"
+    ],
     "widget1Title": "CMS MASTER",
     "widget1Value": "HubSpot Elite",
     "widget2Title": "RATING",
     "widget2Value": "5.0 ★ Fiverr"
   },
   "skills": [
-    { "name": "JavaScript", "category": "Languages & Core", "proficiency": 94 },
-    { "name": "TypeScript", "category": "Languages & Core", "proficiency": 92 },
-    { "name": "HTML5", "category": "Languages & Core", "proficiency": 98 },
-    { "name": "CSS3 / SCSS", "category": "Languages & Core", "proficiency": 96 },
-    { "name": "React", "category": "Languages & Core", "proficiency": 90 },
-    { "name": "HubSpot CMS", "category": "CMS & Frameworks", "proficiency": 98 },
-    { "name": "HubL", "category": "CMS & Frameworks", "proficiency": 98 },
-    { "name": "WordPress", "category": "CMS & Frameworks", "proficiency": 92 },
-    { "name": "Tailwind CSS", "category": "CMS & Frameworks", "proficiency": 96 },
-    { "name": "Email Templates", "category": "Design & Testing", "proficiency": 95 },
-    { "name": "Responsive Design", "category": "Design & Testing", "proficiency": 98 },
-    { "name": "Web Accessibility", "category": "Design & Testing", "proficiency": 92 },
-    { "name": "Lighthouse Optimization", "category": "Design & Testing", "proficiency": 96 },
-    { "name": "Marketing Automation", "category": "SEO & Devops", "proficiency": 90 },
-    { "name": "Workflow Automation", "category": "SEO & Devops", "proficiency": 92 },
-    { "name": "AI Integration", "category": "SEO & Devops", "proficiency": 88 },
-    { "name": "Prompt Engineering", "category": "SEO & Devops", "proficiency": 90 },
-    { "name": "API Integration", "category": "SEO & Devops", "proficiency": 86 },
-    { "name": "Git", "category": "SEO & Devops", "proficiency": 90 }
+    {
+      "name": "JavaScript",
+      "category": "Languages & Core",
+      "proficiency": 94
+    },
+    {
+      "name": "TypeScript",
+      "category": "Languages & Core",
+      "proficiency": 92
+    },
+    {
+      "name": "HTML5",
+      "category": "Languages & Core",
+      "proficiency": 98
+    },
+    {
+      "name": "CSS3 / SCSS",
+      "category": "Languages & Core",
+      "proficiency": 96
+    },
+    {
+      "name": "React",
+      "category": "Languages & Core",
+      "proficiency": 90
+    },
+    {
+      "name": "HubSpot CMS",
+      "category": "CMS & Frameworks",
+      "proficiency": 98
+    },
+    {
+      "name": "HubL",
+      "category": "CMS & Frameworks",
+      "proficiency": 98
+    },
+    {
+      "name": "WordPress",
+      "category": "CMS & Frameworks",
+      "proficiency": 92
+    },
+    {
+      "name": "Tailwind CSS",
+      "category": "CMS & Frameworks",
+      "proficiency": 96
+    },
+    {
+      "name": "Email Templates",
+      "category": "Design & Testing",
+      "proficiency": 95
+    },
+    {
+      "name": "Responsive Design",
+      "category": "Design & Testing",
+      "proficiency": 98
+    },
+    {
+      "name": "Web Accessibility",
+      "category": "Design & Testing",
+      "proficiency": 92
+    },
+    {
+      "name": "Lighthouse Optimization",
+      "category": "Design & Testing",
+      "proficiency": 96
+    },
+    {
+      "name": "Marketing Automation",
+      "category": "SEO & Devops",
+      "proficiency": 90
+    },
+    {
+      "name": "Workflow Automation",
+      "category": "SEO & Devops",
+      "proficiency": 92
+    },
+    {
+      "name": "AI Integration",
+      "category": "SEO & Devops",
+      "proficiency": 88
+    },
+    {
+      "name": "Prompt Engineering",
+      "category": "SEO & Devops",
+      "proficiency": 90
+    },
+    {
+      "name": "API Integration",
+      "category": "SEO & Devops",
+      "proficiency": 86
+    },
+    {
+      "name": "Git",
+      "category": "SEO & Devops",
+      "proficiency": 90
+    }
   ],
   "services": [
     {
@@ -100,7 +180,12 @@
       "id": "boston-institute-finance",
       "title": "Boston Institute Of Finance",
       "description": "Complete template pack, interactive learning selectors, and custom HubDB data directories.",
-      "technologies": ["HubSpot CMS", "HubDB", "HubL", "SEO Optimization"],
+      "technologies": [
+        "HubSpot CMS",
+        "HubDB",
+        "HubL",
+        "SEO Optimization"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://www.bostonifi.com",
       "imageUrl": "boston-institute-finance",
@@ -110,7 +195,12 @@
       "id": "remote-technology",
       "title": "Remote Technology",
       "description": "Front-end refactoring and website translation management system integration with HubSpot workflow automation.",
-      "technologies": ["HubSpot CMS", "HTML5/CSS3", "JavaScript", "Bootstrap"],
+      "technologies": [
+        "HubSpot CMS",
+        "HTML5/CSS3",
+        "JavaScript",
+        "Bootstrap"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://remote.com",
       "imageUrl": "remote-technology",
@@ -120,7 +210,12 @@
       "id": "centersquare",
       "title": "Center Square",
       "description": "High-converting HubSpot landing pages with interactive server calculators and custom CMS modules.",
-      "technologies": ["HubSpot CMS", "HubL", "Figma to Code", "jQuery"],
+      "technologies": [
+        "HubSpot CMS",
+        "HubL",
+        "Figma to Code",
+        "jQuery"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://www.csquare.com",
       "imageUrl": "centersquare",
@@ -130,7 +225,12 @@
       "id": "cypher-learning",
       "title": "Cypher Learning",
       "description": "Re-engineered a high-performance HubSpot CMS website with dynamic components and reusable HubL templates.",
-      "technologies": ["HubSpot CMS", "HubL", "JavaScript", "SCSS"],
+      "technologies": [
+        "HubSpot CMS",
+        "HubL",
+        "JavaScript",
+        "SCSS"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://www.cypherlearning.com",
       "imageUrl": "cypher-learning",
@@ -140,7 +240,12 @@
       "id": "nextiny-marketing",
       "title": "Nextiny Marketing",
       "description": "High-performance WordPress theme enhancements and custom HubSpot HubDB lead generators.",
-      "technologies": ["WordPress", "ACF", "HubSpot CMS", "Lighthouse Tools"],
+      "technologies": [
+        "WordPress",
+        "ACF",
+        "HubSpot CMS",
+        "Lighthouse Tools"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://www.nextinymarketing.com",
       "imageUrl": "nextiny-marketing",
@@ -150,7 +255,12 @@
       "id": "inboundlabs-redesign",
       "title": "InboundLabs Agency Portal",
       "description": "Custom-coded high-converting HubSpot theme with reusable drag-and-drop modules, CRM triggers, and smart form builders.",
-      "technologies": ["HubSpot CMS", "HubL", "CRM Integrations", "JavaScript"],
+      "technologies": [
+        "HubSpot CMS",
+        "HubL",
+        "CRM Integrations",
+        "JavaScript"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://www.inboundlabs.co",
       "imageUrl": "inboundlabs-redesign",
@@ -160,7 +270,12 @@
       "id": "aptitude-learning-hub",
       "title": "Aptitude LMS Portal",
       "description": "Interactive learning directory built with HubDB and HubL queries, featuring dynamic filter parameters and multi-language template systems.",
-      "technologies": ["HubSpot CMS", "HubDB", "HubL", "Multi-Language"],
+      "technologies": [
+        "HubSpot CMS",
+        "HubDB",
+        "HubL",
+        "Multi-Language"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://www.aptitude.com",
       "imageUrl": "aptitude-learning-hub",
@@ -170,7 +285,12 @@
       "id": "techstars-hubspot",
       "title": "Techstars Resource Center",
       "description": "A content hub built completely on HubSpot, fully responsive with custom filtering and optimized Core Web Vitals (95+ score).",
-      "technologies": ["HubSpot CMS", "HubL", "Performance Optimization", "SCSS"],
+      "technologies": [
+        "HubSpot CMS",
+        "HubL",
+        "Performance Optimization",
+        "SCSS"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://www.techstars.com",
       "imageUrl": "techstars-hubspot",
@@ -180,7 +300,12 @@
       "id": "elite-digital-wp",
       "title": "Elite Digital Corporate Website",
       "description": "Lightweight and speed-optimized WordPress theme using Advanced Custom Fields (ACF) custom blocks, structured SEO, and custom post types.",
-      "technologies": ["WordPress", "ACF Blocks", "PHP", "SEO Optimization"],
+      "technologies": [
+        "WordPress",
+        "ACF Blocks",
+        "PHP",
+        "SEO Optimization"
+      ],
       "category": "WordPress",
       "liveUrl": "https://www.elitedigital.com",
       "imageUrl": "elite-digital-wp",
@@ -190,7 +315,12 @@
       "id": "fintech-global",
       "title": "FinTech Global Front-End",
       "description": "Responsive, semantic corporate web space built with pixel-perfect Figma-to-code workflow, smooth animations, and optimized asset delivery.",
-      "technologies": ["Front-End", "HTML5/CSS3", "JavaScript", "Figma to Code"],
+      "technologies": [
+        "Front-End",
+        "HTML5/CSS3",
+        "JavaScript",
+        "Figma to Code"
+      ],
       "category": "Front-End",
       "liveUrl": "https://www.fintechglobal.com",
       "imageUrl": "fintech-global",
@@ -200,7 +330,12 @@
       "id": "saas-landing-platform",
       "title": "CloudSaaS Product Landing",
       "description": "High-conversion marketing campaign landing pages, dynamic split testing modules, and custom HubSpot form styles.",
-      "technologies": ["HubSpot CMS", "HubL", "React", "Conversion Optimization"],
+      "technologies": [
+        "HubSpot CMS",
+        "HubL",
+        "React",
+        "Conversion Optimization"
+      ],
       "category": "HubSpot CMS",
       "liveUrl": "https://www.cloudsaas.io",
       "imageUrl": "saas-landing-platform",
@@ -210,7 +345,12 @@
       "id": "realestate-directory-wp",
       "title": "Prime Homes Real Estate Portal",
       "description": "Custom WordPress site featuring interactive property filters, custom taxonomy maps, and fast listing load times.",
-      "technologies": ["WordPress", "Bootstrap", "jQuery", "PHP"],
+      "technologies": [
+        "WordPress",
+        "Bootstrap",
+        "jQuery",
+        "PHP"
+      ],
       "category": "WordPress",
       "liveUrl": "https://www.primehomes.com",
       "imageUrl": "realestate-directory-wp",
@@ -220,7 +360,12 @@
       "id": "ecommerce-growth-kit",
       "title": "Shopify to HubSpot Bridge",
       "description": "Front-end UI for a web application bridging Shopify checkout Webhooks with HubSpot CRM lead capturing pipelines.",
-      "technologies": ["Front-End", "TypeScript", "Tailwind CSS", "API Integration"],
+      "technologies": [
+        "Front-End",
+        "TypeScript",
+        "Tailwind CSS",
+        "API Integration"
+      ],
       "category": "Front-End",
       "liveUrl": "https://www.ecommercebridge.com",
       "imageUrl": "ecommerce-growth-kit",
