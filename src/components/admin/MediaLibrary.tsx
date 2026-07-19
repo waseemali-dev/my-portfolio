@@ -100,21 +100,33 @@ export default function MediaLibrary() {
       });
 
       if (res.ok) {
-        const data = await res.json();
-        if (data.success) {
+        let data;
+        try {
+          data = await res.json();
+        } catch (_) {
+          throw new Error("Invalid response format from server.");
+        }
+        
+        if (data && data.success) {
           setUploadSuccess(true);
           fetchImages();
           setTimeout(() => setUploadSuccess(false), 3000);
         } else {
-          setUploadError(data.error || "File upload failed.");
+          setUploadError(data?.error || "File upload failed.");
         }
       } else {
-        const data = await res.json();
-        setUploadError(data.error || "Failed to upload file.");
+        let errorMessage = `Upload failed (Status ${res.status}: ${res.statusText})`;
+        try {
+          const data = await res.json();
+          if (data && data.error) {
+            errorMessage = data.error;
+          }
+        } catch (_) {}
+        setUploadError(errorMessage);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Upload error:", err);
-      setUploadError("Network error during file upload.");
+      setUploadError(`Upload error: ${err.message || err}`);
     } finally {
       setIsUploading(false);
     }
