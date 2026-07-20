@@ -13,19 +13,24 @@ export function getPortfolioContent() {
       const parsed = JSON.parse(stored);
       // Ensure basic structure is intact
       if (parsed && typeof parsed === "object" && parsed.hero && parsed.about) {
-        // Upgrade or restore to Version 1 (1.1.0) if version is outdated, missing, or has incomplete projects
-        if (!parsed.version || parsed.version !== "1.1.0" || !parsed.projects || parsed.projects.length < 13) {
-          console.log("Forcing update to portfolio content Version 1.1.0 (with 13 projects)...");
+        // Upgrade or restore to Version 1 (1.1.0) if version is outdated, missing, or projects array is invalid
+        if (!parsed.version || parsed.version !== "1.1.0" || !parsed.projects || !Array.isArray(parsed.projects)) {
+          console.log("Forcing update to portfolio content Version 1.1.0...");
           try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_PORTFOLIO_CONTENT));
+            const migratedContent = {
+              ...DEFAULT_PORTFOLIO_CONTENT,
+              lastUpdated: Date.now()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(migratedContent));
             // Sync with server
             fetch("/api/portfolio-content", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(DEFAULT_PORTFOLIO_CONTENT),
+              body: JSON.stringify(migratedContent),
             }).catch((err) => console.warn("Failed to sync updated portfolio content to server:", err));
+            return migratedContent;
           } catch (e) {
             console.warn("Could not save migrated portfolio content to localStorage:", e);
           }
@@ -45,7 +50,11 @@ export function getPortfolioContent() {
  */
 export function savePortfolioContent(content: any) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+    const contentWithTimestamp = {
+      ...content,
+      lastUpdated: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(contentWithTimestamp));
     // Trigger custom event so any listeners in App know to update
     window.dispatchEvent(new Event("portfolio_content_updated"));
 
@@ -55,7 +64,7 @@ export function savePortfolioContent(content: any) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(content),
+      body: JSON.stringify(contentWithTimestamp),
     }).catch((err) => {
       console.warn("Could not synchronize portfolio content with the server:", err);
     });

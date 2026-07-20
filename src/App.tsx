@@ -127,8 +127,43 @@ export default function App() {
         if (res.ok) {
           const serverContent = await res.json();
           if (serverContent && typeof serverContent === "object" && serverContent.hero) {
-            localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
-            setPortfolio(serverContent);
+            const clientContent = getPortfolioContent();
+            const serverTimestamp = serverContent.lastUpdated || 0;
+            const clientTimestamp = clientContent?.lastUpdated || 0;
+
+            if (serverTimestamp > clientTimestamp) {
+              // Server has newer content, update the client
+              localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
+              setPortfolio(serverContent);
+              console.log("Client updated with newer portfolio content from server.");
+            } else if (clientTimestamp > serverTimestamp) {
+              // Client has newer content, push it to the server
+              console.log("Pushing newer client portfolio content to server...");
+              fetch("/api/portfolio-content", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(clientContent),
+              }).catch((err) => console.warn("Failed to auto-sync newer client content to server:", err));
+            } else {
+              // Same timestamp or both zero/missing, just make sure local matches
+              localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
+              setPortfolio(serverContent);
+            }
+          } else {
+            // Server returned null/invalid, auto-sync client content to server for self-healing
+            const clientContent = getPortfolioContent();
+            if (clientContent) {
+              console.log("Server has no portfolio content. Auto-syncing client content to server...");
+              fetch("/api/portfolio-content", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(clientContent),
+              }).catch((err) => console.warn("Failed to auto-sync client content to server:", err));
+            }
           }
         }
       } catch (err) {
