@@ -2,7 +2,7 @@ import { Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
 // @ts-ignore
-import aiAutomation from "../../assets/images/ai-automation.png";
+import aiAutomation from "../../assets/images/ai-automation-wordpress-shopify-wix-react-hubspot-development-services.png";
 
 interface HeroProps {
   portfolio: any;
@@ -23,7 +23,7 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
           
           {/* Left Content Column */}
           <motion.div 
-            className="lg:col-span-7 space-y-6 text-center lg:text-left mx-auto lg:mx-0 max-w-[600px] lg:max-w-none" 
+            className="lg:col-span-6 space-y-6 text-center lg:text-left mx-auto lg:mx-0 max-w-[600px] lg:max-w-none" 
             id="hero-content"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -166,18 +166,21 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
 
           {/* Right Image Column */}
           <motion.div 
-            className="lg:col-span-5 relative flex items-center justify-center w-full" 
+            className="lg:col-span-6 relative flex items-center justify-center w-full" 
             id="hero-graphic"
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
+            {/* Ambient background glow behind the expertise graphic */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-teal-500/10 blur-3xl rounded-full scale-90 opacity-70 z-0 animate-pulse" />
+            
             <img
               src={aiAutomation}
-              alt="Waseem Ali - HubSpot Specialist"
-              className="relative z-10 w-full max-w-[500px] lg:max-w-none h-auto object-contain mx-auto transition-transform duration-300"
-              width="500"
-              height="400"
+              alt="Waseem Ali - AI Automation & Web Development Expertise"
+              className="relative z-10 w-full max-w-[580px] lg:max-w-full h-auto object-contain mx-auto transition-all duration-500 hover:scale-[1.03] drop-shadow-[0_10px_30px_rgba(6,182,212,0.15)]"
+              width="600"
+              height="450"
               fetchPriority="high"
               loading="eager"
               referrerPolicy="no-referrer"
