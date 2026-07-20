@@ -1,14 +1,15 @@
 export const SAVED_PORTFOLIO_CONTENT = {
   "version": "1.1.0",
+  "lastUpdated": 1784557124100,
   "hero": {
-    "badge": "HubSpot Certified CMS Developer",
+    "badge": "HubSpot Certified Developer",
     "name": "Waseem Ali",
-    "title": "Front-End & HubSpot CMS Developer",
-    "headline": "Waseem Ali | Front-End & HubSpot CMS Developer",
-    "description": "I build clean, responsive, and high-performing websites using HubSpot CMS, WordPress, automation, and modern front-end technologies.",
-    "ctaText": "Hire Me Now",
+    "title": "Building Digital Experiences That Convert & Scale",
+    "headline": "Building Digital Experiences That Convert & Scale",
+    "description": "HubSpot CMS Developer specializing in websites, automation workflows, and AI-powered solutions.",
+    "ctaText": "Start a Project",
     "ctaLink": "#contact",
-    "portfolioText": "View Portfolio",
+    "portfolioText": "View Case Studies",
     "portfolioLink": "#portfolio",
     "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/Profile-update.jpg?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTY5NzgwODM3LCJpYXQiOjE3ODI5MjY1ODEwNTh9.zJRbqrMF31q9N-vSdC4tYbJCekjNhW3ROUG2yqyTafg&vercel-blob-signature=Ef1wnU3nW-dUOWw3IvastuFLFgbmq2Bi_j8oOr9YsTc"
   },

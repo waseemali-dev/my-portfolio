@@ -52,39 +52,21 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
         if (res.ok) {
           const serverContent = await res.json();
           if (serverContent && typeof serverContent === "object" && serverContent.hero) {
-            const clientContent = getPortfolioContent();
-            const serverTimestamp = serverContent.lastUpdated || 0;
-            const clientTimestamp = clientContent?.lastUpdated || 0;
-
-            if (serverTimestamp > clientTimestamp) {
-              localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
-              setContent(serverContent);
-              console.log("Dashboard: Updated with newer portfolio content from server.");
-            } else if (clientTimestamp > serverTimestamp) {
-              console.log("Dashboard: Pushing newer client portfolio content to server...");
-              fetch("/api/portfolio-content", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(clientContent),
-              }).catch((err) => console.warn("Failed to sync newer client content to server from dashboard:", err));
-            } else {
-              localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
-              setContent(serverContent);
-            }
+            localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
+            setContent(serverContent);
+            console.log("Dashboard loaded latest content from server.");
           } else {
-            // Server returned null/invalid, auto-sync client content
+            // Server returned null/invalid, auto-sync client's current content to initialize server
             const clientContent = getPortfolioContent();
             if (clientContent) {
-              console.log("Dashboard: Server has no portfolio content. Auto-syncing client content to server...");
-              fetch("/api/portfolio-content", {
+              console.log("Dashboard: Initializing server with current portfolio content...");
+              await fetch("/api/portfolio-content", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify(clientContent),
-              }).catch((err) => console.warn("Failed to sync client content to server from dashboard:", err));
+              }).catch((err) => console.warn("Failed to initialize server content:", err));
             }
           }
         }

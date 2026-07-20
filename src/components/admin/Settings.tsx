@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react";
-import { Shield, Save, RefreshCw, Key } from "lucide-react";
+import { Shield, Save, RefreshCw, Key, Database, Cloud } from "lucide-react";
 import { getAdminCredentials, saveAdminCredentials } from "../../utils/authStorage";
 
 export default function Settings() {
@@ -203,6 +203,57 @@ export default function Settings() {
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Flush Cache & Reload</span>
           </button>
+        </div>
+      </div>
+
+      {/* Production Persistent Cloud Storage (Firebase Firestore) Card */}
+      <div className="border-t border-slate-800/80 pt-6 mt-6 space-y-4">
+        <div className="space-y-1">
+          <h4 className="text-base font-bold text-white flex items-center gap-2">
+            <Database className="w-4 h-4 text-cyan-400" />
+            <span>Production Persistent Database</span>
+          </h4>
+          <p className="text-xs text-slate-400">
+            Your portfolio website supports automatic, persistent cloud synchronization using **Google Cloud Firebase Firestore**. When configured, any updates saved in the admin panel are immediately published to visitors without requiring code changes or manual Vercel redeployments.
+          </p>
+        </div>
+
+        <div className="bg-slate-900/20 border border-slate-800/60 p-6 rounded-xl space-y-4">
+          <div className="space-y-2">
+            <p className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+              <Cloud className="w-4 h-4 text-cyan-500" />
+              <span>How to Enable Instant Synchronization in Vercel</span>
+            </p>
+            <p className="text-[11px] text-slate-400 leading-relaxed">
+              Since serverless environments like Vercel have a read-only, temporary filesystem, local file storage resets frequently. Setting up a free Firestore database provides infinite, 100% stable cloud persistence.
+            </p>
+          </div>
+
+          <div className="space-y-3 pt-1">
+            <div className="p-3.5 bg-slate-950 border border-slate-900 rounded-lg space-y-2.5">
+              <p className="text-[11px] font-bold text-cyan-400">Step 1: Get Firebase Config</p>
+              <ol className="list-decimal list-inside text-[10px] text-slate-400 space-y-1.5 pl-1 leading-relaxed">
+                <li>Go to the <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Firebase Console</a> and create a free project.</li>
+                <li>Under project settings, note your <strong>Project ID</strong>.</li>
+                <li>Go to <strong>Build &gt; Firestore Database</strong> and click <strong>Create Database</strong> (enable test mode or configure rules for `configs/portfolio`).</li>
+              </ol>
+            </div>
+
+            <div className="p-3.5 bg-slate-950 border border-slate-900 rounded-lg space-y-2.5">
+              <p className="text-[11px] font-bold text-cyan-400">Step 2: Add Environment Variables in Vercel</p>
+              <p className="text-[10px] text-slate-400 leading-relaxed">
+                Log into your Vercel Dashboard, select your project, navigate to <strong>Settings &gt; Environment Variables</strong>, and add:
+              </p>
+              <div className="bg-slate-900 border border-slate-850 p-3 rounded-md font-mono text-[9px] text-slate-300 space-y-1.5 overflow-x-auto select-all">
+                <div>FIREBASE_PROJECT_ID = <span className="text-cyan-400">"your-firebase-project-id"</span></div>
+                <div>FIREBASE_API_KEY = <span className="text-cyan-400">"your-firebase-api-key"</span> <span className="text-slate-500">(optional, recommended)</span></div>
+              </div>
+            </div>
+
+            <p className="text-[10px] text-emerald-400 font-medium">
+              ✓ Once these environment variables are set in Vercel, the API instantly switches to persistent Cloud Database storage automatically. No code updates required!
+            </p>
+          </div>
         </div>
       </div>
     </div>

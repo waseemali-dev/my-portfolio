@@ -2,7 +2,7 @@ import { CheckSquare, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
 // @ts-ignore
-import waseemAvatar from "../../assets/images/waseem_profile_new_1782634792957.jpg";
+import waseemAvatar from "../../assets/images/waseem-ali.jpg";
 
 interface AboutProps {
   portfolio: any;

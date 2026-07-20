@@ -2,7 +2,7 @@ import { Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
 // @ts-ignore
-import waseemAvatar from "../../assets/images/waseem_profile_new_1782634792957.jpg";
+import aiAutomation from "../../assets/images/ai-automation.png";
 
 interface HeroProps {
   portfolio: any;
@@ -38,42 +38,105 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
               transition={{ delay: 0.1, duration: 0.5 }}
             >
               <Sparkles className="w-4 h-4 animate-spin-slow" />
-              <span>{portfolio.hero?.badge || "HubSpot Certified CMS Developer"}</span>
+              <span>{portfolio.hero?.badge || "Digital Experience Developer"}</span>
             </motion.div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] text-slate-900 dark:text-white" id="hero-headline">
+            <h1 className="text-[8.5vw] min-[380px]:text-[8vw] min-[450px]:text-[7.5vw] sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[4.2rem] font-black tracking-tighter leading-[1.12] text-slate-900 dark:text-white" id="hero-headline">
               {(() => {
                 const headline = portfolio.hero?.headline || "";
-                if (headline.includes("|")) {
-                  const [line1, line2] = headline.split("|");
-                  const line1Text = line1.trim();
-                  const line2Text = line2.trim();
+                
+                // Remove any prefix with Waseem Ali and pipes/dashes
+                let cleanHeadline = headline
+                  .replace(/^Waseem\s+Ali\s*\|\s*/i, "")
+                  .replace(/^Waseem\s+Ali\s*-\s*/i, "")
+                  .replace(/Waseem\s+Ali/gi, "")
+                  .trim();
+
+                // Style 'Building Digital Experiences That Convert & Scale' beautifully
+                if (cleanHeadline.toLowerCase().includes("digital experiences") && cleanHeadline.toLowerCase().includes("convert")) {
                   return (
-                    <span className="block">
-                      <span className="block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pb-2 text-5xl sm:text-6xl lg:text-7xl leading-tight">
-                        {line1Text}
+                    <span className="block text-center lg:text-left leading-[1.12]">
+                      <span className="block whitespace-nowrap">Building</span>
+                      <span className="block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent font-black whitespace-nowrap">
+                        Digital Experiences
                       </span>
-                      <span className="block text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white/95 tracking-wide mt-1">
-                        {line2Text}
+                      <span className="block whitespace-nowrap">
+                        That{" "}
+                        <span className="inline-block bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-400 bg-clip-text text-transparent font-black">
+                          Convert &amp; Scale
+                        </span>
                       </span>
                     </span>
                   );
                 }
-                const target = "Waseem Ali";
-                if (headline.includes(target)) {
-                  const parts = headline.split(target);
+
+                // If it is the default headline or has the key phrases, style it gorgeously
+                if (cleanHeadline.includes("High-Converting Websites") && cleanHeadline.includes("Automation Systems")) {
                   return (
-                    <>
-                      {parts[0]}
-                      <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-1.5 pb-1">
-                        {target}
+                    <span className="block tracking-tight text-center lg:text-left">
+                      Building{" "}
+                      <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent font-black pr-1">
+                        High-Converting Websites
+                      </span>{" "}
+                      &amp;{" "}
+                      <span className="inline-block bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-400 bg-clip-text text-transparent font-black">
+                        Automation Systems
+                      </span>{" "}
+                      <span className="block text-2xl sm:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-slate-200 mt-4 tracking-normal">
+                        for Modern Businesses
                       </span>
-                      {parts[1]}
-                    </>
+                    </span>
                   );
                 }
-                return headline;
+
+                // If it has pipe symbol, use it for split styling
+                if (cleanHeadline.includes("|")) {
+                  const [part1, part2] = cleanHeadline.split("|");
+                  return (
+                    <span className="block text-center lg:text-left">
+                      <span className="block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pb-2 text-4xl sm:text-5xl lg:text-6xl">
+                        {part1.trim()}
+                      </span>
+                      <span className="block text-2xl sm:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-slate-200 mt-2">
+                        {part2.trim()}
+                      </span>
+                    </span>
+                  );
+                }
+
+                // Fallback: Style general tech words dynamically if found
+                const wordsToHighlight = ["Websites", "Automation", "CMS", "React", "AI-powered", "High-Converting", "Modern", "Businesses", "Developer"];
+                const wordsRegex = new RegExp(`\\b(${wordsToHighlight.join("|")})\\b`, "gi");
+                const parts = cleanHeadline.split(wordsRegex);
+                
+                if (parts.length > 1) {
+                  return (
+                    <span className="block text-center lg:text-left">
+                      {parts.map((part, index) => {
+                        const isMatch = wordsToHighlight.some(w => w.toLowerCase() === part.toLowerCase());
+                        if (isMatch) {
+                          return (
+                            <span 
+                              key={index} 
+                              className="bg-gradient-to-r from-cyan-400 to-teal-300 bg-clip-text text-transparent font-black"
+                            >
+                              {part}
+                            </span>
+                          );
+                        }
+                        return <span key={index}>{part}</span>;
+                      })}
+                    </span>
+                  );
+                }
+
+                // If no special words, render with a beautiful subtle gradient
+                return (
+                  <span className="bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent text-center lg:text-left block">
+                    {cleanHeadline}
+                  </span>
+                );
               })()}
             </h1>
 
@@ -110,15 +173,8 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
             <img
-              src={(() => {
-                const url = portfolio.hero?.avatarUrl;
-                if (url && !url.includes("qapjrhwxw5rzkefc.private.blob.vercel-storage.com")) {
-                  return getProjectImage(url);
-                }
-                // Fallback to local profile photo if no custom image is set or default is the expired private Vercel blob
-                return waseemAvatar;
-              })()}
-              alt="Waseem Ali - Certified HubSpot CMS Developer Portfolio"
+              src={aiAutomation}
+              alt="Waseem Ali - HubSpot Specialist"
               className="relative z-10 w-full max-w-[500px] lg:max-w-none h-auto object-contain mx-auto transition-transform duration-300"
               width="500"
               height="400"
