@@ -220,7 +220,7 @@ async function startServer() {
   // Utility to save content to Firestore REST API
   async function saveFirestoreContent(content: any): Promise<boolean> {
     if (!PROJECT_ID) return false;
-    const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/configs/portfolio?updateMask.fieldPaths=data${API_KEY ? `&key=${API_KEY}` : ""}`;
+    const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/configs/portfolio${API_KEY ? `?key=${API_KEY}` : ""}`;
     try {
       const body = {
         fields: {
@@ -291,6 +291,24 @@ async function startServer() {
       }
     }
 
+    // 3. Robust secondary fallback to src/data/portfolio_content_saved.ts if JSON file is missing
+    if (!data) {
+      const workspacePath = path.join(process.cwd(), "src", "data", "portfolio_content_saved.ts");
+      if (fs.existsSync(workspacePath)) {
+        try {
+          console.log("Retrieving CMS portfolio content from workspace ts fallback (Express)...");
+          const tsContent = fs.readFileSync(workspacePath, "utf-8");
+          const jsonStart = tsContent.indexOf("{");
+          const jsonEnd = tsContent.lastIndexOf("}");
+          if (jsonStart !== -1 && jsonEnd !== -1) {
+            data = JSON.parse(tsContent.slice(jsonStart, jsonEnd + 1));
+          }
+        } catch (err: any) {
+          console.error("Error parsing portfolio_content_saved.ts fallback (Express):", err);
+        }
+      }
+    }
+
     return res.json(data);
   });
 
@@ -308,6 +326,11 @@ async function startServer() {
       if (PROJECT_ID) {
         console.log("Saving CMS portfolio content to Firestore (Express)...");
         firestoreSaved = await saveFirestoreContent(content);
+        if (!firestoreSaved) {
+          return res.status(500).json({
+            error: "Firestore save failed. Please verify that your Firestore Security Rules allow public writes to /configs/portfolio, or check your API key / project ID."
+          });
+        }
       }
 
       // 2. Always write to local file system as a backup and local dev support

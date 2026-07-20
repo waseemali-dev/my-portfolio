@@ -65,8 +65,21 @@ export function savePortfolioContent(content: any) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(contentWithTimestamp),
-    }).catch((err) => {
+    })
+    .then(async (res) => {
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        const errMsg = errData.error || `Server returned error status ${res.status}`;
+        console.error("Failed to synchronize portfolio content with server:", errMsg);
+        window.dispatchEvent(new CustomEvent("portfolio_sync_failed", { detail: errMsg }));
+      } else {
+        console.log("Portfolio content synchronized successfully with server.");
+        window.dispatchEvent(new Event("portfolio_sync_success"));
+      }
+    })
+    .catch((err) => {
       console.warn("Could not synchronize portfolio content with the server:", err);
+      window.dispatchEvent(new CustomEvent("portfolio_sync_failed", { detail: "Network failure or server is offline. Check your internet connection." }));
     });
 
     return true;

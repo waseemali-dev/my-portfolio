@@ -127,9 +127,24 @@ export default function App() {
         if (res.ok) {
           const serverContent = await res.json();
           if (serverContent && typeof serverContent === "object" && serverContent.hero) {
-            localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
-            setPortfolio(serverContent);
-            console.log("Client updated with latest portfolio content from server.");
+            const localContent = getPortfolioContent();
+            const serverTime = serverContent.lastUpdated || 0;
+            const localTime = localContent?.lastUpdated || 0;
+
+            if (serverTime > localTime) {
+              localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
+              setPortfolio(serverContent);
+              console.log("Client updated with newer portfolio content from server.");
+            } else if (localTime > serverTime) {
+              console.log("Local content is newer than server. Uploading to server to sync...");
+              fetch("/api/portfolio-content", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(localContent)
+              }).catch(err => console.warn("Failed to sync newer local content to server:", err));
+            } else {
+              console.log("Client and server content are already in sync.");
+            }
           }
         }
       } catch (err) {

@@ -53,8 +53,8 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
                   .replace(/Waseem\s+Ali/gi, "")
                   .trim();
 
-                // Style 'Building Digital Experiences That Convert & Scale' beautifully
-                if (cleanHeadline.toLowerCase().includes("digital experiences") && cleanHeadline.toLowerCase().includes("convert")) {
+                // Style 'Building Digital Experiences That Convert & Scale' beautifully (only on exact match to allow custom user edits)
+                if (cleanHeadline.toLowerCase().trim() === "building digital experiences that convert & scale") {
                   return (
                     <span className="block text-center lg:text-left leading-[1.12]">
                       <span className="block whitespace-nowrap">Building</span>

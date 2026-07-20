@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, LogOut, ArrowLeft, RefreshCw, LayoutDashboard } from "lucide-react";
+import { Menu, LogOut, ArrowLeft, RefreshCw, LayoutDashboard, AlertTriangle, X } from "lucide-react";
 import AdminSidebar, { AdminTab } from "../components/admin/AdminSidebar";
 import DashboardHome from "../components/admin/DashboardHome";
 import HeroEditor from "../components/admin/HeroEditor";
@@ -27,6 +27,7 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
   const [activeTab, setActiveTab] = useState<AdminTab>("overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [content, setContent] = useState<any>(null);
+  const [syncError, setSyncError] = useState<string | null>(null);
 
   useEffect(() => {
     // Load dynamic content from localStorage or defaults on mount
@@ -42,8 +43,19 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
       }
     };
 
+    const handleSyncFailed = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setSyncError(customEvent.detail || "Firestore synchronization failed.");
+    };
+
+    const handleSyncSuccess = () => {
+      setSyncError(null);
+    };
+
     window.addEventListener("portfolio_content_updated", handlePortfolioUpdated);
     window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("portfolio_sync_failed", handleSyncFailed);
+    window.addEventListener("portfolio_sync_success", handleSyncSuccess);
 
     // Asynchronously fetch latest content from the server
     const syncWithServer = async () => {
@@ -52,23 +64,58 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
         if (res.ok) {
           const serverContent = await res.json();
           if (serverContent && typeof serverContent === "object" && serverContent.hero) {
-            localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
-            setContent(serverContent);
-            console.log("Dashboard loaded latest content from server.");
+            const localContent = getPortfolioContent();
+            const serverTime = serverContent.lastUpdated || 0;
+            const localTime = localContent?.lastUpdated || 0;
+
+            if (serverTime > localTime) {
+              localStorage.setItem("portfolio_content", JSON.stringify(serverContent));
+              setContent(serverContent);
+              console.log("Dashboard loaded newer content from server.");
+              setSyncError(null);
+            } else if (localTime > serverTime) {
+              console.log("Dashboard: Local content is newer than server. Uploading to server to sync...");
+              const syncRes = await fetch("/api/portfolio-content", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(localContent),
+              });
+              if (!syncRes.ok) {
+                const errData = await syncRes.json().catch(() => ({}));
+                const errMsg = errData.error || `Server returned error status ${syncRes.status}`;
+                setSyncError(errMsg);
+              } else {
+                setSyncError(null);
+              }
+            } else {
+              console.log("Dashboard and server content are already in sync.");
+              setSyncError(null);
+            }
           } else {
             // Server returned null/invalid, auto-sync client's current content to initialize server
             const clientContent = getPortfolioContent();
             if (clientContent) {
               console.log("Dashboard: Initializing server with current portfolio content...");
-              await fetch("/api/portfolio-content", {
+              const initRes = await fetch("/api/portfolio-content", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify(clientContent),
-              }).catch((err) => console.warn("Failed to initialize server content:", err));
+              });
+              if (!initRes.ok) {
+                const errData = await initRes.json().catch(() => ({}));
+                setSyncError(errData.error || "Failed to initialize server content.");
+              } else {
+                setSyncError(null);
+              }
             }
           }
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          setSyncError(errData.error || "Failed to retrieve configuration from server.");
         }
       } catch (err) {
         console.warn("Failed to sync portfolio content with server on dashboard mount:", err);
@@ -79,6 +126,8 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
     return () => {
       window.removeEventListener("portfolio_content_updated", handlePortfolioUpdated);
       window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("portfolio_sync_failed", handleSyncFailed);
+      window.removeEventListener("portfolio_sync_success", handleSyncSuccess);
     };
   }, []);
 
@@ -195,6 +244,28 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
         {/* Workspace body */}
         <main className="flex-1 p-6 md:p-8 overflow-y-auto">
           <div className="max-w-5xl mx-auto">
+            {syncError && (
+              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-start gap-3 text-red-200">
+                <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                <div className="flex-1 space-y-1">
+                  <h4 className="font-bold text-sm text-red-300">Cloud Sync Warning</h4>
+                  <p className="text-xs text-red-400/90 leading-relaxed">
+                    {syncError}
+                  </p>
+                  <p className="text-[11px] text-red-400/70 pt-1 leading-normal">
+                    Tip: Since Vercel runs in a serverless, read-only environment, local filesystem saves are temporary. To make changes permanent across reloads and visible on your live site, you must configure Firestore. Ensure your Firestore Security Rules allow public reads/writes to the path <code className="bg-red-950/40 px-1 py-0.5 rounded text-red-300">configs/portfolio</code> (using your API Key).
+                  </p>
+                </div>
+                <button
+                  onClick={() => setSyncError(null)}
+                  className="p-1 hover:bg-red-500/10 rounded-lg text-red-400 hover:text-red-200 transition-colors cursor-pointer"
+                  title="Dismiss error"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
             {renderTabContent()}
           </div>
         </main>
