@@ -148,6 +148,13 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2 w-full sm:w-auto mx-auto lg:mx-0">
+              {portfolio.hero?.ctaText && (
+                <Button
+                  text={portfolio.hero?.ctaText}
+                  href={portfolio.hero?.ctaLink || "#contact"}
+                  style={portfolio.hero?.ctaStyle || "primary"}
+                />
+              )}
               <Button
                 text={portfolio.hero?.portfolioText || "View Projects"}
                 href={portfolio.hero?.portfolioLink || "#portfolio"}

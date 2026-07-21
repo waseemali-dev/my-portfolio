@@ -568,7 +568,11 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "phone": "+92 304 8687455",
     "statusText": "Open for Freelance Projects",
     "ctaTitle": "Need a Reliable Front-End or HubSpot CMS Developer for your next project?",
-    "ctaDescription": "Let's design and engineer high-performance web spaces, optimize PageSpeed, code custom drag-and-drop modules, or migrate your sites smoothly."
+    "ctaDescription": "Let's design and engineer high-performance web spaces, optimize PageSpeed, code custom drag-and-drop modules, or migrate your sites smoothly.",
+    "ctaButton1Text": "Hire Me Now",
+    "ctaButton1Link": "#contact",
+    "ctaButton2Text": "Discuss Your Project",
+    "ctaButton2Link": "#contact"
   },
   "servicesHeader": {
     "badge": "Services & Standards",

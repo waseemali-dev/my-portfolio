@@ -39,13 +39,13 @@ export function CTABanner({ portfolio }: CTABannerProps) {
         
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4 w-full">
           <Button
-            text="Hire Me Now"
-            href="#contact"
+            text={portfolio?.contact?.ctaButton1Text || "Hire Me Now"}
+            href={portfolio?.contact?.ctaButton1Link || "#contact"}
             style="primary"
           />
           <Button
-            text="Discuss Your Project"
-            href="#contact"
+            text={portfolio?.contact?.ctaButton2Text || "Discuss Your Project"}
+            href={portfolio?.contact?.ctaButton2Link || "#contact"}
             style="secondary"
           />
         </div>

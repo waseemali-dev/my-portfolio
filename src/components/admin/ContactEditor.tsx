@@ -15,7 +15,11 @@ export default function ContactEditor({ content, onUpdate }: ContactEditorProps)
     email: content.contact?.email || "",
     phone: content.contact?.phone || "",
     ctaTitle: content.contact?.ctaTitle || "",
-    ctaDescription: content.contact?.ctaDescription || ""
+    ctaDescription: content.contact?.ctaDescription || "",
+    ctaButton1Text: content.contact?.ctaButton1Text || "Hire Me Now",
+    ctaButton1Link: content.contact?.ctaButton1Link || "#contact",
+    ctaButton2Text: content.contact?.ctaButton2Text || "Discuss Your Project",
+    ctaButton2Link: content.contact?.ctaButton2Link || "#contact"
   });
 
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -177,6 +181,62 @@ export default function ContactEditor({ content, onUpdate }: ContactEditorProps)
               onChange={(e) => setFormData({ ...formData, ctaDescription: e.target.value })}
               className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
               placeholder="Banner copy..."
+            />
+          </div>
+
+          {/* Primary CTA Button Text */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Primary Button Text
+            </label>
+            <input
+              type="text"
+              value={formData.ctaButton1Text}
+              onChange={(e) => setFormData({ ...formData, ctaButton1Text: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="Hire Me Now"
+            />
+          </div>
+
+          {/* Primary CTA Button Link */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Primary Button Link
+            </label>
+            <input
+              type="text"
+              value={formData.ctaButton1Link}
+              onChange={(e) => setFormData({ ...formData, ctaButton1Link: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="#contact"
+            />
+          </div>
+
+          {/* Secondary CTA Button Text */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Secondary Button Text
+            </label>
+            <input
+              type="text"
+              value={formData.ctaButton2Text}
+              onChange={(e) => setFormData({ ...formData, ctaButton2Text: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="Discuss Your Project"
+            />
+          </div>
+
+          {/* Secondary CTA Button Link */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Secondary Button Link
+            </label>
+            <input
+              type="text"
+              value={formData.ctaButton2Link}
+              onChange={(e) => setFormData({ ...formData, ctaButton2Link: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="#contact"
             />
           </div>
         </div>
