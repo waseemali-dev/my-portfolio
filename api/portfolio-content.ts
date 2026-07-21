@@ -4,6 +4,8 @@ import path from "path";
 const PROJECT_ID = process.env.FIREBASE_PROJECT_ID;
 const API_KEY = process.env.FIREBASE_API_KEY;
 
+console.log("Firestore CMS Debug:", { PROJECT_ID: !!PROJECT_ID, API_KEY: !!API_KEY });
+
 // Utility to fetch content from Firestore REST API
 async function getFirestoreContent(): Promise<any> {
   if (!PROJECT_ID) return null;
@@ -30,8 +32,8 @@ async function getFirestoreContent(): Promise<any> {
 }
 
 // Utility to save content to Firestore REST API
-async function saveFirestoreContent(content: any): Promise<boolean> {
-  if (!PROJECT_ID) return false;
+async function saveFirestoreContent(content: any): Promise<{success: boolean, error?: string}> {
+  if (!PROJECT_ID) return { success: false, error: "PROJECT_ID missing" };
   const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/configs/portfolio${API_KEY ? `?key=${API_KEY}` : ""}`;
   try {
     const body = {
@@ -50,15 +52,16 @@ async function saveFirestoreContent(content: any): Promise<boolean> {
     });
     if (res.status === 200) {
       console.log("Firestore CMS: Saved content successfully.");
-      return true;
+      return { success: true };
     } else {
       const errText = await res.text();
       console.error(`Firestore CMS: Save error status ${res.status}: ${errText}`);
+      return { success: false, error: `Status ${res.status}: ${errText}` };
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error("Firestore CMS: Exception during save:", err);
+    return { success: false, error: err.message };
   }
-  return false;
 }
 
 // Utility to delete content from Firestore REST API
@@ -142,14 +145,15 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ error: "Invalid content payload." });
       }
 
-      let firestoreSaved = false;
+      let firestoreResult = { success: false, error: "Firestore not configured" };
       // 1. If Firestore is configured, save there first
       if (PROJECT_ID) {
         console.log("Saving CMS portfolio content to Firestore...");
-        firestoreSaved = await saveFirestoreContent(content);
-        if (!firestoreSaved) {
+        firestoreResult = await saveFirestoreContent(content);
+        if (!firestoreResult.success) {
           return res.status(500).json({
-            error: "Firestore save failed. Please verify that your Firestore Security Rules allow public writes to /configs/portfolio, or check your API key / project ID."
+            error: "Firestore save failed.",
+            details: firestoreResult.error
           });
         }
       }
@@ -166,7 +170,7 @@ export default async function handler(req: any, res: any) {
         // Ignored on production serverless environments since filesystem is read-only
       }
 
-      return res.status(200).json({ success: true, savedToCloud: firestoreSaved });
+      return res.status(200).json({ success: true, savedToCloud: firestoreResult.success });
     } catch (err: any) {
       console.error("Error writing portfolio content:", err);
       return res.status(500).json({ error: "Failed to save portfolio content.", details: err.message });
