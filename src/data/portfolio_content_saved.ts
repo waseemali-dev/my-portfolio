@@ -580,6 +580,14 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "title": "Work Experience Timeline",
     "description": "A detailed breakdown of professional career roles, enterprise agency experience, and certifications."
   },
+  "educationHeader": {
+    "badge": "Academic Path",
+    "title": "Education"
+  },
+  "credentialsHeader": {
+    "badge": "Credentials",
+    "title": "Active Certified Credentials"
+  },
   "projectsHeader": {
     "badge": "Work",
     "title": "Featured Projects",

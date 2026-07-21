@@ -176,10 +176,34 @@ export function Experience({ portfolio }: ExperienceProps) {
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 border border-cyan-500/20 dark:border-cyan-500/10 text-cyan-500 dark:text-cyan-400 font-mono text-xs font-semibold tracking-wider uppercase">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
-                  <span>Academic Path</span>
+                  <span>{portfolio.educationHeader?.badge || "Academic Path"}</span>
                 </div>
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white pt-1 leading-[1.1]">
-                  Edu<span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">cation</span>
+                  {(() => {
+                    const title = portfolio.educationHeader?.title || "Education";
+                    const words = title.trim().split(/\s+/);
+                    if (words.length > 1) {
+                      const lastWord = words[words.length - 1];
+                      const firstPart = words.slice(0, -1).join(" ");
+                      return (
+                        <>
+                          {firstPart}{" "}
+                          <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">
+                            {lastWord}
+                          </span>
+                        </>
+                      );
+                    }
+                    const mid = Math.floor(title.length / 2);
+                    return (
+                      <>
+                        {title.slice(0, mid)}
+                        <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">
+                          {title.slice(mid)}
+                        </span>
+                      </>
+                    );
+                  })()}
                 </h2>
               </div>
 
@@ -223,10 +247,34 @@ export function Experience({ portfolio }: ExperienceProps) {
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 border border-cyan-500/20 dark:border-cyan-500/10 text-cyan-500 dark:text-cyan-400 font-mono text-xs font-semibold tracking-wider uppercase">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
-                  <span>Credentials</span>
+                  <span>{portfolio.credentialsHeader?.badge || "Credentials"}</span>
                 </div>
                 <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white pt-1">
-                  Active Certified <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">Credentials</span>
+                  {(() => {
+                    const title = portfolio.credentialsHeader?.title || "Active Certified Credentials";
+                    const words = title.trim().split(/\s+/);
+                    if (words.length > 1) {
+                      const lastWord = words[words.length - 1];
+                      const firstPart = words.slice(0, -1).join(" ");
+                      return (
+                        <>
+                          {firstPart}{" "}
+                          <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">
+                            {lastWord}
+                          </span>
+                        </>
+                      );
+                    }
+                    const mid = Math.floor(title.length / 2);
+                    return (
+                      <>
+                        {title.slice(0, mid)}
+                        <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">
+                          {title.slice(mid)}
+                        </span>
+                      </>
+                    );
+                  })()}
                 </h2>
               </div>
 

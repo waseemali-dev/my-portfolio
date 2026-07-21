@@ -27,16 +27,32 @@ interface CertificationItem {
 export default function ExperienceEditor({ content, onUpdate }: ExperienceEditorProps) {
   const [activeSubTab, setActiveSubTab] = useState<"experience" | "education" | "certifications">("experience");
 
-  // SECTION HEADER STATE
-  const [header, setHeader] = useState({
+  // SECTION HEADERS STATES
+  const [expHeader, setExpHeader] = useState({
     badge: content.experienceHeader?.badge || "Work Experience",
     title: content.experienceHeader?.title || "Work Experience Timeline",
     description: content.experienceHeader?.description || "A detailed breakdown of professional career roles, enterprise agency experience, and certifications."
   });
 
+  const [eduHeader, setEduHeader] = useState({
+    badge: content.educationHeader?.badge || "Academic Path",
+    title: content.educationHeader?.title || "Education"
+  });
+
+  const [certHeader, setCertHeader] = useState({
+    badge: content.credentialsHeader?.badge || "Credentials",
+    title: content.credentialsHeader?.title || "Active Certified Credentials"
+  });
+
   const handleHeaderSave = (e: React.FormEvent) => {
     e.preventDefault();
-    saveTimelineData({ experienceHeader: header }, "Experience section header updated!");
+    if (activeSubTab === "experience") {
+      saveTimelineData({ experienceHeader: expHeader }, "Work Experience header updated!");
+    } else if (activeSubTab === "education") {
+      saveTimelineData({ educationHeader: eduHeader }, "Education header updated!");
+    } else if (activeSubTab === "certifications") {
+      saveTimelineData({ credentialsHeader: certHeader }, "Credentials header updated!");
+    }
   };
 
   // EXPERIENCE STATES
@@ -301,7 +317,11 @@ export default function ExperienceEditor({ content, onUpdate }: ExperienceEditor
         <h4 className="font-bold text-sm text-white flex items-center justify-between">
           <span className="flex items-center gap-2">
             <Edit className="w-4 h-4 text-cyan-400" />
-            <span>Section Header Settings</span>
+            <span>
+              {activeSubTab === "experience" && "Work Experience Section Header"}
+              {activeSubTab === "education" && "Education Section Header"}
+              {activeSubTab === "certifications" && "Credentials & Certifications Section Header"}
+            </span>
           </span>
           <button
             type="submit"
@@ -312,38 +332,91 @@ export default function ExperienceEditor({ content, onUpdate }: ExperienceEditor
             <span>Save Header</span>
           </button>
         </h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="space-y-1">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Badge</label>
-            <input
-              type="text"
-              value={header.badge}
-              onChange={(e) => setHeader({ ...header, badge: e.target.value })}
-              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
-              placeholder="e.g. Work Experience"
-            />
+
+        {activeSubTab === "experience" && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Badge</label>
+              <input
+                type="text"
+                value={expHeader.badge}
+                onChange={(e) => setExpHeader({ ...expHeader, badge: e.target.value })}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+                placeholder="e.g. Work Experience"
+              />
+            </div>
+            <div className="space-y-1 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Title / Heading</label>
+              <input
+                type="text"
+                value={expHeader.title}
+                onChange={(e) => setExpHeader({ ...expHeader, title: e.target.value })}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+                placeholder="e.g. Work Experience Timeline"
+              />
+            </div>
+            <div className="space-y-1 md:col-span-3">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Description / Subtitle</label>
+              <textarea
+                rows={2}
+                value={expHeader.description}
+                onChange={(e) => setExpHeader({ ...expHeader, description: e.target.value })}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+                placeholder="Section description..."
+              />
+            </div>
           </div>
-          <div className="space-y-1 md:col-span-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Title / Heading</label>
-            <input
-              type="text"
-              value={header.title}
-              onChange={(e) => setHeader({ ...header, title: e.target.value })}
-              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
-              placeholder="e.g. Work Experience Timeline"
-            />
+        )}
+
+        {activeSubTab === "education" && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Badge</label>
+              <input
+                type="text"
+                value={eduHeader.badge}
+                onChange={(e) => setEduHeader({ ...eduHeader, badge: e.target.value })}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+                placeholder="e.g. Academic Path"
+              />
+            </div>
+            <div className="space-y-1 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Title / Heading</label>
+              <input
+                type="text"
+                value={eduHeader.title}
+                onChange={(e) => setEduHeader({ ...eduHeader, title: e.target.value })}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+                placeholder="e.g. Education"
+              />
+            </div>
           </div>
-          <div className="space-y-1 md:col-span-3">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Description / Subtitle</label>
-            <textarea
-              rows={2}
-              value={header.description}
-              onChange={(e) => setHeader({ ...header, description: e.target.value })}
-              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
-              placeholder="Section description..."
-            />
+        )}
+
+        {activeSubTab === "certifications" && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Badge</label>
+              <input
+                type="text"
+                value={certHeader.badge}
+                onChange={(e) => setCertHeader({ ...certHeader, badge: e.target.value })}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+                placeholder="e.g. Credentials"
+              />
+            </div>
+            <div className="space-y-1 md:col-span-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Title / Heading</label>
+              <input
+                type="text"
+                value={certHeader.title}
+                onChange={(e) => setCertHeader({ ...certHeader, title: e.target.value })}
+                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+                placeholder="e.g. Active Certified Credentials"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </form>
 
       {/* RENDER EXPERIENCE TAB */}
