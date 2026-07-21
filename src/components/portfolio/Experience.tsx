@@ -17,21 +17,6 @@ export function Experience({ portfolio }: ExperienceProps) {
     }));
   };
 
-  // Helper to get powerful trending paragraph summaries for each role
-  const getParagraphSummary = (role: string) => {
-    const roleLower = role.toLowerCase();
-    if (roleLower.includes("hubspot")) {
-      return "Built premium, high-performance websites using themes, reusable modules, HubL, HubDB, React, email marketing, AI automation, and CRM integrations. Specialized in technical SEO, responsive user interfaces, and conversion-focused digital experiences that drive business growth.";
-    }
-    if (roleLower.includes("front-end") || roleLower.includes("frontend")) {
-      return "Designed and developed responsive websites and reusable templates using HTML5, CSS3, Bootstrap, JavaScript, and jQuery. Delivered pixel-perfect PSD/Figma-to-HTML conversions with semantic, W3C-compliant code, mobile-first architecture, and cross-browser compatibility.";
-    }
-    if (roleLower.includes("wordpress")) {
-      return "Developed and maintained responsive WordPress websites with clean UI, theme customization, plugin integration, and improvements tailored to client requirements.";
-    }
-    return "";
-  };
-
   return (
     <section id="experience" className="py-20 md:py-28 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,7 +65,6 @@ export function Experience({ portfolio }: ExperienceProps) {
             {/* Vertical Timeline */}
             <div className="relative border-l-2 border-slate-200/30 dark:border-slate-800/50 pl-6 sm:pl-8 ml-2 space-y-10">
               {(portfolio.experience || []).map((exp: any, idx: number) => {
-                const summary = getParagraphSummary(exp.role);
                 return (
                   <motion.div 
                     key={exp.id} 
@@ -130,13 +114,23 @@ export function Experience({ portfolio }: ExperienceProps) {
                         className="overflow-hidden"
                       >
                         <div className="pt-4 text-left">
-                          {summary ? (
-                            <p className="text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
-                              {summary}
-                            </p>
+                          {Array.isArray(exp.description) ? (
+                            exp.description.length > 1 ? (
+                              <div className="space-y-2">
+                                {exp.description.map((item: string, i: number) => (
+                                  <p key={i} className="text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
+                                    {item}
+                                  </p>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
+                                {exp.description[0]}
+                              </p>
+                            )
                           ) : (
                             <p className="text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
-                              {Array.isArray(exp.description) ? exp.description.join(" ") : exp.description}
+                              {exp.description || ""}
                             </p>
                           )}
                         </div>
