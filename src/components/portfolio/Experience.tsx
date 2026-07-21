@@ -49,11 +49,32 @@ export function Experience({ portfolio }: ExperienceProps) {
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 border border-cyan-500/20 dark:border-cyan-500/10 text-cyan-500 dark:text-cyan-400 font-mono text-xs font-semibold tracking-wider uppercase">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
-                <span>Work Experience</span>
+                <span>{portfolio.experienceHeader?.badge || "Work Experience"}</span>
               </div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white pt-1 leading-[1.1]">
-                Work Experience <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">Timeline</span>
+                {(() => {
+                  const title = portfolio.experienceHeader?.title || "Work Experience Timeline";
+                  const words = title.split(" ");
+                  if (words.length > 2) {
+                    const lastTwo = words.slice(-2).join(" ");
+                    const firstPart = words.slice(0, -2).join(" ");
+                    return (
+                      <>
+                        {firstPart}{" "}
+                        <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">
+                          {lastTwo}
+                        </span>
+                      </>
+                    );
+                  }
+                  return title;
+                })()}
               </h2>
+              {portfolio.experienceHeader?.description && (
+                <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
+                  {portfolio.experienceHeader.description}
+                </p>
+              )}
             </div>
 
             {/* Vertical Timeline */}

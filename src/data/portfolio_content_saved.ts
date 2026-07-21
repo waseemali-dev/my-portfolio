@@ -564,6 +564,31 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "ctaTitle": "Need a Reliable Front-End or HubSpot CMS Developer for your next project?",
     "ctaDescription": "Let's design and engineer high-performance web spaces, optimize PageSpeed, code custom drag-and-drop modules, or migrate your sites smoothly."
   },
+  "servicesHeader": {
+    "badge": "Services & Standards",
+    "title": "Services & Quality Standards",
+    "description": "High-impact specialized engineering and strategic implementation designed to scale your web presence and convert traffic."
+  },
+  "experienceHeader": {
+    "badge": "Work Experience",
+    "title": "Work Experience Timeline",
+    "description": "A detailed breakdown of professional career roles, enterprise agency experience, and certifications."
+  },
+  "projectsHeader": {
+    "badge": "Work",
+    "title": "Featured Projects",
+    "description": "Explore real implementations for global agencies, leading startups, and educational institutes."
+  },
+  "testimonialsHeader": {
+    "badge": "Testimonials",
+    "title": "What Clients & Partners Say",
+    "description": "Real endorsements from corporate executives, agency owners, and tech founders globally."
+  },
+  "faqsHeader": {
+    "badge": "FAQ Directory",
+    "title": "Frequently Asked Questions",
+    "description": "Get answers to deployment timelines, HubSpot configurations, and agency scaling questions."
+  },
   "navigation": [
     { "label": "About", "url": "#about" },
     { "label": "Services", "url": "#services" },

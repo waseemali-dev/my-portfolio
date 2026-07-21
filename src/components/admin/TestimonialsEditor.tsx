@@ -21,9 +21,20 @@ interface TestimonialItem {
 
 export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEditorProps) {
   const [reviews, setReviews] = useState<TestimonialItem[]>(content.testimonials || []);
+  const [header, setHeader] = useState({
+    badge: content.testimonialsHeader?.badge || "Testimonials",
+    title: content.testimonialsHeader?.title || "What Clients & Partners Say",
+    description: content.testimonialsHeader?.description || "Real endorsements from corporate executives, agency owners, and tech founders globally."
+  });
+
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
+
+  const handleHeaderSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    saveReviewsList(reviews, "Testimonials section header updated!");
+  };
 
   // Form states
   const [name, setName] = useState("");
@@ -112,7 +123,8 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
 
     const updatedContent = {
       ...content,
-      testimonials: updatedList
+      testimonials: updatedList,
+      testimonialsHeader: header
     };
 
     setTimeout(() => {
@@ -164,6 +176,56 @@ export default function TestimonialsEditor({ content, onUpdate }: TestimonialsEd
           {message.text}
         </div>
       )}
+
+      {/* Section Header Editor */}
+      <form onSubmit={handleHeaderSave} className="p-5 bg-slate-900 border border-slate-800/50 rounded-2xl space-y-4">
+        <h4 className="font-bold text-sm text-white flex items-center justify-between">
+          <span className="flex items-center gap-2">
+            <Edit className="w-4 h-4 text-cyan-400" />
+            <span>Section Header Settings</span>
+          </span>
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-lg transition-all cursor-pointer"
+          >
+            <Save className="w-3.5 h-3.5" />
+            <span>Save Header</span>
+          </button>
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-1">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Badge</label>
+            <input
+              type="text"
+              value={header.badge}
+              onChange={(e) => setHeader({ ...header, badge: e.target.value })}
+              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+              placeholder="e.g. Testimonials"
+            />
+          </div>
+          <div className="space-y-1 md:col-span-2">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Title / Heading</label>
+            <input
+              type="text"
+              value={header.title}
+              onChange={(e) => setHeader({ ...header, title: e.target.value })}
+              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+              placeholder="e.g. What Clients & Partners Say"
+            />
+          </div>
+          <div className="space-y-1 md:col-span-3">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Section Description / Subtitle</label>
+            <textarea
+              rows={2}
+              value={header.description}
+              onChange={(e) => setHeader({ ...header, description: e.target.value })}
+              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none"
+              placeholder="Section subtitle..."
+            />
+          </div>
+        </div>
+      </form>
 
       {/* Editor Pane */}
       {isAdding && (

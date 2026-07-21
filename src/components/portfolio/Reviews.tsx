@@ -24,13 +24,29 @@ export function Reviews({ portfolio, getProjectImage }: ReviewsProps) {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 border border-cyan-500/20 dark:border-cyan-500/10 text-cyan-500 dark:text-cyan-400 font-mono text-xs font-semibold tracking-wider uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
-            <span>Testimonials</span>
+            <span>{portfolio.testimonialsHeader?.badge || "Testimonials"}</span>
           </div>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.1]">
-            What Clients & <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">Partners Say</span>
+            {(() => {
+              const title = portfolio.testimonialsHeader?.title || "What Clients & Partners Say";
+              const words = title.split(" ");
+              if (words.length > 2) {
+                const lastTwo = words.slice(-2).join(" ");
+                const firstPart = words.slice(0, -2).join(" ");
+                return (
+                  <>
+                    {firstPart}{" "}
+                    <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">
+                      {lastTwo}
+                    </span>
+                  </>
+                );
+              }
+              return title;
+            })()}
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
-            Real endorsements from corporate executives, agency owners, and tech founders globally.
+            {portfolio.testimonialsHeader?.description || "Real endorsements from corporate executives, agency owners, and tech founders globally."}
           </p>
         </motion.div>
 
