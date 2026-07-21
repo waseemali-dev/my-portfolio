@@ -75,15 +75,18 @@ export function Services({ portfolio }: ServicesProps) {
         {/* Content Pane */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
           {(portfolio.services || []).map((service: any) => {
-            // Custom tags depending on the service id
-            const tags: string[] = 
-              service.id === "hubspot-cms" ? ["HubL", "HubDB", "Drag & Drop", "CRM Forms"] :
-              service.id === "frontend" ? ["React.js", "TypeScript", "Tailwind CSS", "GSAP"] :
-              service.id === "wordpress" ? ["PHP Core", "ACF Blocks", "Custom Themes", "Security"] :
-              service.id === "email-template" ? ["MJML / HTML", "Litmus Tested", "HubSpot Email"] :
-              service.id === "workflow-automation" ? ["Zapier Automation", "Webhooks API", "Lead Scoring"] :
-              service.id === "performance-optimization" ? ["Core Web Vitals", "GTmetrix Audit", "Asset Tuning"] :
-              ["CMS Dev", "Front-End", "API Setup"];
+            // Custom tags dynamically from CMS or fallback depending on service id
+            const tags: string[] = (service.tags && Array.isArray(service.tags) && service.tags.length > 0)
+              ? service.tags
+              : (
+                service.id === "hubspot-cms" ? ["HubL", "HubDB", "Drag & Drop", "CRM Forms"] :
+                service.id === "frontend" ? ["React.js", "TypeScript", "Tailwind CSS", "GSAP"] :
+                service.id === "wordpress" ? ["PHP Core", "ACF Blocks", "Custom Themes", "Security"] :
+                service.id === "email-template" ? ["MJML / HTML", "Litmus Tested", "HubSpot Email"] :
+                service.id === "workflow-automation" ? ["Zapier Automation", "Webhooks API", "Lead Scoring"] :
+                service.id === "performance-optimization" ? ["Core Web Vitals", "GTmetrix Audit", "Asset Tuning"] :
+                ["CMS Dev", "Front-End", "API Setup"]
+              );
 
             return (
               <div

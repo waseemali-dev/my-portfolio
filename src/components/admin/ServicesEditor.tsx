@@ -11,6 +11,7 @@ interface ServiceItem {
   id: string;
   title: string;
   description: string;
+  tags?: string[];
   features: string[];
   iconName: string;
 }
@@ -29,6 +30,7 @@ export default function ServicesEditor({ content, onUpdate }: ServicesEditorProp
   // Form states for add/edit
   const [formTitle, setFormTitle] = useState("");
   const [formDescription, setFormDescription] = useState("");
+  const [formTags, setFormTags] = useState("");
   const [formIcon, setFormIcon] = useState("Code");
 
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -59,9 +61,20 @@ export default function ServicesEditor({ content, onUpdate }: ServicesEditorProp
   // Available icon aliases mapped back to UI
   const iconOptions = ["HubSpot", "Code", "Wordpress", "Mail", "RefreshCw", "Zap", "Layers", "Globe"];
 
+  const getDefaultTags = (id: string): string[] => {
+    if (id === "hubspot-cms") return ["HubL", "HubDB", "Drag & Drop", "CRM Forms"];
+    if (id === "frontend") return ["React.js", "TypeScript", "Tailwind CSS", "GSAP"];
+    if (id === "wordpress") return ["PHP Core", "ACF Blocks", "Custom Themes", "Security"];
+    if (id === "email-template") return ["MJML / HTML", "Litmus Tested", "HubSpot Email"];
+    if (id === "workflow-automation") return ["Zapier Automation", "Webhooks API", "Lead Scoring"];
+    if (id === "performance-optimization") return ["Core Web Vitals", "GTmetrix Audit", "Asset Tuning"];
+    return ["CMS Dev", "Front-End", "API Setup"];
+  };
+
   const resetForm = () => {
     setFormTitle("");
     setFormDescription("");
+    setFormTags("");
     setFormIcon("Code");
     setEditingIndex(null);
   };
@@ -70,6 +83,8 @@ export default function ServicesEditor({ content, onUpdate }: ServicesEditorProp
     const item = services[index];
     setFormTitle(item.title);
     setFormDescription(item.description);
+    const existingTags = item.tags && item.tags.length > 0 ? item.tags : getDefaultTags(item.id);
+    setFormTags(existingTags.join(", "));
     setFormIcon(item.iconName || "Code");
     setEditingIndex(index);
   };
@@ -96,10 +111,16 @@ export default function ServicesEditor({ content, onUpdate }: ServicesEditorProp
       ? services[editingIndex].id 
       : formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
+    const parsedTags = formTags
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+
     const newService: ServiceItem = {
       id: currentId,
       title: formTitle.trim(),
       description: formDescription.trim(),
+      tags: parsedTags.length > 0 ? parsedTags : getDefaultTags(currentId),
       features: editingIndex !== null ? services[editingIndex].features : [],
       iconName: formIcon
     };
@@ -273,6 +294,23 @@ export default function ServicesEditor({ content, onUpdate }: ServicesEditorProp
               placeholder="Provide a detailed, high-level summary of what is involved in this service pack..."
             />
           </div>
+
+          {/* Micro Technology / Skill Tags */}
+          <div className="space-y-1 md:col-span-3">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Technology / Skill Tags (Comma Separated)
+            </label>
+            <input
+              type="text"
+              value={formTags}
+              onChange={(e) => setFormTags(e.target.value)}
+              className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg focus:border-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-700"
+              placeholder="e.g. HubL, HubDB, Drag & Drop, CRM Forms"
+            />
+            <p className="text-[11px] text-slate-500">
+              These tags render as highlighted tech pills at the bottom of the service card.
+            </p>
+          </div>
         </div>
 
         <div className="flex justify-end gap-2 pt-2">
@@ -303,38 +341,50 @@ export default function ServicesEditor({ content, onUpdate }: ServicesEditorProp
             No services declared yet. Use the form above to declare your first service option.
           </div>
         ) : (
-          services.map((service, index) => (
-            <div
-              key={index}
-              className="p-5 bg-slate-950 border border-slate-850 hover:border-slate-800 rounded-xl flex flex-col justify-between space-y-4 group transition-all"
-            >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-[10px] font-mono font-bold uppercase tracking-wider">
-                    Icon: {service.iconName}
-                  </span>
-                  <div className="flex gap-1.5">
-                    <button
-                      onClick={() => handleEdit(index)}
-                      className="p-1 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
-                      title="Edit Service"
-                    >
-                      <Edit className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteClick(index)}
-                      className="p-1 hover:bg-red-500/15 rounded-lg text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
-                      title="Delete Service"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+          services.map((service, index) => {
+            const cardTags = service.tags && service.tags.length > 0 ? service.tags : getDefaultTags(service.id);
+            return (
+              <div
+                key={index}
+                className="p-5 bg-slate-950 border border-slate-850 hover:border-slate-800 rounded-xl flex flex-col justify-between space-y-4 group transition-all"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-[10px] font-mono font-bold uppercase tracking-wider">
+                      Icon: {service.iconName}
+                    </span>
+                    <div className="flex gap-1.5">
+                      <button
+                        onClick={() => handleEdit(index)}
+                        className="p-1 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
+                        title="Edit Service"
+                      >
+                        <Edit className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteClick(index)}
+                        className="p-1 hover:bg-red-500/15 rounded-lg text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
+                        title="Delete Service"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                  <h4 className="font-bold text-white text-base">{service.title}</h4>
+                  <p className="text-slate-400 text-xs leading-relaxed">{service.description}</p>
+                  
+                  {/* Tag Chips Preview */}
+                  <div className="flex flex-wrap gap-1 pt-2 border-t border-slate-800/60">
+                    {cardTags.map((tag) => (
+                      <span key={tag} className="px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
-                <h4 className="font-bold text-white text-base">{service.title}</h4>
-                <p className="text-slate-400 text-xs leading-relaxed">{service.description}</p>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 

@@ -139,6 +139,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "hubspot-cms",
       "title": "HubSpot CMS Development",
       "description": "High-converting custom HubSpot websites, fully editable templates, and reusable drag-and-drop systems.",
+      "tags": ["HubL", "HubDB", "Drag & Drop", "CRM Forms"],
       "features": [],
       "iconName": "HubSpot"
     },
@@ -146,6 +147,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "frontend",
       "title": "Front-End Development",
       "description": "Translating pixel-perfect Figma designs into responsive, highly-interactive, and maintainable frontend code.",
+      "tags": ["React.js", "TypeScript", "Tailwind CSS", "GSAP"],
       "features": [],
       "iconName": "Code"
     },
@@ -153,6 +155,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "wordpress",
       "title": "WordPress Development",
       "description": "Lightweight, speed-optimized WordPress themes and flexible Gutenberg/ACF custom block environments.",
+      "tags": ["PHP Core", "ACF Blocks", "Custom Themes", "Security"],
       "features": [],
       "iconName": "Wordpress"
     },
@@ -160,6 +163,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "email-template",
       "title": "Email Templates",
       "description": "Responsive HTML email templates tested and verified to render flawlessly across all major email clients.",
+      "tags": ["MJML / HTML", "Litmus Tested", "HubSpot Email"],
       "features": [],
       "iconName": "Mail"
     },
@@ -167,6 +171,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "workflow-automation",
       "title": "Workflow Automation",
       "description": "Streamlining CRM marketing workflows, smart automation triggers, lead routing, and platform integrations.",
+      "tags": ["Zapier Automation", "Webhooks API", "Lead Scoring"],
       "features": [],
       "iconName": "RefreshCw"
     },
@@ -174,6 +179,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "performance-optimization",
       "title": "Performance & SEO Optimization",
       "description": "Tuning Core Web Vitals, minifying assets, and optimizing layouts to guarantee 99+ Lighthouse performance scores.",
+      "tags": ["Core Web Vitals", "GTmetrix Audit", "Asset Tuning"],
       "features": [],
       "iconName": "Zap"
     }
