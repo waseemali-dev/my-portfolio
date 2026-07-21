@@ -158,8 +158,12 @@ export default async function handler(req: any, res: any) {
         }
       }
 
-      // 2. Always write to local file system as a backup and local dev support
-      fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf-8");
+      // 2. Always write to local file system as a backup and local dev support (optional)
+      try {
+        fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf-8");
+      } catch (fsErr) {
+        console.warn("Firestore CMS: Could not write to local filesystem (likely read-only environment):", fsErr);
+      }
 
       // 3. Attempt to save directly to local source code files (for local persistence during development)
       try {

@@ -95,7 +95,7 @@ export default function HeroEditor({ content, onUpdate }: HeroEditorProps) {
               value={formData.badge}
               onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
               className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
-              placeholder="e.g. HubSpot Certified CMS Developer"
+              placeholder="e.g. HubSpot Certified Developer"
             />
           </div>
 
