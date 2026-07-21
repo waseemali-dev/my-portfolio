@@ -9,12 +9,14 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "description": "HubSpot CMS Developer specializing in websites, automation workflows, and AI-powered solutions.",
     "ctaText": "Start a Project",
     "ctaLink": "#contact",
+    "ctaStyle": "primary",
     "portfolioText": "View Case Studies",
     "portfolioLink": "#portfolio",
+    "portfolioStyle": "secondary",
     "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/Profile-update.jpg?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTY5NzgwODM3LCJpYXQiOjE3ODI5MjY1ODEwNTh9.zJRbqrMF31q9N-vSdC4tYbJCekjNhW3ROUG2yqyTafg&vercel-blob-signature=Ef1wnU3nW-dUOWw3IvastuFLFgbmq2Bi_j8oOr9YsTc"
   },
   "about": {
-    "badge": "01 • About Me",
+    "badge": "About Me",
     "heading": "Your Reliable Remote Partner",
     "imageUrl": "",
     "description": "My goal is simple: build websites that look professional, load quickly, perform well across all devices, and provide a great user experience. I focus on clean code, responsive development, SEO best practices, and long-term maintainability.",
@@ -552,7 +554,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
     }
   ],
   "contact": {
-    "badge": "10 • Let's Connect",
+    "badge": "Let's Connect",
     "heading": "Initiate a Digital Collaboration",
     "description": "Submit the form below, and let's craft modern web solutions matching your goals.",
     "infoHeading": "Direct Contact Particulars",
@@ -561,6 +563,17 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "statusText": "Open for Freelance Projects",
     "ctaTitle": "Need a Reliable Front-End or HubSpot CMS Developer for your next project?",
     "ctaDescription": "Let's design and engineer high-performance web spaces, optimize PageSpeed, code custom drag-and-drop modules, or migrate your sites smoothly."
+  },
+  "navigation": [
+    { "label": "About", "url": "#about" },
+    { "label": "Services", "url": "#services" },
+    { "label": "Portfolio", "url": "#portfolio" },
+    { "label": "Reviews", "url": "#reviews" },
+    { "label": "FAQs", "url": "#faqs" }
+  ],
+  "footer": {
+    "copyrightText": "All rights reserved.",
+    "links": []
   },
   "socialLinks": {
     "linkedin": "https://linkedin.com/in/waseemali2",

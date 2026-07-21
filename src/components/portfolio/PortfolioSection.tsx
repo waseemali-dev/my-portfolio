@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ArrowUpRight, ChevronDown, ExternalLink } from "lucide-react";
+import { Button } from "../common/Button";
 
 interface PortfolioSectionProps {
   portfolio: any;
@@ -27,7 +28,7 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 border border-cyan-500/20 dark:border-cyan-500/10 text-cyan-500 dark:text-cyan-400 font-mono text-xs font-semibold tracking-wider uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>
-            <span>04 • Work</span>
+            <span>Work</span>
           </div>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.1]">
             Featured <span className="inline-block bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-200 bg-clip-text text-transparent font-black pr-2 pb-1">Projects</span>
@@ -196,13 +197,12 @@ export function PortfolioSection({ portfolio, getProjectImage }: PortfolioSectio
         {/* Show More Button */}
         {filteredProjects.length > 3 && visibleProjectsCount < filteredProjects.length && (
           <div className="flex justify-center pt-4">
-            <button
+            <Button
+              text="Show More"
+              style="secondary"
+              icon={<ChevronDown size={16} />}
               onClick={() => setVisibleProjectsCount((prev) => prev + 3)}
-              className="w-full max-w-[220px] px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 font-bold text-sm text-slate-700 dark:text-slate-200 transition-all cursor-pointer flex items-center justify-center gap-2 mx-auto"
-            >
-              <span>Show More</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
+            />
           </div>
         )}
 

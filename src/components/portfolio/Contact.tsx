@@ -1,5 +1,6 @@
 import { FormEvent, useState, useEffect } from "react";
 import { Mail, Smartphone, CheckCircle2, Award, ChevronDown, RefreshCw, Send } from "lucide-react";
+import { Button } from "../common/Button";
 
 interface ContactProps {
   portfolio: any;
@@ -71,7 +72,7 @@ export function Contact({
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 border border-cyan-500/20 dark:border-cyan-500/10 text-cyan-500 dark:text-cyan-400 font-mono text-xs font-semibold tracking-wider uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
-            <span>{portfolio.contact?.badge || "10 • Let's Connect"}</span>
+            <span>{portfolio.contact?.badge ? portfolio.contact.badge.replace(/^\d+\s*•\s*/, '') : "Let's Connect"}</span>
           </div>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.1]">
             {(() => {
@@ -359,23 +360,12 @@ export function Contact({
 
                 {/* Submit Button */}
                 <div className="flex justify-center sm:justify-start w-full">
-                  <button
+                  <Button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full max-w-[220px] py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-white font-bold hover:from-cyan-600 hover:to-fuchsia-600 shadow-md hover:shadow-lg hover:scale-[1.01] transition-all duration-200 disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </button>
+                    text={isSubmitting ? "Sending..." : "Send Message"}
+                    style="primary"
+                    onClick={() => {}} // Form submission is handled by form's onSubmit, button click is not needed here
+                  />
                 </div>
 
               </form>

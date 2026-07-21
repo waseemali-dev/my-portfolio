@@ -52,6 +52,28 @@ export interface FAQ {
   answer: string;
 }
 
+export interface Footer {
+  copyrightText: string;
+  links: { label: string; url: string }[];
+}
+
+export interface NavLink {
+  label: string;
+  url: string;
+}
+
+export interface SEO {
+  title: string;
+  description: string;
+  keywords: string;
+  author: string;
+  favicon: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  socialSharingImage?: string;
+}
+
 export const SERVICES: Service[] = [
   {
     id: "hubspot-cms",

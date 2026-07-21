@@ -10,6 +10,8 @@ import ExperienceEditor from "../components/admin/ExperienceEditor";
 import TestimonialsEditor from "../components/admin/TestimonialsEditor";
 import ContactEditor from "../components/admin/ContactEditor";
 import SocialLinksEditor from "../components/admin/SocialLinksEditor";
+import NavigationEditor from "../components/admin/NavigationEditor";
+import FooterEditor from "../components/admin/FooterEditor";
 import Settings from "../components/admin/Settings";
 import JsonImportExport from "../components/admin/JsonImportExport";
 import FAQEditor from "../components/admin/FAQEditor";
@@ -174,6 +176,10 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
         return <FAQEditor content={content} onUpdate={handleUpdate} />;
       case "contact":
         return <ContactEditor content={content} onUpdate={handleUpdate} />;
+      case "navigation":
+        return <NavigationEditor portfolio={content} />;
+      case "footer":
+        return <FooterEditor portfolio={content} />;
       case "socials":
         return <SocialLinksEditor content={content} onUpdate={handleUpdate} />;
       case "seo":
@@ -199,6 +205,10 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
       ? "SEO Meta Settings"
       : activeTab === "socials"
       ? "Social Links"
+      : activeTab === "navigation"
+      ? "Navigation Links"
+      : activeTab === "footer"
+      ? "Footer Settings"
       : activeTab.charAt(0).toUpperCase() + activeTab.slice(1);
 
   return (

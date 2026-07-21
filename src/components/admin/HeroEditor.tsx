@@ -17,8 +17,10 @@ export default function HeroEditor({ content, onUpdate }: HeroEditorProps) {
     description: content.hero?.description || "",
     ctaText: content.hero?.ctaText || "",
     ctaLink: content.hero?.ctaLink || "",
+    ctaStyle: content.hero?.ctaStyle || "primary",
     portfolioText: content.hero?.portfolioText || "",
     portfolioLink: content.hero?.portfolioLink || "",
+    portfolioStyle: content.hero?.portfolioStyle || "secondary",
     avatarUrl: content.hero?.avatarUrl || ""
   });
 
@@ -198,6 +200,21 @@ export default function HeroEditor({ content, onUpdate }: HeroEditorProps) {
             />
           </div>
 
+          {/* CTA Style */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Primary Button Style
+            </label>
+            <select
+              value={formData.ctaStyle}
+              onChange={(e) => setFormData({ ...formData, ctaStyle: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+            >
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+            </select>
+          </div>
+
           {/* Portfolio Text */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -224,6 +241,21 @@ export default function HeroEditor({ content, onUpdate }: HeroEditorProps) {
               className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
               placeholder="#portfolio"
             />
+          </div>
+
+          {/* Portfolio Style */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Secondary Button Style
+            </label>
+            <select
+              value={formData.portfolioStyle}
+              onChange={(e) => setFormData({ ...formData, portfolioStyle: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+            >
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+            </select>
           </div>
         </div>
 

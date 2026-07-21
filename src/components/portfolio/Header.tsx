@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
+import { Button } from "../common/Button";
 
 interface HeaderProps {
+  portfolio?: any;
   isMenuOpen: boolean;
   setIsMenuOpen: (val: boolean) => void;
 }
 
-export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
+export function Header({ portfolio = {}, isMenuOpen, setIsMenuOpen }: HeaderProps) {
   const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
@@ -78,18 +80,18 @@ export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-1">
-          {[
-            { label: "About", href: "#about" },
-            { label: "Services", href: "#services" },
-            { label: "Portfolio", href: "#portfolio" },
-            { label: "Reviews", href: "#reviews" },
-            { label: "FAQs", href: "#faqs" }
-          ].map((link) => {
-            const isActive = activeSection === link.href.substring(1);
+          {(portfolio.navigation || [
+            { label: "About", url: "#about" },
+            { label: "Services", url: "#services" },
+            { label: "Portfolio", url: "#portfolio" },
+            { label: "Reviews", url: "#reviews" },
+            { label: "FAQs", url: "#faqs" }
+          ]).map((link: any) => {
+            const isActive = activeSection === link.url.substring(1);
             return (
               <a
                 key={link.label}
-                href={link.href}
+                href={link.url}
                 className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
                   isActive
                     ? "text-cyan-500 dark:text-cyan-400 bg-cyan-500/10 dark:bg-cyan-500/10 shadow-xs"
@@ -105,13 +107,13 @@ export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
         {/* Right Action/Toggle Bar */}
         <div className="flex items-center gap-2 sm:gap-4">
           {/* Hire Me CTA */}
-          <a
-            href="#contact"
-            className="px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 dark:bg-cyan-500 dark:hover:bg-cyan-600 dark:text-white font-semibold text-xs sm:text-sm transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
-            id="header-cta"
-          >
-            Hire Me
-          </a>
+          <div className="hidden lg:block">
+            <Button
+              text="Hire Me"
+              href="#contact"
+              style="primary"
+            />
+          </div>
 
           {/* Mobile Toggle */}
           <div className="flex lg:hidden">
@@ -132,18 +134,18 @@ export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
       {isMenuOpen && (
         <div className="lg:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-lg" id="mobile-menu">
           <div className="px-4 pt-2 pb-6 space-y-1 sm:px-6">
-            {[
-              { label: "About", href: "#about" },
-              { label: "Services", href: "#services" },
-              { label: "Portfolio", href: "#portfolio" },
-              { label: "Reviews", href: "#reviews" },
-              { label: "FAQs", href: "#faqs" }
-            ].map((link) => {
-              const isActive = activeSection === link.href.substring(1);
+            {(portfolio.navigation || [
+              { label: "About", url: "#about" },
+              { label: "Services", url: "#services" },
+              { label: "Portfolio", url: "#portfolio" },
+              { label: "Reviews", url: "#reviews" },
+              { label: "FAQs", url: "#faqs" }
+            ]).map((link: any) => {
+              const isActive = activeSection === link.url.substring(1);
               return (
                 <a
                   key={link.label}
-                  href={link.href}
+                  href={link.url}
                   onClick={() => setIsMenuOpen(false)}
                   className={`block px-3 py-3 text-base font-bold rounded-lg transition-colors ${
                     isActive
@@ -156,13 +158,12 @@ export function Header({ isMenuOpen, setIsMenuOpen }: HeaderProps) {
               );
             })}
             <div className="pt-4 px-3 flex flex-col items-start gap-3">
-              <a
+              <Button
+                text="Hire Me Now"
                 href="#contact"
+                style="primary"
                 onClick={() => setIsMenuOpen(false)}
-                className="w-full max-w-[220px] text-center py-3 rounded-xl bg-cyan-500 text-slate-950 font-bold text-sm shadow-xs hover:bg-cyan-400 block"
-              >
-                Hire Me Now
-              </a>
+              />
             </div>
           </div>
         </div>

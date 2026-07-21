@@ -14,7 +14,11 @@ export default function SEOEditor({ content, onUpdate }: SEOEditorProps) {
     description: content.seo?.description || "Certified HubSpot CMS & Front-End Developer. Specialist in building fast, custom HubSpot themes, high-converting WordPress sites, and semantic React frontends.",
     keywords: content.seo?.keywords || "HubSpot CMS, Front-End Developer, HubSpot Developer, WordPress Developer, React, Web Performance, Core Web Vitals, Lahore, Pakistan",
     author: content.seo?.author || "Waseem Ali",
-    favicon: content.seo?.favicon || "/favicon.ico"
+    favicon: content.seo?.favicon || "/favicon.ico",
+    ogTitle: content.seo?.ogTitle || "",
+    ogDescription: content.seo?.ogDescription || "",
+    ogImage: content.seo?.ogImage || "",
+    socialSharingImage: content.seo?.socialSharingImage || ""
   });
 
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -32,7 +36,11 @@ export default function SEOEditor({ content, onUpdate }: SEOEditorProps) {
         description: formData.description.trim(),
         keywords: formData.keywords.trim(),
         author: formData.author.trim(),
-        favicon: formData.favicon.trim()
+        favicon: formData.favicon.trim(),
+        ogTitle: formData.ogTitle.trim(),
+        ogDescription: formData.ogDescription.trim(),
+        ogImage: formData.ogImage.trim(),
+        socialSharingImage: formData.socialSharingImage.trim()
       }
     };
 
@@ -146,6 +154,52 @@ export default function SEOEditor({ content, onUpdate }: SEOEditorProps) {
             onChange={(e) => setFormData({ ...formData, keywords: e.target.value })}
             className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
             placeholder="HubSpot CMS, Front-End, HubSpot Developer, React"
+          />
+        </div>
+
+        {/* OG Title */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Open Graph Title</label>
+          <input
+            type="text"
+            value={formData.ogTitle}
+            onChange={(e) => setFormData({ ...formData, ogTitle: e.target.value })}
+            className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+            placeholder="Open Graph Title"
+          />
+        </div>
+
+        {/* OG Description */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Open Graph Description</label>
+          <textarea
+            rows={2}
+            value={formData.ogDescription}
+            onChange={(e) => setFormData({ ...formData, ogDescription: e.target.value })}
+            className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm outline-none text-white focus:border-cyan-500"
+            placeholder="Open Graph Description"
+          />
+        </div>
+
+        {/* OG Image */}
+        <div className="space-y-1.5">
+          <ImageUploadInput
+            id="ogImage"
+            label="Open Graph Image"
+            value={formData.ogImage}
+            onChange={(url) => setFormData({ ...formData, ogImage: url })}
+            placeholder="Paste OG image URL or upload below"
+          />
+        </div>
+
+        {/* Social Sharing Image */}
+        <div className="space-y-1.5">
+          <ImageUploadInput
+            id="socialSharingImage"
+            label="Social Sharing Image"
+            value={formData.socialSharingImage}
+            onChange={(url) => setFormData({ ...formData, socialSharingImage: url })}
+            placeholder="Paste social sharing image URL or upload below"
           />
         </div>
       </div>

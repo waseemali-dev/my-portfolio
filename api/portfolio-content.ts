@@ -145,7 +145,7 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ error: "Invalid content payload." });
       }
 
-      let firestoreResult = { success: false, error: "Firestore not configured" };
+      let firestoreResult: { success: boolean; error?: string } = { success: false, error: "Firestore not configured" };
       // 1. If Firestore is configured, save there first
       if (PROJECT_ID) {
         console.log("Saving CMS portfolio content to Firestore...");

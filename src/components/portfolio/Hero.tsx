@@ -1,5 +1,6 @@
 import { Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
+import { Button } from "../common/Button";
 
 // @ts-ignore
 import aiAutomation from "../../assets/images/ai-automation-wordpress-shopify-wix-react-hubspot-development-services.png";
@@ -147,19 +148,11 @@ export function Hero({ portfolio, countStats, getProjectImage }: HeroProps) {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2 w-full sm:w-auto mx-auto lg:mx-0">
-              <a
-                href={portfolio.hero?.ctaLink || "#contact"}
-                className="w-full sm:w-[220px] max-w-[220px] px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-400 hover:from-cyan-400 hover:to-cyan-500 text-slate-950 font-extrabold shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/25 hover:scale-[1.02] transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 text-center"
-              >
-                <span>{portfolio.hero?.ctaText || "Let's Work Together"}</span>
-                <ArrowRight className="w-4 h-4 text-slate-950" />
-              </a>
-              <a
+              <Button
+                text={portfolio.hero?.portfolioText || "View Projects"}
                 href={portfolio.hero?.portfolioLink || "#portfolio"}
-                className="w-full sm:w-[220px] max-w-[220px] px-6 py-4 rounded-xl border border-slate-200/60 dark:border-slate-800/80 bg-white/5 dark:bg-slate-950/20 backdrop-blur-sm hover:bg-slate-100 dark:hover:bg-slate-900/60 font-bold text-slate-700 dark:text-slate-200 hover:text-cyan-500 dark:hover:text-cyan-400 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 text-center"
-              >
-                <span>{portfolio.hero?.portfolioText || "View Projects"}</span>
-              </a>
+                style={portfolio.hero?.portfolioStyle || "secondary"}
+              />
             </div>
 
           </motion.div>

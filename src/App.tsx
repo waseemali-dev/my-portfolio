@@ -211,15 +211,43 @@ export default function App() {
       }
 
       // 5. Update open graph & twitter titles
-      if (portfolio.seo.title) {
+      if (portfolio.seo.ogTitle || portfolio.seo.title) {
         let ogTitle = document.querySelector('meta[property="og:title"]');
-        if (ogTitle) {
-          ogTitle.setAttribute('content', portfolio.seo.title);
+        if (!ogTitle) {
+          ogTitle = document.createElement('meta');
+          ogTitle.setAttribute('property', 'og:title');
+          document.head.appendChild(ogTitle);
         }
+        ogTitle.setAttribute('content', portfolio.seo.ogTitle || portfolio.seo.title);
+        
         let twitterTitle = document.querySelector('meta[name="twitter:title"]');
-        if (twitterTitle) {
-          twitterTitle.setAttribute('content', portfolio.seo.title);
+        if (!twitterTitle) {
+          twitterTitle = document.createElement('meta');
+          twitterTitle.setAttribute('name', 'twitter:title');
+          document.head.appendChild(twitterTitle);
         }
+        twitterTitle.setAttribute('content', portfolio.seo.ogTitle || portfolio.seo.title);
+      }
+
+      // Update Open Graph and Twitter images
+      if (portfolio.seo.ogImage || portfolio.seo.socialSharingImage) {
+        const imageUrl = portfolio.seo.ogImage || portfolio.seo.socialSharingImage;
+        
+        let ogImage = document.querySelector('meta[property="og:image"]');
+        if (!ogImage) {
+          ogImage = document.createElement('meta');
+          ogImage.setAttribute('property', 'og:image');
+          document.head.appendChild(ogImage);
+        }
+        ogImage.setAttribute('content', imageUrl!);
+        
+        let twitterImage = document.querySelector('meta[name="twitter:image"]');
+        if (!twitterImage) {
+          twitterImage = document.createElement('meta');
+          twitterImage.setAttribute('name', 'twitter:image');
+          document.head.appendChild(twitterImage);
+        }
+        twitterImage.setAttribute('content', imageUrl!);
       }
 
       // 6. Update Favicon dynamically
@@ -425,6 +453,7 @@ export default function App() {
       <div className="relative z-10">
         {/* 1. STICKY HEADER */}
         <Header
+          portfolio={portfolio}
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
         />

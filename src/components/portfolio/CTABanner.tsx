@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { Button } from "../common/Button";
 
 interface CTABannerProps {
   portfolio: any;
@@ -38,19 +38,16 @@ export function CTABanner({ portfolio }: CTABannerProps) {
         </p>
         
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4 w-full">
-          <a
+          <Button
+            text="Hire Me Now"
             href="#contact"
-            className="w-full sm:w-[220px] max-w-[220px] px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-400 hover:from-cyan-400 hover:to-cyan-500 text-slate-950 font-extrabold shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/25 hover:scale-[1.02] transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 text-center"
-          >
-            <span>Hire Me Now</span>
-            <ArrowRight className="w-4 h-4 text-slate-950" />
-          </a>
-          <a
+            style="primary"
+          />
+          <Button
+            text="Discuss Your Project"
             href="#contact"
-            className="w-full sm:w-[220px] max-w-[220px] px-6 py-4 rounded-xl border border-slate-200/10 dark:border-slate-800/80 bg-white/5 dark:bg-slate-950/20 backdrop-blur-sm hover:bg-slate-150 dark:hover:bg-slate-900/60 font-bold text-slate-300 hover:text-cyan-400 transition-all duration-300 cursor-pointer flex items-center justify-center text-center"
-          >
-            Discuss Your Project
-          </a>
+            style="secondary"
+          />
         </div>
       </div>
     </section>

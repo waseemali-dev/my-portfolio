@@ -100,6 +100,76 @@ html {
   color: #ffffff;
 }
 
+/* Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 999px;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    width: fit-content;
+    color: #fff !important;
+}
+
+@media (min-width: 640px) {
+    .btn {
+        padding: 12px 24px;
+        gap: 16px;
+    }
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    color: #fff !important;
+}
+
+.btn-primary .btn-icon {
+    background-color: var(--color-secondary);
+}
+
+.btn-secondary .btn-icon {
+    background-color: var(--color-secondary);
+}
+
+.btn:hover .btn-icon {
+    transform: translateX(4px);
+}
+
+.btn-primary {
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-primary);
+    color: #fff !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    color: #fff !important;
+}
+
+.btn-secondary {
+    border: 1px solid var(--color-secondary);
+    color: #fff !important;
+    background-color: transparent;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-secondary);
+    color: #fff !important;
+}
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
