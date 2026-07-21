@@ -12,6 +12,8 @@ export default function ContactEditor({ content, onUpdate }: ContactEditorProps)
     badge: content.contact?.badge || "",
     heading: content.contact?.heading || "",
     description: content.contact?.description || "",
+    infoHeading: content.contact?.infoHeading || "Direct Contact Particulars",
+    formHeading: content.contact?.formHeading || "Send a Direct Inquiry",
     email: content.contact?.email || "",
     phone: content.contact?.phone || "",
     ctaTitle: content.contact?.ctaTitle || "",
@@ -124,6 +126,34 @@ export default function ContactEditor({ content, onUpdate }: ContactEditorProps)
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
               placeholder="Contact pitch copy..."
+            />
+          </div>
+
+          {/* Info Section Heading */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Info Box Heading
+            </label>
+            <input
+              type="text"
+              value={formData.infoHeading}
+              onChange={(e) => setFormData({ ...formData, infoHeading: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="Direct Contact Particulars"
+            />
+          </div>
+
+          {/* Form Section Heading */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Form Box Heading
+            </label>
+            <input
+              type="text"
+              value={formData.formHeading}
+              onChange={(e) => setFormData({ ...formData, formHeading: e.target.value })}
+              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-850 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-sm text-slate-100 placeholder:text-slate-600"
+              placeholder="Send a Direct Inquiry"
             />
           </div>
 

@@ -106,7 +106,7 @@ export function Contact({
             <div className="p-6 sm:p-8 rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 shadow-[0_0_15px_rgba(6,182,212,0.03)] space-y-6">
               
               <h3 className="text-lg font-bold text-slate-900 dark:text-white pb-3 border-b border-slate-100/10 dark:border-slate-800/50">
-                Direct Contact Particulars
+                {portfolio.contact?.infoHeading || "Direct Contact Particulars"}
               </h3>
 
               <div className="space-y-5">
@@ -201,7 +201,7 @@ export function Contact({
                 className="p-6 sm:p-8 rounded-2xl bg-white/5 dark:bg-slate-900/20 backdrop-blur-md border border-slate-200/30 dark:border-slate-800/60 shadow-[0_0_15px_rgba(6,182,212,0.03)] space-y-6 text-left"
               >
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white pb-3 border-b border-slate-100/10 dark:border-slate-800/50">
-                  Send a Direct Inquiry
+                  {portfolio.contact?.formHeading || "Send a Direct Inquiry"}
                 </h3>
 
                 {submitError && (

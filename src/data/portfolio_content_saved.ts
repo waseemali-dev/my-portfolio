@@ -564,6 +564,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "heading": "Initiate a Digital Collaboration",
     "description": "Submit the form below, and let's craft modern web solutions matching your goals.",
     "infoHeading": "Direct Contact Particulars",
+    "formHeading": "Send a Direct Inquiry",
     "email": "waseemali1031@gmail.com",
     "phone": "+92 304 8687455",
     "statusText": "Open for Freelance Projects",
