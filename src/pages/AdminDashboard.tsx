@@ -206,7 +206,7 @@ export default function AdminDashboard({ onLogout, onBackToSite }: AdminDashboar
       : activeTab === "socials"
       ? "Social Links"
       : activeTab === "navigation"
-      ? "Navigation Links"
+      ? "Header & Navigation"
       : activeTab === "footer"
       ? "Footer Settings"
       : activeTab.charAt(0).toUpperCase() + activeTab.slice(1);

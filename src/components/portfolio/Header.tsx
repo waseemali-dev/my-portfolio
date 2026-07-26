@@ -72,10 +72,23 @@ export function Header({ portfolio = {}, isMenuOpen, setIsMenuOpen }: HeaderProp
           id="header-logo"
           className="flex items-center gap-2 group cursor-pointer"
         >
-          <Logo className="w-10 h-10 group-hover:scale-105 transition-transform duration-200" />
-          <span className="font-sans font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">
-            Waseem<span className="inline-block bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent pr-1.5 pb-1">.dev</span>
-          </span>
+          {portfolio?.header?.logoType === "image" && portfolio?.header?.logoImageUrl ? (
+            <img 
+              src={portfolio.header.logoImageUrl} 
+              alt="Logo" 
+              className="h-14 md:h-16 w-auto group-hover:scale-105 transition-transform duration-200 object-contain"
+            />
+          ) : (
+            <>
+              <Logo className="w-10 h-10 group-hover:scale-105 transition-transform duration-200" />
+              <span className="font-sans font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">
+                {portfolio?.header?.logoText || "Waseem"}
+                <span className="inline-block bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent pr-1.5 pb-1">
+                  {portfolio?.header?.logoSpan || ".dev"}
+                </span>
+              </span>
+            </>
+          )}
         </a>
 
         {/* Desktop Navigation */}
@@ -109,8 +122,8 @@ export function Header({ portfolio = {}, isMenuOpen, setIsMenuOpen }: HeaderProp
           {/* Hire Me CTA */}
           <div className="hidden lg:block">
             <Button
-              text="Hire Me"
-              href="#contact"
+              text={portfolio?.header?.ctaText || "Hire Me"}
+              href={portfolio?.header?.ctaLink || "#contact"}
               style="primary"
             />
           </div>
@@ -159,8 +172,8 @@ export function Header({ portfolio = {}, isMenuOpen, setIsMenuOpen }: HeaderProp
             })}
             <div className="pt-4 px-3 flex flex-col items-start gap-3">
               <Button
-                text="Hire Me Now"
-                href="#contact"
+                text={portfolio?.header?.ctaText || "Hire Me Now"}
+                href={portfolio?.header?.ctaLink || "#contact"}
                 style="primary"
                 onClick={() => setIsMenuOpen(false)}
               />
