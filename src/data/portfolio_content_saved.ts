@@ -1,6 +1,6 @@
 export const SAVED_PORTFOLIO_CONTENT = {
-  "version": "1.3.0",
-  "lastUpdated": 1785105868758,
+  "version": "1.2.0",
+  "lastUpdated": 1785102325769,
   "header": {
     "logoType": "image",
     "logoImageUrl": "/src/assets/images/waseem-dev.png",
@@ -22,7 +22,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "portfolioText": "View Case Studies",
     "portfolioLink": "#portfolio",
     "portfolioStyle": "secondary",
-    "avatarUrl": "/src/assets/images/waseem-ali.jpg"
+    "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/Profile-update.jpg?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyOTY5NzgwODM3LCJpYXQiOjE3ODI5MjY1ODEwNTh9.zJRbqrMF31q9N-vSdC4tYbJCekjNhW3ROUG2yqyTafg&vercel-blob-signature=Ef1wnU3nW-dUOWw3IvastuFLFgbmq2Bi_j8oOr9YsTc"
   },
   "about": {
     "badge": "About Me",
@@ -148,12 +148,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "hubspot-cms",
       "title": "HubSpot CMS Development",
       "description": "High-converting custom HubSpot websites, fully editable templates, and reusable drag-and-drop systems.",
-      "tags": [
-        "HubL",
-        "HubDB",
-        "Drag & Drop",
-        "CRM Forms"
-      ],
+      "tags": ["HubL", "HubDB", "Drag & Drop", "CRM Forms"],
       "features": [],
       "iconName": "HubSpot"
     },
@@ -161,12 +156,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "frontend",
       "title": "Front-End Development",
       "description": "Translating pixel-perfect Figma designs into responsive, highly-interactive, and maintainable frontend code.",
-      "tags": [
-        "React.js",
-        "TypeScript",
-        "Tailwind CSS",
-        "GSAP"
-      ],
+      "tags": ["React.js", "TypeScript", "Tailwind CSS", "GSAP"],
       "features": [],
       "iconName": "Code"
     },
@@ -174,12 +164,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "wordpress",
       "title": "WordPress Development",
       "description": "Lightweight, speed-optimized WordPress themes and flexible Gutenberg/ACF custom block environments.",
-      "tags": [
-        "PHP Core",
-        "ACF Blocks",
-        "Custom Themes",
-        "Security"
-      ],
+      "tags": ["PHP Core", "ACF Blocks", "Custom Themes", "Security"],
       "features": [],
       "iconName": "Wordpress"
     },
@@ -187,11 +172,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "email-template",
       "title": "Email Templates",
       "description": "Responsive HTML email templates tested and verified to render flawlessly across all major email clients.",
-      "tags": [
-        "MJML / HTML",
-        "Litmus Tested",
-        "HubSpot Email"
-      ],
+      "tags": ["MJML / HTML", "Litmus Tested", "HubSpot Email"],
       "features": [],
       "iconName": "Mail"
     },
@@ -199,11 +180,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "workflow-automation",
       "title": "Workflow Automation",
       "description": "Streamlining CRM marketing workflows, smart automation triggers, lead routing, and platform integrations.",
-      "tags": [
-        "Zapier Automation",
-        "Webhooks API",
-        "Lead Scoring"
-      ],
+      "tags": ["Zapier Automation", "Webhooks API", "Lead Scoring"],
       "features": [],
       "iconName": "RefreshCw"
     },
@@ -211,11 +188,7 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "id": "performance-optimization",
       "title": "Performance & SEO Optimization",
       "description": "Tuning Core Web Vitals, minifying assets, and optimizing layouts to guarantee 99+ Lighthouse performance scores.",
-      "tags": [
-        "Core Web Vitals",
-        "GTmetrix Audit",
-        "Asset Tuning"
-      ],
+      "tags": ["Core Web Vitals", "GTmetrix Audit", "Asset Tuning"],
       "features": [],
       "iconName": "Zap"
     }
@@ -467,9 +440,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Dan",
       "text": "Waseem did a fantastic job with the file he produced, and we are now working with him to complete additional website updates. I highly recommend him for your web development needs.",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -477,9 +450,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Toddtall",
       "text": "Amazing availability. He continued communicating, sometimes even at 2–4 AM his time!",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -487,9 +460,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Rosita",
       "text": "Again, he was my hero! He delivered so quickly. I had a problem with my website, and like a magician, he fixed it again. Thanks, Waseem!",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -497,9 +470,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Testing Simple",
       "text": "Waseem resolved our responsive layout issues beautifully. We would definitely work with him again.",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -507,9 +480,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Pfundheller",
       "text": "Extremely helpful HubSpot CMS Expert. Did exactly what was needed and explained everything.",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -517,9 +490,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "piripiri001",
       "text": "Great seller! Efficient, knowledgeable, and responsive. Highly recommend.",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -527,9 +500,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Mahmood Rastgar",
       "text": "I had a wonderful experience working with Waseem. If anybody is looking for a WordPress expert, I think he is among the best freelancers I have come across.",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -537,9 +510,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Jai George",
       "text": "Waseem is the best! He is not only fast but also understands exactly what I need. He delivers work beyond my expectations in a timely manner. I will use him again and recommend him for website design.",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -547,9 +520,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "moe_550",
       "text": "Amazing website designer! Went beyond the project details and delivered an outstanding website. Thank you so much!",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -557,9 +530,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Micky Morrison",
       "text": "Always a pleasure to work with Waseem. Great work ethic and attention to detail.",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     },
     {
@@ -567,9 +540,9 @@ export const SAVED_PORTFOLIO_CONTENT = {
       "name": "Taylor",
       "text": "This seller is amazing! I have ordered multiple times, and he always makes sure I get everything I need and more. Excellent service.",
       "rating": 5,
-      "avatarUrl": "/src/assets/images/fiverr-icon.png",
+      "avatarUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png?vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfcWFQanJod3hXNXJaa0VGYyIsIm93bmVySWQiOiJ0ZWFtX3lFeDd2TU5SNWZ4VlQ5c3pCTjhYSnoxTCIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzgyODk3MjgzMjE3LCJpYXQiOjE3ODI4NTQwODMxNzh9.zce6yqk1KZQ-rEC78SSOXcMu-0NZK3BGcFFP54b8FOw&vercel-blob-signature=6k_oIUBsP_qwhDndgB_cPN8GEDiTArzLjdG5LofmZ-s",
       "platform": "Fiverr",
-      "platformIconUrl": "/src/assets/images/fiverr-icon.png",
+      "platformIconUrl": "https://qapjrhwxw5rzkefc.private.blob.vercel-storage.com/images/fiverr-icon.png",
       "sourceUrl": "https://www.fiverr.com/waseemali722"
     }
   ],
@@ -645,26 +618,11 @@ export const SAVED_PORTFOLIO_CONTENT = {
     "description": "Get answers to deployment timelines, HubSpot configurations, and agency scaling questions."
   },
   "navigation": [
-    {
-      "label": "About",
-      "url": "#about"
-    },
-    {
-      "label": "Services",
-      "url": "#services"
-    },
-    {
-      "label": "Portfolio",
-      "url": "#portfolio"
-    },
-    {
-      "label": "Reviews",
-      "url": "#reviews"
-    },
-    {
-      "label": "FAQs",
-      "url": "#faqs"
-    }
+    { "label": "About", "url": "#about" },
+    { "label": "Services", "url": "#services" },
+    { "label": "Portfolio", "url": "#portfolio" },
+    { "label": "Reviews", "url": "#reviews" },
+    { "label": "FAQs", "url": "#faqs" }
   ],
   "footer": {
     "copyrightText": "All rights reserved.",
