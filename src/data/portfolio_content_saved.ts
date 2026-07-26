@@ -1,15 +1,6 @@
 export const SAVED_PORTFOLIO_CONTENT = {
-  "version": "1.2.0",
-  "lastUpdated": 1785102325769,
-  "header": {
-    "logoType": "image",
-    "logoImageUrl": "/src/assets/images/waseem-dev.png",
-    "logoText": "Waseem",
-    "logoSpan": ".dev",
-    "faviconUrl": "/src/assets/images/waseem-dev.png",
-    "ctaText": "Hire Me",
-    "ctaLink": "#contact"
-  },
+  "version": "1.1.0",
+  "lastUpdated": 1784557124100,
   "hero": {
     "badge": "HubSpot Certified Developer",
     "name": "Waseem Ali",

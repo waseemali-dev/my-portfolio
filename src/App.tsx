@@ -331,17 +331,7 @@ export default function App() {
       }
       metaAuthor.setAttribute("content", portfolio.seo.author || "");
     }
-
-    if (portfolio.header?.faviconUrl) {
-      let favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
-      if (!favicon) {
-        favicon = document.createElement("link");
-        favicon.setAttribute("rel", "icon");
-        document.head.appendChild(favicon);
-      }
-      favicon.href = portfolio.header.faviconUrl;
-    }
-  }, [portfolio.seo, portfolio.header]);
+  }, [portfolio.seo]);
 
   // Handle intersection observer to trigger stats counters animation
   useEffect(() => {

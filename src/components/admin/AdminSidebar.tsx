@@ -64,7 +64,7 @@ export default function AdminSidebar({
     { id: "testimonials", label: "Testimonials", icon: MessageSquare },
     { id: "faqs", label: "FAQs", icon: MessageSquare },
     { id: "contact", label: "Contact Details", icon: Mail },
-    { id: "navigation", label: "Header & Navigation", icon: Compass },
+    { id: "navigation", label: "Navigation Links", icon: Compass },
     { id: "footer", label: "Footer", icon: LayoutTemplate },
     { id: "socials", label: "Social Links", icon: Share2 },
     { id: "seo", label: "SEO Metadata", icon: Globe },

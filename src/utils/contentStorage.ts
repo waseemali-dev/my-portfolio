@@ -13,9 +13,9 @@ export function getPortfolioContent() {
       const parsed = JSON.parse(stored);
       // Ensure basic structure is intact
       if (parsed && typeof parsed === "object" && parsed.hero && parsed.about) {
-        // Upgrade or restore to Version 1 (1.2.0) if version is outdated, missing, or projects array is invalid
-        if (!parsed.version || parsed.version !== "1.2.0" || !parsed.projects || !Array.isArray(parsed.projects)) {
-          console.log("Forcing update to portfolio content Version 1.2.0...");
+        // Upgrade or restore to Version 1 (1.1.0) if version is outdated, missing, or projects array is invalid
+        if (!parsed.version || parsed.version !== "1.1.0" || !parsed.projects || !Array.isArray(parsed.projects)) {
+          console.log("Forcing update to portfolio content Version 1.1.0...");
           try {
             const migratedContent = {
               ...DEFAULT_PORTFOLIO_CONTENT,
